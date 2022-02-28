@@ -1,4 +1,5 @@
 const config = require('../config/config.js');
+const User = require('../models/User.js');
 const authService = require('../services/authService.js');
 const emailChecker = require('../utils/emailChecker.js');
 
