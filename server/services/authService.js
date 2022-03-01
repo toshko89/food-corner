@@ -22,9 +22,11 @@ async function login(email, password) {
 }
 
 function createToken(user) {
-  const email = user.email;
-  const token = jwt.sign({ _id: user._id, email: user.email }, config.SECRET, { expiresIn: '2d' });
-  return token;
+  const token = jwt.sign({ _id: user._id, email: user.email }, config.SECRET, { expiresIn: '15m' });
+  return {
+    token,
+    user
+  };
 };
 
 function verifyToken(token, secret) {

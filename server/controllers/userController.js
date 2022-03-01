@@ -2,6 +2,7 @@ const config = require('../config/config.js');
 const User = require('../models/User.js');
 const authService = require('../services/authService.js');
 const emailChecker = require('../utils/emailChecker.js');
+const passwordRemover = require('../utils/passwordRemover.js');
 
 const userController = require('express').Router();
 
@@ -29,12 +30,43 @@ userController.post('/register', async (req, res) => {
 
     const newUser = await authService.addUser(email, password);
     const token = authService.createToken(newUser);
+    const userData = passwordRemover(newUser);
     res.cookie(config.COOKIE_NAME, token, { httpOnly: true });
-    res.status(200).send(newUser);
+    res.status(200).send(userData);
 
   } catch (error) {
     res.status(400).send({ message: error.message })
   }
+});
+
+userController.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (email.trim() == '' || password.trim() == '') {
+      throw new Error('All fields are required');
+    }
+
+    if (!emailChecker(email)) {
+      throw new Error('Invalid email format');
+    }
+
+    const { token, user } = await authService.login(email, password);
+    const userData = passwordRemover(user);
+    res.cookie(config.COOKIE_NAME, token, { httpOnly: true });
+    res.status(200).send(userData);
+
+  } catch (error) {
+    res.status(400).send({ message: error.message })
+  }
+});
+
+userController.put('/:id',async(req,res)=>{
+
+})
+
+userController.get('/logout', (req, res) => {
+  res.clearCookie(config.COOKIE_NAME);
+  res.status(200).send('Logged out!');
 })
 
 
