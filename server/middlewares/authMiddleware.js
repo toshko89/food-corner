@@ -4,31 +4,34 @@ const authService = require('../services/authService.js');
 function authentication(req, res, next) {
   const token = req.cookies[config.COOKIE_NAME];
   if (!token) {
-      return next();
+    req.user = undefined;
+    return next();
   }
 
   const tokenVerify = authService.verifyToken(token, config.SECRET);
 
   if (!tokenVerify) {
-      res.render('login', { error: 'You are not authorized to view this page, please login/regiter' });
-      return next()
+    res.clearCookie(config.COOKIE_NAME);
+    req.user = undefined;
+    return next()
   }
 
-  const user = {
-      _id: tokenVerify._id,
-      username: tokenVerify.username
-  }
+  // const user = {
+  //   _id: tokenVerify._id,
+  //   email: tokenVerify.email
+  // }
 
-  req.user = user;
-  res.locals.user = user;
+  req.user = tokenVerify;
   next();
 }
 
-function authorization(req, res, next) {
+// function authorization(req, res, next) {
 
-  if (!req.user) {
-      return res.render('login', { error: 'You are not authorized to view this page, please login/regiter' });
-  }
-  next();
+//   if (!req.user) {
+//     return res.render('login', { error: 'You are not authorized to view this page, please login/regiter' });
+//   }
+//   next();
 
-};
+// };
+
+module.exports = { authentication }
