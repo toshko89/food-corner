@@ -4,6 +4,7 @@ const restaurantSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
+    unique: [true, 'name already exists, please choose different one'],
     minlength: [5, 'Name must be at least 5 characters']
   },
   categorie: {
@@ -26,21 +27,18 @@ const restaurantSchema = mongoose.Schema({
     required: true,
   },
   owner: {
-    required: true,
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
   img: {
     type: String,
-    required: true,
   },
   products: {
-    required: true,
-    type: Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Products'
   }
 })
 
 const Restaurant = mongoose.model('Restaurant', restaurantSchema);
 
-model.exports = Restaurant;
+module.exports = Restaurant;
