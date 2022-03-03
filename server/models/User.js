@@ -34,7 +34,7 @@ const userSchema = new mongoose.Schema({
       validator: function (v) {
         return /(\+\d{1,3}\s?)?((\(\d{3}\)\s?)|(\d{3})(\s|-?))(\d{3}(\s|-?))(\d{4})(\s?(([E|e]xt[:|.|]?)|x|X)(\s?\d+))?/i.test(v);
       }
-    },
+    }
   },
   city: {
     type: String,
