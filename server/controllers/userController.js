@@ -7,10 +7,10 @@ const passwordRemover = require('../utils/passwordRemover.js');
 
 const userController = require('express').Router();
 
+
 userController.post('/register', async (req, res) => {
   try {
     const { email, password, rePass } = req.body;
-
     if (!emailChecker(email)) {
       throw new Error('Invalid email address!');
     }
