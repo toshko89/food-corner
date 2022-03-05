@@ -37,12 +37,12 @@ export default function Header() {
                     Osahan
                   </Link>
                   <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                    <a className="dropdown-item" href="/#">My account</a>
-                    <a className="dropdown-item" href="/#">Delivery support</a>
+                    <Link to={"my-account"} className="dropdown-item" >My account</Link>
+                    <Link to={"my-restaurants"} className="dropdown-item" >My restaurants</Link>
                     <a className="dropdown-item" href="/#">Contant us</a>
                     <a className="dropdown-item" href="/#">Term of use</a>
                     <a className="dropdown-item" href="/#">Privacy policy</a>
-                    <Link to={"logout"} className="dropdown-item" href="/#">Logout</Link>
+                    <Link to={"logout"} className="dropdown-item" >Logout</Link>
                   </div>
                 </div>
                 <Link to={"card"} className="widget-header mr-4 text-dark">
