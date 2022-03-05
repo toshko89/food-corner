@@ -11,4 +11,13 @@ async function register(email, password, rePass) {
   return user.json();
 }
 
-export { register }
+async function login(email, password) {
+  const user = await fetch(REACT_APP_BASE_URL + '/users/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+  });
+  return user.json();
+}
+
+export { register, login }
