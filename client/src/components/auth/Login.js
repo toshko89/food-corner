@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../services/authService.js";
 
 export default function Login() {
 
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   async function loginForm(e) {
     e.preventDefault()
@@ -13,9 +14,15 @@ export default function Login() {
     const password = formData.get('password');
     try {
       const user = await login(email, password);
-      console.log(user);
+      if (user.message) {
+        setError(user.message);
+        e.target.reset();
+        return;
+      }
+      navigate('/');
     } catch (error) {
-      console.log(error);
+      setError(error);
+      e.target.reset();
     }
   }
 

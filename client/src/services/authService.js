@@ -22,4 +22,12 @@ async function login(email, password) {
   return user.json();
 }
 
-export { register, login }
+async function logout() {
+  const response = await fetch(REACT_APP_BASE_URL + '/users/logout', {
+    method: 'GET',
+    credentials: 'include',
+  });
+  return response.json();
+}
+
+export { register, login, logout }

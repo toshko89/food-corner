@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { register } from "../../services/authService.js";
 
 
 export default function Register() {
 
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   async function signIn(e) {
     e.preventDefault()
@@ -17,10 +19,15 @@ export default function Register() {
       const userData = await register(email, password, rePass);
       if (userData.message) {
         setError(userData.message);
+        e.target.reset();
+        return;
       }
+
+      navigate('/');
     } catch (error) {
-      console.log(error.message);
-      setError(error.message)
+      e.target.reset();
+      console.log(error);
+      setError(error)
     }
   }
 

@@ -8,7 +8,7 @@ export default function Header() {
         <div className="container">
           <div className="row align-items-center">
             <div className="col-1">
-              <Link to={"/home"} className="brand-wrap mb-0">
+              <Link to={"/"} className="brand-wrap mb-0">
                 <img alt="#" className="img-fluid" src="img/logo_web.png" />
               </Link>
             </div>
