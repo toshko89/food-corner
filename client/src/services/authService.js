@@ -27,7 +27,7 @@ async function logout() {
     method: 'GET',
     credentials: 'include',
   });
-  return response.json();
+  return response;
 }
 
 export { register, login, logout }

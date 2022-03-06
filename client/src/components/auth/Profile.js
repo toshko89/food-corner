@@ -2,13 +2,19 @@ import { Link } from "react-router-dom";
 
 
 export default function Profile() {
+
+  async function changePersonalData(e){
+    e.preventDefault();
+    console.log(e);
+  }
+
   return (
     <>
       <div className="container position-relative">
         <div className="py-5 osahan-profile row">
           <div className="col-md-4 mb-3">
             <div className="bg-white rounded shadow-sm sticky_sidebar overflow-hidden">
-              <Link to={"/my-account"} className="">
+              <Link to={"/my-account"} >
                 <div className="d-flex align-items-center p-3">
                   <div className="right">
                     <h6 className="mb-1 font-weight-bold">Gurdeep Singh <i className="feather-check-circle text-success"></i></h6>
@@ -34,7 +40,7 @@ export default function Profile() {
               <h5 className="mb-4">My account</h5>
               <div id="edit_profile">
                 <div>
-                  <form >
+                  <form onSubmit={changePersonalData}>
                     <div className="form-group">
                       <label for="exampleInputName1">Name</label>
                       <input type="text" className="form-control" id="exampleInputName1d" />
