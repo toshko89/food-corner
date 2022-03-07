@@ -16,6 +16,7 @@ export default function Logout() {
     .catch((err) => {
       console.log(err);
     })
+    
   return (
     <Navigate to="/" />
   );

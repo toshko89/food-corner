@@ -8,25 +8,22 @@ function authentication(req, res, next) {
     return next();
   }
 
-  const tokenVerify = authService.verifyToken(token, config.SECRET);
+  try {
+    const tokenVerify = authService.verifyToken(token, config.SECRET);
+    if (!tokenVerify) {
+      res.clearCookie(config.COOKIE_NAME);
+      req.user = undefined;
+      return next()
+    }
 
-  if (!tokenVerify) {
+    const identityVerificationData = { _id: tokenVerify._id, email: tokenVerify.email }
+    req.user = identityVerificationData;
+    next();
+
+  } catch (error) {
     res.clearCookie(config.COOKIE_NAME);
-    req.user = undefined;
-    return next()
+    res.status(401).send({ message: 'Please log in' });
   }
-
-  req.user = tokenVerify;
-  next();
 }
-
-// function authorization(req, res, next) {
-
-//   if (!req.user) {
-//     return res.render('login', { error: 'You are not authorized to view this page, please login/regiter' });
-//   }
-//   next();
-
-// };
 
 module.exports = { authentication }

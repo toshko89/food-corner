@@ -1,16 +1,43 @@
+import { useState } from "react";
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from "react-router-dom";
+import { changeUserData } from "../../services/authService.js";
 
 
 export default function Profile() {
 
-  async function changePersonalData(e){
+  const [error, setError] = useState(null);
+  const user = useSelector(state => state.auth._id);
+
+  async function changePersonalData(e) {
     e.preventDefault();
-    console.log(e);
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get('name');
+    const mobile = formData.get('mobile');
+    const city = formData.get('city');
+    const address = formData.get('address');
+
+    if (name.trim() == '' || mobile.trim() == '' || city.trim() == '' || address.trim() == '') {
+      setError('All field are required');
+      e.target.reset();
+      return;
+    }
+
+    const userData = { name, mobile, city, address };
+    const userDataChanged = await changeUserData(user, userData);
+    
+    if (userDataChanged.message) {
+      setError(userDataChanged.message);
+      e.target.reset();
+    }
+
+
   }
 
   return (
     <>
       <div className="container position-relative">
+        {error && <div className="error-container" role="alert"><p>{error}</p></div>}
         <div className="py-5 osahan-profile row">
           <div className="col-md-4 mb-3">
             <div className="bg-white rounded shadow-sm sticky_sidebar overflow-hidden">
@@ -43,19 +70,23 @@ export default function Profile() {
                   <form onSubmit={changePersonalData}>
                     <div className="form-group">
                       <label for="exampleInputName1">Name</label>
-                      <input type="text" className="form-control" id="exampleInputName1d" />
+                      <input type="text" name="name" className="form-control" id="exampleInputName1d"
+                        onBlur={() => setError(null)} />
                     </div>
                     <div className="form-group">
                       <label for="exampleInputNumber1">Mobile Number</label>
-                      <input type="number" className="form-control" id="exampleInputNumber1" />
+                      <input type="number" name="mobile" className="form-control" id="exampleInputNumber1"
+                        onBlur={() => setError(null)} />
                     </div>
                     <div className="form-group">
                       <label for="exampleInputName1">City</label>
-                      <input type="text" className="form-control" id="exampleInputName1" />
+                      <input type="text" name="city" className="form-control" id="exampleInputName1"
+                        onBlur={() => setError(null)} />
                     </div>
                     <div className="form-group">
                       <label for="exampleInputEmail1">Address</label>
-                      <input type="email" className="form-control" id="exampleInputEmail1" />
+                      <input type="text" name="address" className="form-control" id="exampleInputEmail1"
+                        onBlur={() => setError(null)} />
                     </div>
                     <div className="text-center">
                       <button type="submit" className="btn btn-primary btn-block">Save Changes</button>

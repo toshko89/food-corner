@@ -16,7 +16,6 @@ export const authSlice = createSlice({
   initialState: authState,
   reducers: {
     loginStateChange(state, action) {
-      console.log(action);
       state.email = action.payload.email;
       state.isOwner = action.payload.isOwner;
       state._id = action.payload._id;

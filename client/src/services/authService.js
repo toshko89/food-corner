@@ -30,4 +30,18 @@ async function logout() {
   return response;
 }
 
-export { register, login, logout }
+async function changeUserData(userId, userData) {
+  try {
+    const response = await fetch(REACT_APP_BASE_URL + `/users/${userId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ userId, userData })
+    });
+    return response.json();
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+export { register, login, logout, changeUserData }

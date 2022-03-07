@@ -8,6 +8,12 @@ const addUser = (email, password) => {
   return user.save();
 };
 
+const updateUser = (userId, userData) => {
+  console.log(userData);
+  //TODO FINISH THIS !!!
+  User.findByIdAndUpdate({ _id: userId }, { ...userData }, { runValidators: true })
+}
+
 async function login(email, password) {
   const user = await User.findUser(email);
 
@@ -39,6 +45,7 @@ function verifyToken(token, secret) {
 const authService = {
   addUser,
   login,
+  updateUser,
   createToken,
   verifyToken
 }

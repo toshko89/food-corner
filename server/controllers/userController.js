@@ -1,6 +1,7 @@
 const config = require('../config/config.js');
 const { authentication } = require('../middlewares/authMiddleware.js');
 const User = require('../models/User.js');
+const { updateUser } = require('../services/authService.js');
 const authService = require('../services/authService.js');
 const emailChecker = require('../utils/emailChecker.js');
 const passwordRemover = require('../utils/passwordRemover.js');
@@ -61,19 +62,19 @@ userController.post('/login', async (req, res) => {
   }
 });
 
-//TODO finish the below:
-
 userController.put('/:id', authentication, async (req, res) => {
-    try {
-      if(req.user._id !== req.params._id){
-        throw new Error('Please loggin/register')
-      }
-
-      res.status(200).send('All good')
-
-    } catch (error) {
-      res.status(400).send({ message: error.message })
+  const { userId, userData } = req.body;
+  try {
+    if (req.user?._id !== req.params?.id) {
+      throw new Error('Please loggin/register')
     }
+    const newUserData = await updateUser(userId, userData);
+
+    res.status(200).json('All good')
+
+  } catch (error) {
+    res.status(400).send({ message: error.message })
+  }
 })
 
 userController.get('/logout', (req, res) => {
