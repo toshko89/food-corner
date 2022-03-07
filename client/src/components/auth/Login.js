@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../services/authService.js";
+import { useDispatch } from 'react-redux'
+import { loginStateChange } from "../../app/auth.js";
 
 export default function Login() {
 
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   async function loginForm(e) {
-    e.preventDefault()
+    e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const email = formData.get('email');
     const password = formData.get('password');
@@ -19,6 +22,7 @@ export default function Login() {
         e.target.reset();
         return;
       }
+      dispatch(loginStateChange(user));
       navigate('/');
     } catch (error) {
       setError(error);
@@ -29,11 +33,11 @@ export default function Login() {
   return (
     <>
       <div className="d-flex align-items-center justify-content-center vh-100">
+      {error && <div className="error-container" role="alert"><p>{error}</p></div>}
         <div className="px-5 col-md-6 ml-auto">
           <div className="px-5 col-10 mx-auto">
             <h2 className="text-dark my-0">Welcome Back</h2>
             <p className="text-50">Sign in to continue</p>
-            {error && <div className="error-container" role="alert"><p>{error}</p></div>}
             <form className="mt-5 mb-4" onSubmit={loginForm}>
               <div className="form-group">
                 <label htmlFor="exampleInputEmail1" className="text-dark">Email</label>

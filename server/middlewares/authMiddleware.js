@@ -16,11 +16,6 @@ function authentication(req, res, next) {
     return next()
   }
 
-  // const user = {
-  //   _id: tokenVerify._id,
-  //   email: tokenVerify.email
-  // }
-
   req.user = tokenVerify;
   next();
 }

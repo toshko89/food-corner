@@ -12,6 +12,7 @@ restaurantController.post('/create', async (req, res) => {
     let newRes = await createRestaurant(data);
     console.log(newRes);
   } catch (error) {
+    res.status(400).send({ message: error.message });
     console.log(error);
   }
 })

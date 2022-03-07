@@ -3,7 +3,10 @@ const bcrypt = require('bcrypt');
 const User = require('../models/User.js');
 const config = require('../config/config.js');
 
-const addUser = (email, password) => User.create({ email, password });
+const addUser = (email, password) => {
+  const user = new User({ email, password });
+  return user.save();
+};
 
 async function login(email, password) {
   const user = await User.findUser(email);
