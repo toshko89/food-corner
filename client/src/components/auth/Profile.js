@@ -35,7 +35,7 @@ export default function Profile() {
         e.target.reset();
         return;
       }
-      
+
       dispatch(loginStateChange(userDataChanged));
       setError('Personal data updated successfully');
       e.target.reset();
@@ -53,7 +53,7 @@ export default function Profile() {
         <div className="py-5 osahan-profile row">
           <div className="col-md-4 mb-3">
             <div className="bg-white rounded shadow-sm sticky_sidebar overflow-hidden">
-              <Link to={"/my-restaurants"} >
+              <Link to={`/my-account/${user}/my-restaurants`} >
                 <div className="d-flex align-items-center p-3">
                   <div className="right">
                     <h6 className="mb-1 font-weight-bold">{userCredentials}<i className="feather-check-circle text-success"></i></h6>
@@ -61,9 +61,9 @@ export default function Profile() {
                 </div>
               </Link>
               <div className="bg-white profile-details">
-                <Link to={"/my-restaurants"} className="d-flex w-100 align-items-center border-bottom p-3">
+                <Link to={`/my-account/${user}/create-restaurant`} className="d-flex w-100 align-items-center border-bottom p-3">
                   <div className="left mr-3">
-                    <h6 className="font-weight-bold mb-1 text-dark">My restaurants</h6>
+                    <h6 className="font-weight-bold mb-1 text-dark">Create Restaurant</h6>
                     <p className="small text-muted m-0">Add or remove a restaurant</p>
                   </div>
                   <div className="right ml-auto">

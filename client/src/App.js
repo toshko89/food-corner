@@ -6,6 +6,7 @@ import Register from './components/auth/Register.js';
 import Footer from './components/Footer/Footer.js';
 import Header from './components/Header/Header.js';
 import Home from './components/home/Home.js';
+import CreateRestaurant from './components/Restaurants/CreateRestaurant.js';
 
 
 function App() {
@@ -17,8 +18,9 @@ function App() {
         <Route path="/register" element={<Register />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/logout" element={<Logout />}></Route>
-        
-        <Route path="/my-account" element={<Profile />}></Route>
+
+        <Route path="/my-account/:id" element={<Profile />}></Route>
+        <Route path="/my-account/:id/create-restaurant" element={<CreateRestaurant />}></Route>
       </Routes>
       <Footer />
     </>
