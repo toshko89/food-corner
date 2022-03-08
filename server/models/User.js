@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
     minlength: [3, 'Name must be at least 3 characters'],
     validate: {
       validator: function (v) {
-        return /^[a-zA-Z]+?$/i.test(v);
+        return /^[a-z ,.'-]+$/i.test(v);
       }
     }
   },
@@ -29,12 +29,7 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: Number,
-    minlength: [10, 'Your phone should be at least 10 characters'],
-    validate: {
-      validator: function (v) {
-        return /(\+\d{1,3}\s?)?((\(\d{3}\)\s?)|(\d{3})(\s|-?))(\d{3}(\s|-?))(\d{4})(\s?(([E|e]xt[:|.|]?)|x|X)(\s?\d+))?/i.test(v);
-      }
-    }
+    min: [8, 'Your phone should be at least 8 characters'],
   },
   city: {
     type: String,

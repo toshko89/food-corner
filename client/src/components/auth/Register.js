@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from "../../services/authService.js";
-
+import { useDispatch } from "react-redux";
+import { loginStateChange } from "../../app/auth.js";
 
 export default function Register() {
 
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   async function signIn(e) {
     e.preventDefault()
@@ -16,13 +18,14 @@ export default function Register() {
     const rePass = formData.get('repass');
 
     try {
-      const userData = await register(email, password, rePass);
-      if (userData.message) {
-        setError(userData.message);
+      const user = await register(email, password, rePass);
+      if (user.message) {
+        setError(user.message);
         e.target.reset();
         return;
       }
 
+      dispatch(loginStateChange(user));
       navigate('/');
     } catch (error) {
       e.target.reset();

@@ -2,35 +2,46 @@ import { useState } from "react";
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from "react-router-dom";
 import { changeUserData } from "../../services/authService.js";
+import { loginStateChange } from "../../app/auth.js";
 
 
 export default function Profile() {
 
   const [error, setError] = useState(null);
   const user = useSelector(state => state.auth._id);
+  const dispatch = useDispatch();
 
   async function changePersonalData(e) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const name = formData.get('name');
-    const mobile = formData.get('mobile');
+    const phone = formData.get('phone');
     const city = formData.get('city');
     const address = formData.get('address');
 
-    if (name.trim() == '' || mobile.trim() == '' || city.trim() == '' || address.trim() == '') {
+    if (name.trim() == '' || phone.trim() == '' || city.trim() == '' || address.trim() == '') {
       setError('All field are required');
       e.target.reset();
       return;
     }
 
-    const userData = { name, mobile, city, address };
-    const userDataChanged = await changeUserData(user, userData);
-    
-    if (userDataChanged.message) {
-      setError(userDataChanged.message);
+    const userData = { name, phone, city, address };
+
+    try {
+      const userDataChanged = await changeUserData(user, userData);
+      console.log(userDataChanged);
+      if (userDataChanged.message) {
+        setError(userDataChanged.message);
+        e.target.reset();
+        return;
+      }
+      dispatch(loginStateChange(userDataChanged));
+      setError('Personal data updated successfully');
+      e.target.reset();
+    } catch (error) {
+      setError(error);
       e.target.reset();
     }
-
 
   }
 
@@ -69,22 +80,22 @@ export default function Profile() {
                 <div>
                   <form onSubmit={changePersonalData}>
                     <div className="form-group">
-                      <label for="exampleInputName1">Name</label>
+                      <label htmlFor="exampleInputName1">Name</label>
                       <input type="text" name="name" className="form-control" id="exampleInputName1d"
                         onBlur={() => setError(null)} />
                     </div>
                     <div className="form-group">
-                      <label for="exampleInputNumber1">Mobile Number</label>
-                      <input type="number" name="mobile" className="form-control" id="exampleInputNumber1"
+                      <label htmlFor="exampleInputNumber1">Mobile Number</label>
+                      <input type="number" name="phone" className="form-control" id="exampleInputNumber1"
                         onBlur={() => setError(null)} />
                     </div>
                     <div className="form-group">
-                      <label for="exampleInputName1">City</label>
+                      <label htmlFor="exampleInputName1">City</label>
                       <input type="text" name="city" className="form-control" id="exampleInputName1"
                         onBlur={() => setError(null)} />
                     </div>
                     <div className="form-group">
-                      <label for="exampleInputEmail1">Address</label>
+                      <label htmlFor="exampleInputEmail1">Address</label>
                       <input type="text" name="address" className="form-control" id="exampleInputEmail1"
                         onBlur={() => setError(null)} />
                     </div>

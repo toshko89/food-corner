@@ -5,7 +5,7 @@ const authState = {
   isOwner: false,
   _id: null,
   phone: null,
-  fullName: null,
+  name: null,
   city: null,
   address: null,
   favorites: []
@@ -20,7 +20,7 @@ export const authSlice = createSlice({
       state.isOwner = action.payload.isOwner;
       state._id = action.payload._id;
       state.phone = action.payload.phone;
-      state.fullName = action.payload.fullName;
+      state.name = action.payload.name;
       state.city = action.payload.city;
       state.address = action.payload.address;
     },
@@ -29,7 +29,7 @@ export const authSlice = createSlice({
       state.isOwner = null;
       state._id = null;
       state.phone = null;
-      state.fullName = null;
+      state.name = null;
       state.city = null;
       state.address = null;
     }

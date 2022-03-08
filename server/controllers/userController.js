@@ -31,8 +31,8 @@ userController.post('/register', async (req, res) => {
     }
 
     const newUser = await authService.addUser(email, password);
-    const token = authService.createToken(newUser);
-    const userData = passwordRemover(newUser);
+    const { token, user } = authService.createToken(newUser);
+    const userData = passwordRemover(user);
     res.cookie(config.COOKIE_NAME, token, { httpOnly: true });
     res.status(200).send(userData);
 
@@ -68,9 +68,18 @@ userController.put('/:id', authentication, async (req, res) => {
     if (req.user?._id !== req.params?.id) {
       throw new Error('Please loggin/register')
     }
-    const newUserData = await updateUser(userId, userData);
 
-    res.status(200).json('All good')
+    if (userData.name.length < 3) {
+      throw new Error('Name must be at least 3 characters')
+    }
+
+    if (userData.phone.length < 8) {
+      throw new Error('Your phone should be at least 8 characters')
+    }
+
+    const newUserData = await updateUser(userId, userData);
+    const userDataWithoutPass = passwordRemover(newUserData);
+    res.status(200).send(userDataWithoutPass);
 
   } catch (error) {
     res.status(400).send({ message: error.message })

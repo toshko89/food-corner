@@ -8,11 +8,9 @@ const addUser = (email, password) => {
   return user.save();
 };
 
-const updateUser = (userId, userData) => {
-  console.log(userData);
-  //TODO FINISH THIS !!!
-  User.findByIdAndUpdate({ _id: userId }, { ...userData }, { runValidators: true })
-}
+const updateUser = (userId, userData) =>
+  User.findByIdAndUpdate(userId, userData, { returnDocument: 'after', runValidators: true })
+
 
 async function login(email, password) {
   const user = await User.findUser(email);
@@ -31,7 +29,7 @@ async function login(email, password) {
 }
 
 function createToken(user) {
-  const token = jwt.sign({ _id: user._id, email: user.email }, config.SECRET, { expiresIn: '15m' });
+  const token = jwt.sign({ _id: user._id, email: user.email }, config.SECRET, { expiresIn: '1h' });
   return {
     token,
     user
