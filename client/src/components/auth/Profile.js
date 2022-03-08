@@ -9,6 +9,7 @@ export default function Profile() {
 
   const [error, setError] = useState(null);
   const user = useSelector(state => state.auth._id);
+  const userCredentials = useSelector(state => state.auth.name || state.auth.email);
   const dispatch = useDispatch();
 
   async function changePersonalData(e) {
@@ -29,12 +30,12 @@ export default function Profile() {
 
     try {
       const userDataChanged = await changeUserData(user, userData);
-      console.log(userDataChanged);
       if (userDataChanged.message) {
         setError(userDataChanged.message);
         e.target.reset();
         return;
       }
+      
       dispatch(loginStateChange(userDataChanged));
       setError('Personal data updated successfully');
       e.target.reset();
@@ -52,11 +53,10 @@ export default function Profile() {
         <div className="py-5 osahan-profile row">
           <div className="col-md-4 mb-3">
             <div className="bg-white rounded shadow-sm sticky_sidebar overflow-hidden">
-              <Link to={"/my-account"} >
+              <Link to={"/my-restaurants"} >
                 <div className="d-flex align-items-center p-3">
                   <div className="right">
-                    <h6 className="mb-1 font-weight-bold">Gurdeep Singh <i className="feather-check-circle text-success"></i></h6>
-                    <p className="text-muted m-0 small">iamosahan@gmail.com</p>
+                    <h6 className="mb-1 font-weight-bold">{userCredentials}<i className="feather-check-circle text-success"></i></h6>
                   </div>
                 </div>
               </Link>
