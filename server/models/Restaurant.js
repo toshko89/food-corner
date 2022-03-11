@@ -34,8 +34,15 @@ const restaurantSchema = mongoose.Schema({
     type: String,
   },
   products: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Products'
+    type: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Products'
+    }],
+    default: []
+  },
+  rating: {
+    type: Number,
+    default: 0
   }
 })
 

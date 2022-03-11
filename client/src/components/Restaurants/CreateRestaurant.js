@@ -8,6 +8,11 @@ export default function CreateRestaurant() {
   const user = useSelector(state => state.auth._id);
   const userCredentials = useSelector(state => state.auth.name || state.auth.email);
 
+  async function createNewRestaurant(e) {
+    e.preventDefault();
+    const form = new FormData(e.currentTarget);
+  }
+
   return (
     <div className="container position-relative">
       {error && <div className="error-container" role="alert"><p>{error}</p></div>}
@@ -22,10 +27,10 @@ export default function CreateRestaurant() {
               </div>
             </Link>
             <div className="bg-white profile-details">
-              <Link to={`/my-account/${user}/create-restaurant`} className="d-flex w-100 align-items-center border-bottom p-3">
+              <Link to={`/my-account/${user}/my-restaurants`} className="d-flex w-100 align-items-center border-bottom p-3">
                 <div className="left mr-3">
                   <h6 className="font-weight-bold mb-1 text-dark">My restaurants</h6>
-                  <p className="small text-muted m-0">Add or remove a restaurant</p>
+                  <p className="small text-muted m-0">See own restaurants</p>
                 </div>
                 <div className="right ml-auto">
                   <h6 className="font-weight-bold m-0"><i className="feather-chevron-right"></i></h6>
@@ -39,15 +44,15 @@ export default function CreateRestaurant() {
             <h5 className="mb-4">Create the best restaurant</h5>
             <div id="edit_profile">
               <div>
-                <form >
+                <form onSubmit={createNewRestaurant}>
                   <div className="form-group">
                     <label htmlFor="exampleInputName1">Name</label>
                     <input type="text" name="name" className="form-control" id="exampleInputName1d"
                       onBlur={() => setError(null)} />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="exampleInputNumber1">Mobile Number</label>
-                    <input type="number" name="phone" className="form-control" id="exampleInputNumber1"
+                    <label htmlFor="exampleInputNumber1">Categorie</label>
+                    <input type="text" name="categorie" className="form-control" id="exampleInputNumber1"
                       onBlur={() => setError(null)} />
                   </div>
                   <div className="form-group">
@@ -60,8 +65,18 @@ export default function CreateRestaurant() {
                     <input type="text" name="address" className="form-control" id="exampleInputEmail1"
                       onBlur={() => setError(null)} />
                   </div>
+                  <div className="form-group">
+                    <label htmlFor="exampleInputEmail1">Working hours</label>
+                    <input type="text" name="working_hours" className="form-control" id="exampleInputEmail1"
+                      onBlur={() => setError(null)} />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="exampleInputEmail1">Cover Photo</label>
+                    <input type="file" name="cover_photo" className="form-control" id="exampleInputEmail1"
+                      onBlur={() => setError(null)} />
+                  </div>
                   <div className="text-center">
-                    <button type="submit" className="btn btn-primary btn-block">Save Changes</button>
+                    <button type="submit" className="btn btn-primary btn-block">Create Restaurant</button>
                   </div>
                 </form>
               </div>
