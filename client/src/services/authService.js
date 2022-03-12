@@ -1,5 +1,4 @@
-
-const REACT_APP_BASE_URL = 'http://localhost:3030/food-corner'
+const REACT_APP_BASE_URL = 'http://localhost:3030/food-corner';
 
 
 async function register(email, password, rePass) {

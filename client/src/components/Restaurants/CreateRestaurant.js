@@ -1,16 +1,52 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { createNewRestaurant } from "../../services/restaurantService.js";
 
 export default function CreateRestaurant() {
 
   const [error, setError] = useState(null);
+  const [file, setFile] = useState([]);
+  const [restaurant, setRestaurant] = useState({
+    name: '', categorie: '', city: '',
+    address: '', workingHours: ''
+  });
   const user = useSelector(state => state.auth._id);
   const userCredentials = useSelector(state => state.auth.name || state.auth.email);
 
-  async function createNewRestaurant(e) {
+  function handleFileChange(e) {
+    const file = e.target.files[0];
+    setFile(file);
+  }
+
+  async function createRestaurant(e) {
     e.preventDefault();
     const form = new FormData(e.currentTarget);
+    const name = form.get('name');
+    const categorie = form.get('categorie');
+    const city = form.get('city');
+    const address = form.get('address');
+
+    if (name.trim() == '' || categorie.trim() == ''
+      || city.trim() == '' || address.trim() == '') {
+      setError('All fields are required');
+      e.target.reset();
+      return;
+    }
+
+    if (file.length === 0) {
+      setError('Please add cover photo');
+      e.target.reset();
+      return;
+    }
+
+    console.log(form);
+
+
+    // const newR = await createNewRestaurant(newRestaurant);
+
+
+
   }
 
   return (
@@ -44,36 +80,44 @@ export default function CreateRestaurant() {
             <h5 className="mb-4">Create the best restaurant</h5>
             <div id="edit_profile">
               <div>
-                <form onSubmit={createNewRestaurant}>
+                <form onSubmit={createRestaurant}>
                   <div className="form-group">
                     <label htmlFor="exampleInputName1">Name</label>
                     <input type="text" name="name" className="form-control" id="exampleInputName1d"
+                      value={restaurant.name}
+                      onChange={(e) => { setRestaurant({ ...restaurant, name: e.target.value }) }}
                       onBlur={() => setError(null)} />
                   </div>
                   <div className="form-group">
                     <label htmlFor="exampleInputNumber1">Categorie</label>
                     <input type="text" name="categorie" className="form-control" id="exampleInputNumber1"
+                      value={restaurant.categorie}
+                      onChange={(e) => { setRestaurant({ ...restaurant, categorie: e.target.value }) }}
                       onBlur={() => setError(null)} />
                   </div>
                   <div className="form-group">
                     <label htmlFor="exampleInputName1">City</label>
                     <input type="text" name="city" className="form-control" id="exampleInputName1"
+                      value={restaurant.city}
+                      onChange={(e) => { setRestaurant({ ...restaurant, city: e.target.value }) }}
                       onBlur={() => setError(null)} />
                   </div>
                   <div className="form-group">
                     <label htmlFor="exampleInputEmail1">Address</label>
                     <input type="text" name="address" className="form-control" id="exampleInputEmail1"
+                      onChange={(e) => { setRestaurant({ ...restaurant, address: e.target.value }) }}
                       onBlur={() => setError(null)} />
                   </div>
                   <div className="form-group">
                     <label htmlFor="exampleInputEmail1">Working hours</label>
                     <input type="text" name="working_hours" className="form-control" id="exampleInputEmail1"
+                      onChange={(e) => { setRestaurant({ ...restaurant, workingHours: e.target.value }) }}
                       onBlur={() => setError(null)} />
                   </div>
                   <div className="form-group">
                     <label htmlFor="exampleInputEmail1">Cover Photo</label>
                     <input type="file" name="cover_photo" className="form-control" id="exampleInputEmail1"
-                      onBlur={() => setError(null)} />
+                      onBlur={() => setError(null)} onChange={handleFileChange} />
                   </div>
                   <div className="text-center">
                     <button type="submit" className="btn btn-primary btn-block">Create Restaurant</button>

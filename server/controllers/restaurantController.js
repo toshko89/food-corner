@@ -6,11 +6,14 @@ const formParse = require('../utils/formParse.js');
 
 
 restaurantController.post('/create', async (req, res) => {
+  console.log(req.body);
   const form = formidable({ multiples: true });
   try {
     const [data, img] = await formParse(req, form);
-    let newRes = await createRestaurant(data);
-    console.log(newRes);
+    console.log(data);
+    console.log(img);
+    // const newRes = await createRestaurant(data);
+    // console.log(newRes);
   } catch (error) {
     res.status(400).send({ message: error.message });
     console.log(error);
