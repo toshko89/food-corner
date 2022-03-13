@@ -5,13 +5,13 @@ const { createRestaurant, getAll, getRestaurantByID } = require('../services/res
 const formParse = require('../utils/formParse.js');
 
 
-restaurantController.post('/create', async (req, res) => {
-  console.log(req.body);
+restaurantController.post('/create', authentication, async (req, res) => {
   const form = formidable({ multiples: true });
   try {
     const [data, img] = await formParse(req, form);
-    console.log(data);
-    console.log(img);
+    console.log(req.user);
+    // console.log(data);
+    // console.log(img);
     // const newRes = await createRestaurant(data);
     // console.log(newRes);
   } catch (error) {

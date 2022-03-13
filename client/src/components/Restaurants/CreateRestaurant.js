@@ -21,31 +21,31 @@ export default function CreateRestaurant() {
 
   async function createRestaurant(e) {
     e.preventDefault();
-    const form = new FormData(e.currentTarget);
-    const name = form.get('name');
-    const categorie = form.get('categorie');
-    const city = form.get('city');
-    const address = form.get('address');
-
-    if (name.trim() == '' || categorie.trim() == ''
-      || city.trim() == '' || address.trim() == '') {
+    if (restaurant.name.trim() == '' || restaurant.categorie.trim() == ''
+      || restaurant.city.trim() == '' || restaurant.address.trim() == '') {
       setError('All fields are required');
-      e.target.reset();
+      setRestaurant({ name: '', categorie: '', city: '', address: '', workingHours: '' })
       return;
     }
 
     if (file.length === 0) {
       setError('Please add cover photo');
-      e.target.reset();
       return;
     }
 
-    console.log(form);
+    const data = new FormData();
 
+    if (file.length !== 0) {
+      data.append('Cover Photo', file, file.name);
+    }
 
-    // const newR = await createNewRestaurant(newRestaurant);
-
-
+    data.append('Restaurant name', restaurant.name);
+    data.append('Restaurant address', restaurant.address);
+    data.append('Restaurant categorie', restaurant.categorie);
+    data.append('Restaurant city', restaurant.city);
+    data.append('Restaurant working hours', restaurant.workingHours);
+    data.append('Owner ID', user);
+    const newR = await createNewRestaurant(data);
 
   }
 
