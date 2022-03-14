@@ -10,4 +10,12 @@ async function createNewRestaurant(formData) {
   return restaurant.json();
 }
 
-export { createNewRestaurant }
+async function getOwnRestaurants() {
+  const restaurants = await fetch(REACT_APP_BASE_URL + '/restaurants/by-owner', {
+    method: 'GET',
+    credentials: 'include'
+  });
+  return restaurants.json();
+}
+
+export { createNewRestaurant, getOwnRestaurants }

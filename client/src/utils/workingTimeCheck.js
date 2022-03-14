@@ -1,1 +1,1 @@
-export const workTime = (value) => Boolean(value.match(/^[A-Z]{1}[a-z]+-[A-Z]{1}[a-z]+ [0-9]{1,2}:[0-9]{2}-[0-9]{2}:[0-9]{2}$/));
+export const workTime = (value) => Boolean(value.match(/^^[0-9]{1,2}:[0-9]{2}-[0-9]{2}:[0-9]{2}$/));

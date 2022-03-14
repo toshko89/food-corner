@@ -7,6 +7,7 @@ import Footer from './components/Footer/Footer.js';
 import Header from './components/Header/Header.js';
 import Home from './components/home/Home.js';
 import CreateRestaurant from './components/Restaurants/CreateRestaurant.js';
+import MyRestaurants from './components/Restaurants/MyRestaurants.js';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
 
         <Route path="/my-account/:id" element={<Profile />}></Route>
         <Route path="/my-account/:id/create-restaurant" element={<CreateRestaurant />}></Route>
+        <Route path='/my-account/:id/my-restaurants' element={<MyRestaurants />}></Route>
       </Routes>
       <Footer />
     </>

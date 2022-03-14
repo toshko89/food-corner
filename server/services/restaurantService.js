@@ -4,10 +4,13 @@ const createRestaurant = async (data) => Restaurant.create(data);
 
 const getAllRestaurants = () => Restaurant.find().lean();
 
+const getOwnRestaurants = (userId) => Restaurant.find({ owner: userId }).lean();
+
 const getRestaurantByID = (restaurantId) => Restaurant.findById(restaurantId).lean()
 
 module.exports = {
   createRestaurant,
   getAllRestaurants,
-  getRestaurantByID
+  getRestaurantByID,
+  getOwnRestaurants
 }
