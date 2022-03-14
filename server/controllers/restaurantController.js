@@ -6,6 +6,15 @@ const { cloudinaryUpload } = require('../utils/cloudinary.js');
 const formParse = require('../utils/formParse.js');
 
 
+restaurantController.get('/', async (req, res) => {
+  try {
+    const restaurants = await getAllRestaurants();
+    res.status(200).send(restaurants);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+})
+
 restaurantController.post('/create', authentication, async (req, res) => {
   const form = formidable({ multiples: true });
   const imgURL = [];
@@ -60,15 +69,6 @@ restaurantController.get('/by-owner', authentication, async (req, res) => {
       throw new Error('Please login first');
     }
     const restaurants = await getOwnRestaurants(req.user._id);
-    res.status(200).send(restaurants);
-  } catch (error) {
-    res.status(400).send({ message: error.message });
-  }
-})
-
-restaurantController.get('/', async (req, res) => {
-  try {
-    const restaurants = await getAllRestaurants();
     res.status(200).send(restaurants);
   } catch (error) {
     res.status(400).send({ message: error.message });

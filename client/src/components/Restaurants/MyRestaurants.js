@@ -29,9 +29,7 @@ export default function MyRestaurants() {
       <div className="container most_popular py-5">
         <h2 className="font-weight-bold mb-3">My Restaurants</h2>
         <div className="row">
-          <div className="col-md-4 mb-3">
-            {restaurants.length > 0 ? restaurants.map(res => <RestaurantCard key={res._id} restaurant={res} />) : <Loading type="points" />}
-          </div>
+          {restaurants.length > 0 ? restaurants.map(res => <RestaurantCard key={res._id} restaurant={res} />) : <Loading type="points" />}
         </div>
       </div>
     </div>
