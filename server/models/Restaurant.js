@@ -4,23 +4,23 @@ const restaurantSchema = mongoose.Schema({
   name: {
     type: String,
     required: true,
-    unique: [true, 'name already exists, please choose different one'],
+    unique: true,
     minlength: [5, 'Name must be at least 5 characters']
   },
   categorie: {
     type: String,
     required: true,
-    minlength: [5, 'Name must be at least 5 characters']
+    minlength: [5, 'Categorie must be at least 5 characters']
   },
   city: {
     type: String,
     required: true,
-    minlength: [3, 'Name must be at least 5 characters']
+    minlength: [5, 'City must be at least 5 characters']
   },
   address: {
     type: String,
     required: true,
-    minlength: [5, 'Name must be at least 5 characters']
+    minlength: [5, 'Address must be at least 5 characters']
   },
   working_hours: {
     type: String,
@@ -31,7 +31,14 @@ const restaurantSchema = mongoose.Schema({
     ref: 'User'
   },
   img: {
-    type: String,
+    type: {
+      secure_url: {
+        type: String
+      },
+      public_id: {
+        type: String
+      }
+    }
   },
   products: {
     type: [{

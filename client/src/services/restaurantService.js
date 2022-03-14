@@ -7,7 +7,7 @@ async function createNewRestaurant(formData) {
     credentials: 'include',
     body: formData
   });
-  // return restaurant.json();
+  return restaurant.json();
 }
 
 export { createNewRestaurant }

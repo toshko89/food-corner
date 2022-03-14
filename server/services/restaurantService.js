@@ -1,13 +1,10 @@
 const Restaurant = require('../models/Restaurant.js');
 
-const createRestaurant = async (data) => {
-  const restaurant = new Restaurant(data);
-  return restaurant.save();
-};
+const createRestaurant = async (data) => Restaurant.create(data);
 
-const getAllRestaurants = async () => Restaurant.find().lean();
+const getAllRestaurants = () => Restaurant.find().lean();
 
-const getRestaurantByID = async (restaurantId) => Restaurant.findById(restaurantId).lean()
+const getRestaurantByID = (restaurantId) => Restaurant.findById(restaurantId).lean()
 
 module.exports = {
   createRestaurant,

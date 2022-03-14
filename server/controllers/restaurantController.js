@@ -2,21 +2,55 @@ const restaurantController = require('express').Router();
 const formidable = require('formidable');
 const { authentication } = require('../middlewares/authMiddleware.js');
 const { createRestaurant, getAll, getRestaurantByID } = require('../services/restaurantService.js');
+const { cloudinaryUpload } = require('../utils/cloudinary.js');
 const formParse = require('../utils/formParse.js');
 
 
 restaurantController.post('/create', authentication, async (req, res) => {
   const form = formidable({ multiples: true });
+  const imgURL = [];
   try {
-    const [data, img] = await formParse(req, form);
-    console.log(req.user);
-    // console.log(data);
-    // console.log(img);
-    // const newRes = await createRestaurant(data);
-    // console.log(newRes);
+    if (!req.user) {
+      throw new Error('Please login first');
+    }
+    const [data, files] = await formParse(req, form);
+
+    for (const file of Object.values(files)) {
+      const cloudinaryLink = await cloudinaryUpload(file.filepath);
+      imgURL.push({ secure_url: cloudinaryLink.secure_url, public_id: cloudinaryLink.public_id });
+    }
+
+    const restaurantData = {
+      name: data.name,
+      address: data.address,
+      categorie: data.categorie,
+      city: data.city,
+      working_hours: data.workingHours,
+      owner: data.OwnerID,
+      img: imgURL[0]
+    }
+
+    if (restaurantData.name.length < 5) {
+      throw new Error('Name must be at least 5 characters');
+    }
+    if (restaurantData.address.length < 5) {
+      throw new Error('Address must be at least 5 characters');
+    }
+    if (restaurantData.categorie.length < 5) {
+      throw new Error('Categorie must be at least 5 characters');
+    }
+    if (restaurantData.city.length < 5) {
+      throw new Error('City must be at least 5 characters');
+    }
+    if (restaurantData.address.length < 5) {
+      throw new Error('Address must be at least 5 characters');
+    }
+
+    const newResstaurant = await createRestaurant(restaurantData);
+    res.status(200).send(newResstaurant);
+
   } catch (error) {
     res.status(400).send({ message: error.message });
-    console.log(error);
   }
 })
 

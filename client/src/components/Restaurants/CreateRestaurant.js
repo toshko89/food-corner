@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createNewRestaurant } from "../../services/restaurantService.js";
 
 export default function CreateRestaurant() {
@@ -13,6 +13,7 @@ export default function CreateRestaurant() {
   });
   const user = useSelector(state => state.auth._id);
   const userCredentials = useSelector(state => state.auth.name || state.auth.email);
+  const navigate = useNavigate()
 
   function handleFileChange(e) {
     const file = e.target.files[0];
@@ -21,32 +22,47 @@ export default function CreateRestaurant() {
 
   async function createRestaurant(e) {
     e.preventDefault();
-    if (restaurant.name.trim() == '' || restaurant.categorie.trim() == ''
-      || restaurant.city.trim() == '' || restaurant.address.trim() == '') {
-      setError('All fields are required');
-      setRestaurant({ name: '', categorie: '', city: '', address: '', workingHours: '' })
-      return;
+    try {
+      if (restaurant.name.trim() == '' || restaurant.categorie.trim() == ''
+        || restaurant.city.trim() == '' || restaurant.address.trim() == '') {
+        setError('All fields are required');
+        setRestaurant({ name: '', categorie: '', city: '', address: '', workingHours: '' })
+        return;
+      }
+
+      if (file.length === 0) {
+        setError('Please add cover photo');
+        return;
+      }
+
+      const data = new FormData();
+      data.append('CoverPhoto', file, file.name);
+      data.append('name', restaurant.name);
+      data.append('address', restaurant.address);
+      data.append('categorie', restaurant.categorie);
+      data.append('city', restaurant.city);
+      data.append('workingHours', restaurant.workingHours);
+      data.append('OwnerID', user);
+      const newResstaurant = await createNewRestaurant(data);
+      console.log(newResstaurant);
+
+      if (newResstaurant.message) {
+        if (newResstaurant.message.includes('E11000')) {
+          setError('Restaurant name is taken, please choose unique one');
+          setRestaurant({ ...restaurant, name: '' });
+          setFile([]);
+          return;
+        }
+        setError(newResstaurant.message);
+        setFile([]);
+        return;
+      }
+
+      navigate('/my-account/my-restaurants');
+
+    } catch (error) {
+      setError(error);
     }
-
-    if (file.length === 0) {
-      setError('Please add cover photo');
-      return;
-    }
-
-    const data = new FormData();
-
-    if (file.length !== 0) {
-      data.append('Cover Photo', file, file.name);
-    }
-
-    data.append('Restaurant name', restaurant.name);
-    data.append('Restaurant address', restaurant.address);
-    data.append('Restaurant categorie', restaurant.categorie);
-    data.append('Restaurant city', restaurant.city);
-    data.append('Restaurant working hours', restaurant.workingHours);
-    data.append('Owner ID', user);
-    const newR = await createNewRestaurant(data);
-
   }
 
   return (
@@ -55,7 +71,7 @@ export default function CreateRestaurant() {
       <div className="py-5 osahan-profile row">
         <div className="col-md-4 mb-3">
           <div className="bg-white rounded shadow-sm sticky_sidebar overflow-hidden">
-            <Link to={`/my-account/${user}/my-restaurants`} >
+            <Link to={`/my-account/my-restaurants`} >
               <div className="d-flex align-items-center p-3">
                 <div className="right">
                   <h6 className="mb-1 font-weight-bold">{userCredentials}<i className="feather-check-circle text-success"></i></h6>
@@ -63,7 +79,7 @@ export default function CreateRestaurant() {
               </div>
             </Link>
             <div className="bg-white profile-details">
-              <Link to={`/my-account/${user}/my-restaurants`} className="d-flex w-100 align-items-center border-bottom p-3">
+              <Link to={`/my-account/my-restaurants`} className="d-flex w-100 align-items-center border-bottom p-3">
                 <div className="left mr-3">
                   <h6 className="font-weight-bold mb-1 text-dark">My restaurants</h6>
                   <p className="small text-muted m-0">See own restaurants</p>
@@ -105,12 +121,14 @@ export default function CreateRestaurant() {
                   <div className="form-group">
                     <label htmlFor="exampleInputEmail1">Address</label>
                     <input type="text" name="address" className="form-control" id="exampleInputEmail1"
+                      value={restaurant.address}
                       onChange={(e) => { setRestaurant({ ...restaurant, address: e.target.value }) }}
                       onBlur={() => setError(null)} />
                   </div>
                   <div className="form-group">
                     <label htmlFor="exampleInputEmail1">Working hours</label>
                     <input type="text" name="working_hours" className="form-control" id="exampleInputEmail1"
+                      value={restaurant.workingHours}
                       onChange={(e) => { setRestaurant({ ...restaurant, workingHours: e.target.value }) }}
                       onBlur={() => setError(null)} />
                   </div>
