@@ -70,12 +70,20 @@ export default function Profile() {
                     <h6 className="font-weight-bold m-0"><i className="feather-chevron-right"></i></h6>
                   </div>
                 </Link>
+                <Link to={`/my-account/${user}/favorites`} className="d-flex w-100 align-items-center border-bottom px-3 py-4">
+                  <div className="left mr-3">
+                    <h6 className="font-weight-bold m-0 text-dark"><i className="feather-heart bg-primary text-white p-2 rounded-circle mr-2"></i> Favorites</h6>
+                  </div>
+                  <div className="right ml-auto">
+                    <h6 className="font-weight-bold m-0"><i className="feather-chevron-right"></i></h6>
+                  </div>
+                </Link>
               </div>
             </div>
           </div>
           <div className="col-md-8 mb-3">
             <div className="rounded shadow-sm p-4 bg-white">
-              <h5 className="mb-4">My account</h5>
+              <h5 className="mb-4">Account info</h5>
               <div id="edit_profile">
                 <div>
                   <form onSubmit={changePersonalData}>

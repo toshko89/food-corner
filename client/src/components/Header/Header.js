@@ -42,7 +42,8 @@ export default function Header() {
                   <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                     <Link to={`/my-account/${userId}`} className="dropdown-item" >My account</Link>
                     <Link to={`/my-account/${userId}/my-restaurants`} className="dropdown-item" >My restaurants</Link>
-                    <a className="dropdown-item" href="/#">Contant us</a>
+                    <Link to={`/my-account/${userId}/create-restaurant`} className="dropdown-item" >Create Restaurant</Link>
+                    <Link to={`/my-account/${userId}/favorites`} className="dropdown-item" >Favorites</Link>
                     <a className="dropdown-item" href="/#">Term of use</a>
                     <a className="dropdown-item" href="/#">Privacy policy</a>
                     <Link to={"logout"} className="dropdown-item" >Logout</Link>

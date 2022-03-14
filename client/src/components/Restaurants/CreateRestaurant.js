@@ -95,6 +95,14 @@ export default function CreateRestaurant() {
                   <h6 className="font-weight-bold m-0"><i className="feather-chevron-right"></i></h6>
                 </div>
               </Link>
+              <Link to={`/my-account/${user}/favorites`} className="d-flex w-100 align-items-center border-bottom px-3 py-4">
+                <div className="left mr-3">
+                  <h6 className="font-weight-bold m-0 text-dark"><i className="feather-heart bg-primary text-white p-2 rounded-circle mr-2"></i> Favorites</h6>
+                </div>
+                <div className="right ml-auto">
+                  <h6 className="font-weight-bold m-0"><i className="feather-chevron-right"></i></h6>
+                </div>
+              </Link>
             </div>
           </div>
         </div>

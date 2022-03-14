@@ -1,7 +1,7 @@
 const restaurantController = require('express').Router();
 const formidable = require('formidable');
 const { authentication } = require('../middlewares/authMiddleware.js');
-const { createRestaurant, getAll, getRestaurantByID, getOwnRestaurants } = require('../services/restaurantService.js');
+const { createRestaurant, getRestaurantByID, getOwnRestaurants, getAllRestaurants } = require('../services/restaurantService.js');
 const { cloudinaryUpload } = require('../utils/cloudinary.js');
 const formParse = require('../utils/formParse.js');
 
