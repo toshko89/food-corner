@@ -26,6 +26,7 @@ export default function Register() {
       }
 
       dispatch(loginStateChange(user));
+      sessionStorage.setItem('user', user._id);
       navigate('/');
     } catch (error) {
       e.target.reset();

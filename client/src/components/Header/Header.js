@@ -36,12 +36,12 @@ export default function Header() {
                   </div>
                 </Link>
                 <div className="dropdown mr-4 m-none">
-                  <Link to={`/my-account`} className="dropdown-toggle text-dark py-3 d-block" id="dropdownMenuButton"
+                  <Link to={`/my-account/${userId}`} className="dropdown-toggle text-dark py-3 d-block" id="dropdownMenuButton"
                     data-toggle="dropdown" aria-expanded="false"> Hi {userCredentials || 'Guest'}
                   </Link>
                   <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                    <Link to={`/my-account`} className="dropdown-item" >My account</Link>
-                    <Link to={`/my-account/my-restaurants`} className="dropdown-item" >My restaurants</Link>
+                    <Link to={`/my-account/${userId}`} className="dropdown-item" >My account</Link>
+                    <Link to={`/my-account/${userId}/my-restaurants`} className="dropdown-item" >My restaurants</Link>
                     <a className="dropdown-item" href="/#">Contant us</a>
                     <a className="dropdown-item" href="/#">Term of use</a>
                     <a className="dropdown-item" href="/#">Privacy policy</a>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { createNewRestaurant } from "../../services/restaurantService.js";
+import { workTime } from "../../utils/workingTimeCheck.js";
 
 export default function CreateRestaurant() {
 
@@ -24,7 +25,7 @@ export default function CreateRestaurant() {
     e.preventDefault();
     try {
       if (restaurant.name.trim() == '' || restaurant.categorie.trim() == ''
-        || restaurant.city.trim() == '' || restaurant.address.trim() == '') {
+        || restaurant.city.trim() == '' || restaurant.address.trim() == '' || restaurant.workingHours == '') {
         setError('All fields are required');
         setRestaurant({ name: '', categorie: '', city: '', address: '', workingHours: '' })
         return;
@@ -32,6 +33,12 @@ export default function CreateRestaurant() {
 
       if (file.length === 0) {
         setError('Please add cover photo');
+        return;
+      }
+
+      if (!workTime(restaurant.workingHours)) {
+        setError('Working hours not valid, should be in format 08:00-20:00');
+        setRestaurant({ ...restaurant, workingHours: '' });
         return;
       }
 
@@ -58,7 +65,7 @@ export default function CreateRestaurant() {
         return;
       }
 
-      navigate('/my-account/my-restaurants');
+      navigate(`/my-account/${user}/my-restaurants`);
 
     } catch (error) {
       setError(error);
@@ -71,7 +78,7 @@ export default function CreateRestaurant() {
       <div className="py-5 osahan-profile row">
         <div className="col-md-4 mb-3">
           <div className="bg-white rounded shadow-sm sticky_sidebar overflow-hidden">
-            <Link to={`/my-account/my-restaurants`} >
+            <Link to={`/my-account/${user}/my-restaurants`} >
               <div className="d-flex align-items-center p-3">
                 <div className="right">
                   <h6 className="mb-1 font-weight-bold">{userCredentials}<i className="feather-check-circle text-success"></i></h6>
@@ -79,7 +86,7 @@ export default function CreateRestaurant() {
               </div>
             </Link>
             <div className="bg-white profile-details">
-              <Link to={`/my-account/my-restaurants`} className="d-flex w-100 align-items-center border-bottom p-3">
+              <Link to={`/my-account/${user}/my-restaurants`} className="d-flex w-100 align-items-center border-bottom p-3">
                 <div className="left mr-3">
                   <h6 className="font-weight-bold mb-1 text-dark">My restaurants</h6>
                   <p className="small text-muted m-0">See own restaurants</p>
@@ -126,7 +133,7 @@ export default function CreateRestaurant() {
                       onBlur={() => setError(null)} />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="exampleInputEmail1">Working hours</label>
+                    <label htmlFor="exampleInputEmail1">Working hours (07:00-23:00)</label>
                     <input type="text" name="working_hours" className="form-control" id="exampleInputEmail1"
                       value={restaurant.workingHours}
                       onChange={(e) => { setRestaurant({ ...restaurant, workingHours: e.target.value }) }}
