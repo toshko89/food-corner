@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { register } from "../../services/authService.js";
 import { useDispatch } from "react-redux";
 import { loginStateChange } from "../../app/auth.js";
+import emailCheck from "../../utils/emailCheck.js";
 
 export default function Register() {
 
@@ -17,6 +18,22 @@ export default function Register() {
     const password = formData.get('password');
     const rePass = formData.get('repass');
 
+    if (email.trim() == '' || password.trim() == '' || rePass.trim() == '') {
+      setError('All fields are required!');
+      return;
+    }
+
+    if (password.trim() !== rePass.trim()) {
+      setError('Password doesn\'t match');
+      return;
+    }
+
+    if (!emailCheck(email)) {
+      setError('Invalid email address, please try again');
+      e.target.reset();
+      return;
+    }
+
     try {
       const user = await register(email, password, rePass);
       if (user.message) {
@@ -26,7 +43,6 @@ export default function Register() {
       }
 
       dispatch(loginStateChange(user));
-      sessionStorage.setItem('user', user._id);
       navigate('/');
     } catch (error) {
       e.target.reset();

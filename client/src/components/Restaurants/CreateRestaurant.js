@@ -27,7 +27,8 @@ export default function CreateRestaurant() {
       if (restaurant.name.trim() == '' || restaurant.categorie.trim() == ''
         || restaurant.city.trim() == '' || restaurant.address.trim() == '' || restaurant.workingHours == '') {
         setError('All fields are required');
-        setRestaurant({ name: '', categorie: '', city: '', address: '', workingHours: '' })
+        setRestaurant({ name: '', categorie: '', city: '', address: '', workingHours: '' });
+        setFile([]);
         return;
       }
 
@@ -51,7 +52,6 @@ export default function CreateRestaurant() {
       data.append('workingHours', restaurant.workingHours);
       data.append('OwnerID', user);
       const newResstaurant = await createNewRestaurant(data);
-      console.log(newResstaurant);
 
       if (newResstaurant.message) {
         if (newResstaurant.message.includes('E11000')) {

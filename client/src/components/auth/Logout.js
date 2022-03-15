@@ -12,8 +12,6 @@ export default function Logout() {
       if (res.status === 200) {
         dispatch(logoutStateChange())
       }
-
-      sessionStorage.clear()
     })
     .catch((err) => {
       console.log(err);

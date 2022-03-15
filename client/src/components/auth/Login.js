@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../services/authService.js";
 import { useDispatch } from 'react-redux'
 import { loginStateChange } from "../../app/auth.js";
+import emailCheck from "../../utils/emailCheck.js";
 
 export default function Login() {
 
@@ -15,6 +16,18 @@ export default function Login() {
     const formData = new FormData(e.currentTarget);
     const email = formData.get('email');
     const password = formData.get('password');
+
+    if (email.trim() == '' || password.trim() == '') {
+      setError('All fields are required!');
+      return;
+    }
+
+    if (!emailCheck(email)) {
+      setError('Invalid email address, please try again');
+      e.target.reset();
+      return;
+    }
+
     try {
       const user = await login(email, password);
       if (user.message) {
@@ -23,7 +36,6 @@ export default function Login() {
         return;
       }
       dispatch(loginStateChange(user));
-      sessionStorage.setItem('user', user._id);
       navigate('/');
     } catch (error) {
       setError(error);

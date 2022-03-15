@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
     minlength: [6, 'Your password should be at least 6 characters'],
   },
   phone: {
-    type: Number,
+    type: String,
     min: [8, 'Your phone should be at least 8 characters'],
   },
   city: {
