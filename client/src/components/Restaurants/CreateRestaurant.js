@@ -51,16 +51,16 @@ export default function CreateRestaurant() {
       data.append('city', restaurant.city);
       data.append('workingHours', restaurant.workingHours);
       data.append('OwnerID', user);
-      const newResstaurant = await createNewRestaurant(data);
+      const newRestaurant = await createNewRestaurant(data);
 
-      if (newResstaurant.message) {
-        if (newResstaurant.message.includes('E11000')) {
+      if (newRestaurant.message) {
+        if (newRestaurant.message.includes('E11000')) {
           setError('Restaurant name is taken, please choose unique one');
           setRestaurant({ ...restaurant, name: '' });
           setFile([]);
           return;
         }
-        setError(newResstaurant.message);
+        setError(newRestaurant.message);
         setFile([]);
         return;
       }

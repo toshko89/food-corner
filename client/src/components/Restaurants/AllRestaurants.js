@@ -16,7 +16,7 @@ export default function AllRestaurants() {
         throw new Error(error)
       }
     })();
-  }, [])
+  },[])
 
 
   return (
