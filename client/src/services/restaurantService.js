@@ -26,4 +26,12 @@ async function getAllRestaurants() {
   return restaurants.json();
 }
 
-export { createNewRestaurant, getOwnRestaurants, getAllRestaurants }
+async function getRestaurantById(id) {
+  const restaurants = await fetch(REACT_APP_BASE_URL + `/restaurants/${id}`, {
+    method: 'GET',
+    credentials: 'include'
+  });
+  return restaurants.json();
+}
+
+export { createNewRestaurant, getOwnRestaurants, getAllRestaurants, getRestaurantById }

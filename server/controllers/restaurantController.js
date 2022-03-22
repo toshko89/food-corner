@@ -76,8 +76,8 @@ restaurantController.get('/by-owner', authentication, async (req, res) => {
   }
 })
 
-restaurantController.get('/:restaurantId', async (req, res) => {
-  const restaurantId = req.params.restaurantId;
+restaurantController.get('/:id', async (req, res) => {
+  const restaurantId = req.params.id;
   try {
     const restaurant = await getRestaurantByID(restaurantId);
     res.status(200).send(restaurant);
