@@ -9,6 +9,7 @@ import Home from './components/Home/Home.js';
 import AllRestaurants from './components/Restaurants/AllRestaurants.js';
 import CreateRestaurant from './components/Restaurants/CreateRestaurant.js';
 import MyRestaurants from './components/Restaurants/MyRestaurants.js';
+import RestaurantMenu from './components/Menu/RestaurantMenu.js'
 
 
 function App() {
@@ -21,7 +22,8 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/logout" element={<Logout />}></Route>
         <Route path="/restaurants" element={<AllRestaurants />}></Route>
-
+        <Route path="/restaurants/:id" element={<RestaurantMenu />}></Route>
+        
         <Route path="/my-account/:id" element={<Profile />}></Route>
         <Route path="/my-account/:id/create-restaurant" element={<CreateRestaurant />}></Route>
         <Route path='/my-account/:id/my-restaurants' element={<MyRestaurants />}></Route>

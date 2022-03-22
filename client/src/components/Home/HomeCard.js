@@ -1,6 +1,7 @@
 import { Card, Col, Grid, Text, Row, Button } from "@nextui-org/react"
-
-
+import IconButton from '@mui/material/IconButton';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { Link } from "react-router-dom";
 
 export default function HomeCard({ data }) {
   return (
@@ -20,6 +21,9 @@ export default function HomeCard({ data }) {
               {data.name}
             </Text>
           </Col>
+          <IconButton onClick={(e) => console.log('click')} color="error" aria-label="add to shopping cart">
+            <FavoriteIcon fontSize="large" />
+          </IconButton>
         </Card.Header>
         <Card.Body>
           <Card.Image
@@ -46,11 +50,13 @@ export default function HomeCard({ data }) {
             </Col>
             <Col>
               <Row justify="flex-end">
-                <Button flat auto rounded color="secondary">
-                  <Text css={{ color: 'inherit' }} size={12} weight="bold" transform="uppercase">
-                    Menu
-                  </Text>
-                </Button>
+                <Link to={`/restaurants/${data._id}`}>
+                  <Button flat auto rounded color="secondary">
+                    <Text css={{ color: 'inherit' }} size={12} weight="bold" transform="uppercase">
+                      Menu
+                    </Text>
+                  </Button>
+                </Link>
               </Row>
             </Col>
           </Row>

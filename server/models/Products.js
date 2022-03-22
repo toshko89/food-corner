@@ -13,9 +13,21 @@ const productSchema = mongoose.Schema({
     type: Number,
   },
   img: {
+    type: {
+      url: {
+        type: String
+      },
+      public_id: {
+        type: String
+      }
+    }
+  },
+  category: {
     type: String
   },
-  ingredients: []
+  ingredients: [{
+    type: String
+  }]
 })
 
 const Products = mongoose.model('Products', productSchema);
