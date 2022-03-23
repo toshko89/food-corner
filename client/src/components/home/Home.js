@@ -19,6 +19,8 @@ export default function Home() {
     })();
   }, [])
 
+  //TODO REWORK THE CARDS NOT READING FINE NOW!!!
+
   return (
     <>
       <div className="container most_popular py-5">

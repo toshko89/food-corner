@@ -1,6 +1,5 @@
 const restaurantController = require('express').Router();
 const formidable = require('formidable');
-const config = require('../config/config.js');
 const { authentication } = require('../middlewares/authMiddleware.js');
 const { createRestaurant, getRestaurantByID, getOwnRestaurants, getAllRestaurants } = require('../services/restaurantService.js');
 const { cloudinaryUpload } = require('../utils/cloudinary.js');
@@ -17,11 +16,6 @@ restaurantController.get('/', async (req, res) => {
 })
 
 restaurantController.post('/create', authentication, async (req, res) => {
-
-  console.log(config);
-
-  console.log();
-
   const form = formidable({ multiples: true });
   const imgURL = [];
   try {

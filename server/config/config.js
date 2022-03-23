@@ -5,7 +5,7 @@ const config = {
     PORT: process.env.PORT || 3030,
     DB_CONNECTION_STRING: process.env.DB_CONNECTION_STRING,
     COOKIE_NAME: 'X-Authorization',
-    SECRET: 'My strong secret',
+    SECRET: process.env.JWT_SECRET,
     SALT_ROUNDS: 10,
     CLOUDINARY: {
       cloud_name: process.env.CLOUDINARY_NAME,
