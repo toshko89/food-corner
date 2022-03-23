@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../services/authService.js";
-import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux';
 import { loginStateChange } from "../../app/auth.js";
 import emailCheck from "../../utils/emailCheck.js";
 

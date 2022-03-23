@@ -50,6 +50,10 @@ const restaurantSchema = mongoose.Schema({
   rating: {
     type: Number,
     default: 0
+  },
+  ratingsCount: {
+    type: Number,
+    default: 0
   }
 })
 
