@@ -1,4 +1,5 @@
-require('dotenv').config();
+const path = require('path')
+require('dotenv').config({ path: path.resolve(__dirname, './.env') });
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -13,14 +14,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(config.CORS));
 app.use(cookieParser());
-app.use('/food-corner',router);
+app.use('/food-corner', router);
 
 mongo()
-.then(()=>{
-  cloudinary.config(config.CLOUDINARY);
-  app.listen(config.PORT, () => console.log(`Server is listening on port ${config.PORT}`));
-})
-.catch((err)=>{
-  console.log(err);
-  throw new Error(err);
-});
+  .then(() => {
+    cloudinary.config(config.CLOUDINARY);
+    app.listen(config.PORT, () => console.log(`Server is listening on port ${config.PORT}`));
+  })
+  .catch((err) => {
+    console.log(err);
+    throw new Error(err);
+  });

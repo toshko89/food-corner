@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAllRestaurants } from "../../services/restaurantService.js";
-import { Grid, Loading, Spacer } from '@nextui-org/react';
+import { Grid, Loading } from '@nextui-org/react';
 import HomeCard from "./HomeCard.js";
 
 
@@ -21,15 +21,13 @@ export default function Home() {
 
   return (
     <>
-      <div className="container">
-        <div className="py-3 title d-flex align-items-center">
-          <h2 className="font-weight-bold mb-3">Most popular</h2>
-        </div>
-        <div className="most_popular">
+      <div className="container most_popular py-5">
+        <h2 className="font-weight-bold mb-3">Most popular</h2>
+        <div className="row">
           <Grid.Container gap={2} justify="center">
             {restaurants.length > 0
               ? restaurants.map(res => <HomeCard key={res._id} data={res} />)
-              : <Loading color="success" size="xl" />}
+              : <Loading type="points" />}
           </Grid.Container>
         </div>
       </div>

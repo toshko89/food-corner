@@ -57,6 +57,7 @@ export default function RestaurantMenu() {
       </div>
       <div className="container">
         <RestaurantMenuNavIcons currentRestaurant={currentRestaurant} user={user} />
+        <MenuCard/>
       </div>
     </>
   )

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { getAllRestaurants } from "../../services/restaurantService.js";
 import { Loading } from '@nextui-org/react';
-import RestaurantCard from "./RestaurantCard.js";
+
 
 export default function AllRestaurants() {
 
@@ -24,7 +24,7 @@ export default function AllRestaurants() {
       <div className="container most_popular py-5">
         <h2 className="font-weight-bold mb-3">Find your flavour</h2>
         <div className="row">
-          {restaurants.length > 0 ? restaurants.map(res => <RestaurantCard key={res._id} restaurant={res} />) : <Loading type="points" />}
+          {/* {restaurants.length > 0 ? restaurants.map(res => <RestaurantCard key={res._id} restaurant={res} />) : <Loading type="points" />} */}
         </div>
       </div>
     </div>

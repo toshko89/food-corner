@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { getOwnRestaurants } from "../../services/restaurantService.js";
-import { Loading } from '@nextui-org/react';
-import RestaurantCard from "./RestaurantCard.js";
+import { Grid, Loading } from '@nextui-org/react';
 import { useNavigate } from "react-router-dom";
+import HomeCard from "../Home/HomeCard.js";
 
 export default function MyRestaurants() {
 
@@ -29,7 +29,11 @@ export default function MyRestaurants() {
       <div className="container most_popular py-5">
         <h2 className="font-weight-bold mb-3">My Restaurants</h2>
         <div className="row">
-          {restaurants.length > 0 ? restaurants.map(res => <RestaurantCard key={res._id} restaurant={res} />) : <Loading type="points" />}
+          <Grid.Container gap={2} justify="center">
+            {restaurants.length > 0
+              ? restaurants.map(res => <HomeCard key={res._id} data={res} />)
+              : <Loading type="points" />}
+          </Grid.Container>
         </div>
       </div>
     </div>
