@@ -39,7 +39,7 @@ export default function RestaurantMenuNavIcons() {
           <MapsUgcRoundedIcon fontSize="large" />
         </IconButton>
       </ButtonGroup>
-      <AddProductModal handler={handler} closeHandler={closeHandler} visible={visible} />
+      <AddProductModal closeHandler={closeHandler} visible={visible} />
     </>
   )
 }
