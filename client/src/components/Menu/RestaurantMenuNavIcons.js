@@ -6,28 +6,40 @@ import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 import MapsUgcRoundedIcon from '@mui/icons-material/MapsUgcRounded';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import AddProductModal from './AddProductModal.js';
+import { useState } from 'react';
 
 export default function RestaurantMenuNavIcons() {
+
+  const [visible, setVisible] = useState(false);
+  const handler = () => setVisible(true);
+  const closeHandler = () => {
+    setVisible(false);
+  };
+
   return (
-    <ButtonGroup variant="outlined" aria-label="outlined primary button group">
-      <IconButton aria-label="edit" size="large">
-        <ModeEditOutlineTwoToneIcon fontSize="large" />
-      </IconButton>
-      <IconButton aria-label="add-menu" size="large">
-        <LunchDiningRoundedIcon fontSize="large" />
-      </IconButton>
-      <IconButton aria-label="data" size="large">
-        <ConstructionRoundedIcon fontSize="large" />
-      </IconButton>
-      <IconButton aria-label="delete" size="large">
-        <DeleteForeverRoundedIcon fontSize="large" />
-      </IconButton>
-      <IconButton aria-label="favorites" color="error" size="large">
-        <FavoriteBorderRoundedIcon fontSize="large" />
-      </IconButton>
-      <IconButton aria-label="comments" color="primary" size="large">
-        <MapsUgcRoundedIcon fontSize="large" />
-      </IconButton>
-    </ButtonGroup>
+    <>
+      <ButtonGroup variant="outlined" aria-label="outlined primary button group">
+        <IconButton aria-label="edit" size="large">
+          <ModeEditOutlineTwoToneIcon fontSize="large" />
+        </IconButton>
+        <IconButton aria-label="add-menu" size="large" onClick={handler} >
+          <LunchDiningRoundedIcon fontSize="large" />
+        </IconButton>
+        <IconButton aria-label="data" size="large">
+          <ConstructionRoundedIcon fontSize="large" />
+        </IconButton>
+        <IconButton aria-label="delete" size="large">
+          <DeleteForeverRoundedIcon fontSize="large" />
+        </IconButton>
+        <IconButton aria-label="favorites" color="error" size="large">
+          <FavoriteBorderRoundedIcon fontSize="large" />
+        </IconButton>
+        <IconButton aria-label="comments" color="primary" size="large">
+          <MapsUgcRoundedIcon fontSize="large" />
+        </IconButton>
+      </ButtonGroup>
+      <AddProductModal handler={handler} closeHandler={closeHandler} visible={visible} />
+    </>
   )
 }

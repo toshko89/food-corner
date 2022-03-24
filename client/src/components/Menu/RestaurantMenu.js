@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from "react-router-dom";
 import { clearRestaurantState, setRestaurantState } from "../../app/restaurant.js";
 import { getRestaurantById } from "../../services/restaurantService.js";
-import MenuCard from "./MenuCard.js";
 import RestaurantMenuNavIcons from "./RestaurantMenuNavIcons.js";
 
 
@@ -26,7 +25,7 @@ export default function RestaurantMenu() {
     return () => {
       dispatch(clearRestaurantState())
     }
-  }, [id,dispatch])
+  }, [id, dispatch])
 
   return (
     <>
@@ -56,8 +55,8 @@ export default function RestaurantMenu() {
         </div>
       </div>
       <div className="container">
-        <RestaurantMenuNavIcons currentRestaurant={currentRestaurant} user={user} />
-        <MenuCard/>
+        <RestaurantMenuNavIcons />
+        {/* <MenuCard/> */}
       </div>
     </>
   )
