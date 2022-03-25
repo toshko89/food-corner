@@ -1,16 +1,50 @@
 import { Modal, Button, Text, Input, Checkbox, Row, Separator } from "@nextui-org/react";
 import { useState } from "react";
 
-export default function AddProductModal({ closeHandler, visible }) {
+export default function AddProductModal({ setVisible, visible }) {
 
-  const [recipe, setRecipe] = useState({ name: '', ingredients: '', weight: '', price: '', category: '' });
-  const [recipePicture, setPicture] = useState([]);
-
-  //TODO да направя валидациите 
+  const closeHandler = () => {
+    setVisible(false);
+    setRecipe({
+      name: '', ingredients: '',
+      weight: '', price: '', category: ''
+    });
+    setFile([]);
+    setError(null);
+  };
+  const [recipe, setRecipe] = useState({
+    name: '', ingredients: '',
+    weight: '', price: '', category: ''
+  });
+  const [file, setFile] = useState([]);
+  const [error, setError] = useState(null);
 
   function handleFileChange(e) {
     const file = e.target.files[0];
-    setPicture(file);
+    setFile(file);
+  }
+
+  function submitProduct() {
+    if (recipe.name.trim() == '' || recipe.ingredients.trim() == '' || recipe.weight.trim() == ''
+      || recipe.price.trim() == '' || recipe.category.trim() == '') {
+      setError('All fields are required');
+      return;
+    }
+
+    if (!file) {
+      setError('Please add product photo');
+      return;
+    }
+
+    const data = new FormData();
+    data.append('product_photo', file, file.name);
+    data.append('product_name', recipe.name);
+    data.append('product_ingredients', recipe.ingredients);
+    data.append('product_weight', recipe.weight);
+    data.append('product_price', recipe.price);
+    data.append('product_category', recipe.category)
+
+    console.log(data.get('product_name'));
   }
 
   return (
@@ -24,6 +58,7 @@ export default function AddProductModal({ closeHandler, visible }) {
         <Input aria-label="modal-name"
           onChange={(e) => setRecipe({ ...recipe, name: e.target.value })}
           value={recipe.name}
+          onBlur={() => setError(null)}
           clearable
           bordered
           fullWidth
@@ -31,12 +66,10 @@ export default function AddProductModal({ closeHandler, visible }) {
           size="lg"
           placeholder="Recipe name"
         />
-        <Row>
-          <Text color="red" size={14}>Forgot password?</Text>
-        </Row>
         <Input aria-label="modal-ingredients"
           onChange={(e) => setRecipe({ ...recipe, ingredients: e.target.value })}
           value={recipe.ingredients}
+          onBlur={() => setError(null)}
           clearable
           bordered
           fullWidth
@@ -44,12 +77,10 @@ export default function AddProductModal({ closeHandler, visible }) {
           size="lg"
           placeholder="Ingredients separated by ','"
         />
-        <Row>
-          <Text color="red" size={14}>Forgot password?</Text>
-        </Row>
         <Input aria-label="modal-weight"
           type="number"
           onChange={(e) => setRecipe({ ...recipe, weight: e.target.value })}
+          onBlur={() => setError(null)}
           value={recipe.weight}
           clearable
           bordered
@@ -58,12 +89,10 @@ export default function AddProductModal({ closeHandler, visible }) {
           size="lg"
           placeholder="Weight in grams"
         />
-        <Row>
-          <Text color="red" size={14}>Forgot password?</Text>
-        </Row>
         <Input aria-label="modal-price"
           type="number"
           onChange={(e) => setRecipe({ ...recipe, price: e.target.value })}
+          onBlur={() => setError(null)}
           value={recipe.price}
           clearable
           bordered
@@ -72,11 +101,9 @@ export default function AddProductModal({ closeHandler, visible }) {
           size="lg"
           placeholder="Price"
         />
-        <Row>
-          <Text color="red" size={14}>Forgot password?</Text>
-        </Row>
         <Input aria-label="modal-category"
           onChange={(e) => setRecipe({ ...recipe, category: e.target.value })}
+          onBlur={() => setError(null)}
           value={recipe.category}
           clearable
           bordered
@@ -85,11 +112,9 @@ export default function AddProductModal({ closeHandler, visible }) {
           size="lg"
           placeholder="Category"
         />
-        <Row>
-          <Text color="red" size={14}>Forgot password?</Text>
-        </Row>
         <Input aria-label="modal-file"
-          onChange={setPicture}
+          onChange={handleFileChange}
+          onBlur={() => setError(null)}
           type="file"
           clearable
           bordered
@@ -98,12 +123,10 @@ export default function AddProductModal({ closeHandler, visible }) {
           size="lg"
           placeholder="Recipe picture"
         />
-        <Row>
-          <Text color="red" size={14}>Forgot password?</Text>
-        </Row>
+        {error && <Row><Text color="red" size={14}>{error}</Text></Row>}
       </Modal.Body>
       <Modal.Footer aria-label="modal-footer">
-        <Button aria-label="modal-sign-btn" disabled={true} auto onClick={closeHandler}>
+        <Button aria-label="modal-sign-btn" disabled={error !== null} auto onClick={submitProduct}>
           Add
         </Button>
       </Modal.Footer>

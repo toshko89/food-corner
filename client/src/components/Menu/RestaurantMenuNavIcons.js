@@ -13,10 +13,7 @@ export default function RestaurantMenuNavIcons() {
 
   const [visible, setVisible] = useState(false);
   const handler = () => setVisible(true);
-  const closeHandler = () => {
-    setVisible(false);
-  };
-
+  
   return (
     <>
       <ButtonGroup variant="outlined" aria-label="outlined primary button group">
@@ -39,7 +36,7 @@ export default function RestaurantMenuNavIcons() {
           <MapsUgcRoundedIcon fontSize="large" />
         </IconButton>
       </ButtonGroup>
-      <AddProductModal closeHandler={closeHandler} visible={visible} />
+      <AddProductModal setVisible={setVisible} visible={visible} />
     </>
   )
 }
