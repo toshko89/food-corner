@@ -1,4 +1,4 @@
-import { Modal, Button, Text, Input, Checkbox, Row, Separator } from "@nextui-org/react";
+import { Modal, Button, Text, Input, Row } from "@nextui-org/react";
 import { useState } from "react";
 
 export default function AddProductModal({ setVisible, visible }) {
@@ -25,8 +25,8 @@ export default function AddProductModal({ setVisible, visible }) {
   }
 
   function submitProduct() {
-    if (recipe.name.trim() == '' || recipe.ingredients.trim() == '' || recipe.weight.trim() == ''
-      || recipe.price.trim() == '' || recipe.category.trim() == '') {
+    if (recipe.name.trim() === '' || recipe.ingredients.trim() === '' || recipe.weight.trim() === ''
+      || recipe.price.trim() === '' || recipe.category.trim() === '') {
       setError('All fields are required');
       return;
     }
