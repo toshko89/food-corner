@@ -21,7 +21,6 @@ export default function Home() {
 
   //TODO REWORK THE CARDS NOT READING FINE NOW!!!
 
-  console.log();
 
   return (
     <>
