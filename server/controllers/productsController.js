@@ -31,7 +31,7 @@ productsController.post('/:restaurantId/add-product', authentication, isOwnder, 
       throw new Error('Name must be at least 5 characters');
     }
     if (productData.ingredients < 3) {
-      throw new Error('Recipe ingredients must be at last 3!');
+      throw new Error('Product ingredients must be at last 3!');
     }
     if (!productData.price) {
       throw new Error('Please add price!');
