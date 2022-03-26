@@ -1,5 +1,4 @@
-const REACT_APP_BASE_URL = 'http://localhost:3030/food-corner';
-
+const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL;
 
 async function register(email, password, rePass) {
   const user = await fetch(REACT_APP_BASE_URL + '/users/register', {

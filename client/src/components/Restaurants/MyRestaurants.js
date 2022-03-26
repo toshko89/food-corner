@@ -14,7 +14,7 @@ export default function MyRestaurants() {
       try {
         const res = await getOwnRestaurants();
         if (res.message) {
-          navigate('/login')
+          navigate('/login', { replace: true })
         }
         setRestaurants(res);
       } catch (error) {
