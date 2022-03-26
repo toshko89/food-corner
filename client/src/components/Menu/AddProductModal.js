@@ -2,6 +2,7 @@ import { Modal, Button, Text, Input, Row } from "@nextui-org/react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { addProduct } from "../../services/productService.js";
+import stringCount from "../../utils/minStringCount.js";
 
 export default function AddProductModal({ setVisible, visible }) {
 
@@ -34,18 +35,23 @@ export default function AddProductModal({ setVisible, visible }) {
       return;
     }
 
+    if (!stringCount(recipe.ingredients)) {
+      setError('At least 3 ingredients');
+      return;
+    }
+
     if (!file) {
       setError('Please add product photo');
       return;
     }
 
     const data = new FormData();
-    data.append('product_photo', file, file.name);
-    data.append('product_name', recipe.name);
-    data.append('product_ingredients', recipe.ingredients);
-    data.append('product_weight', recipe.weight);
-    data.append('product_price', recipe.price);
-    data.append('product_category', recipe.category)
+    data.append('file', file, file.name);
+    data.append('name', recipe.name);
+    data.append('ingredients', recipe.ingredients);
+    data.append('weight', recipe.weight);
+    data.append('price', recipe.price);
+    data.append('category', recipe.category)
 
     let res = await addProduct(id, data)
     console.log(res);
@@ -79,7 +85,7 @@ export default function AddProductModal({ setVisible, visible }) {
           fullWidth
           color="primary"
           size="lg"
-          placeholder="Ingredients separated by ','"
+          placeholder="At least 3 ingredients separated by ','"
         />
         <Input aria-label="modal-weight"
           type="number"
