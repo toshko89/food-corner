@@ -14,7 +14,7 @@ const productSchema = mongoose.Schema({
   },
   img: {
     type: {
-      url: {
+      secure_url: {
         type: String
       },
       public_id: {
@@ -32,4 +32,4 @@ const productSchema = mongoose.Schema({
 
 const Products = mongoose.model('Products', productSchema);
 
-model.exports = Products;
+module.exports = Products;

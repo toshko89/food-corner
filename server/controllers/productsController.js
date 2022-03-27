@@ -2,10 +2,13 @@ const productsController = require('express').Router();
 const formidable = require('formidable');
 const { authentication } = require('../middlewares/authMiddleware.js');
 const isOwnder = require('../middlewares/isOwnder.js');
+const { createProduct } = require('../services/productService.js');
+const { getRestaurantByID } = require('../services/restaurantService.js');
 const { cloudinaryUpload } = require('../utils/cloudinary.js');
 const formParse = require('../utils/formParse.js');
 
 productsController.post('/:restaurantId/add-product', authentication, isOwnder, async (req, res) => {
+  const { restaurantId } = req.params;
   const form = formidable({ multiples: true });
   const imgURL = [];
   try {
@@ -27,10 +30,10 @@ productsController.post('/:restaurantId/add-product', authentication, isOwnder, 
       ingredients: data.ingredients.split(',').map(x => x.trim())
     }
 
-    if (productData.name < 5) {
+    if (productData.name.length < 5) {
       throw new Error('Name must be at least 5 characters');
     }
-    if (productData.ingredients < 3) {
+    if (productData.ingredients.length < 3) {
       throw new Error('Product ingredients must be at last 3!');
     }
     if (!productData.price) {
@@ -46,11 +49,16 @@ productsController.post('/:restaurantId/add-product', authentication, isOwnder, 
       throw new Error('Category is required!');
     }
 
-    console.log(productData);
+    const restaurant = await getRestaurantByID(restaurantId);
+    const newProduct = await createProduct(productData);
+    restaurant.products.push(newProduct);
+    await restaurant.save();
+    await newProduct.save();
+    res.status(200).send(restaurant);
 
   } catch (error) {
     console.log(error);
-    res.status(400).send(error);
+    res.status(400).send({ message: error.message });
   }
 
 })
