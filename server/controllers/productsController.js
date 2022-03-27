@@ -2,7 +2,7 @@ const productsController = require('express').Router();
 const formidable = require('formidable');
 const { authentication } = require('../middlewares/authMiddleware.js');
 const isOwnder = require('../middlewares/isOwnder.js');
-const { createProduct } = require('../services/productService.js');
+const { createProduct, getProductById } = require('../services/productService.js');
 const { getRestaurantByID } = require('../services/restaurantService.js');
 const { cloudinaryUpload } = require('../utils/cloudinary.js');
 const formParse = require('../utils/formParse.js');
@@ -60,7 +60,19 @@ productsController.post('/:restaurantId/add-product', authentication, isOwnder, 
     console.log(error);
     res.status(400).send({ message: error.message });
   }
+})
 
+productsController.put('/:restaurantId/edit-product/:productId', authentication, isOwnder, (req, res) => {
+  const { restaurantId, productId } = req.params;
+  const form = formidable({ multiples: true });
+  const imgURL = [];
+  const product = getProductById(productId);
+  try {
+
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({ message: error.message });
+  }
 })
 
 

@@ -1,6 +1,8 @@
-import { Modal, Button, Text, Input, Row } from "@nextui-org/react";
+import { Modal, Button, Text, Input } from "@nextui-org/react";
 import { useState } from "react";
+import { useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
+import { setRestaurantState } from "../../app/restaurant.js";
 import { addProduct } from "../../services/productService.js";
 import stringCount from "../../utils/minStringCount.js";
 
@@ -16,6 +18,7 @@ export default function AddProductModal({ setVisible, visible }) {
     setError(false);
   };
   const { id } = useParams();
+  const dispatch = useDispatch();
   const [recipe, setRecipe] = useState({
     name: '', ingredients: '',
     weight: '', price: '', category: ''
@@ -53,8 +56,13 @@ export default function AddProductModal({ setVisible, visible }) {
     data.append('price', recipe.price);
     data.append('category', recipe.category)
 
-    let res = await addProduct(id, data)
-    console.log(res);
+    try {
+      const res = await addProduct(id, data);
+      dispatch(setRestaurantState(res));
+      setVisible(false);
+    } catch (error) {
+      setError(error)
+    }
   }
 
   return (

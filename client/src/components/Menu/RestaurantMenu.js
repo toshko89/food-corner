@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from "react-router-dom";
 import { clearRestaurantState, setRestaurantState } from "../../app/restaurant.js";
 import { getRestaurantById } from "../../services/restaurantService.js";
+import MenuCard from "./MenuCard.js";
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import RestaurantMenuNavIcons from "./RestaurantMenuNavIcons.js";
 
 
@@ -26,6 +29,8 @@ export default function RestaurantMenu() {
       dispatch(clearRestaurantState())
     }
   }, [id, dispatch])
+
+  console.log(currentRestaurant);
 
   return (
     <>
@@ -56,7 +61,10 @@ export default function RestaurantMenu() {
       </div>
       <div className="container">
         <RestaurantMenuNavIcons />
-        {/* <MenuCard/> */}
+        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+          {currentRestaurant && currentRestaurant.products.map(product => 
+          <MenuCard key={product._id} product={product} />)}
+        </Grid>
       </div>
     </>
   )
