@@ -35,6 +35,7 @@ const restaurantSlice = createSlice({
       state.name = action.payload.name
     },
     clearRestaurantState(state) {
+      state._id = '';
       state.name = '';
       state.categorie = '';
       state.city = '';

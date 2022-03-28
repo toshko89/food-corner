@@ -1,10 +1,12 @@
 import { Modal, Button, Text, Input } from "@nextui-org/react";
+import { LoadingButton } from '@mui/lab';
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
 import { setRestaurantState } from "../../app/restaurant.js";
 import { addProduct } from "../../services/productService.js";
 import stringCount from "../../utils/minStringCount.js";
+import SendIcon from '@mui/icons-material/Send';
 
 export default function AddProductModal({ setVisible, visible }) {
 
@@ -25,6 +27,7 @@ export default function AddProductModal({ setVisible, visible }) {
   });
   const [file, setFile] = useState([]);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   function handleFileChange(e) {
     const file = e.target.files[0];
@@ -57,8 +60,10 @@ export default function AddProductModal({ setVisible, visible }) {
     data.append('category', recipe.category)
 
     try {
+      setLoading(true);
       const res = await addProduct(id, data);
       dispatch(setRestaurantState(res));
+      setLoading(false);
       setVisible(false);
     } catch (error) {
       setError(error)
@@ -144,9 +149,19 @@ export default function AddProductModal({ setVisible, visible }) {
         {error && <Text color="red" size={14}>{error}</Text>}
       </Modal.Body>
       <Modal.Footer aria-label="modal-footer">
-        <Button aria-label="modal-sign-btn" disabled={error !== false} auto onClick={submitProduct}>
+        <LoadingButton
+          disabled={error !== false}
+          onClick={submitProduct}
+          endIcon={<SendIcon />}
+          loading={loading}
+          loadingPosition="end"
+          variant="contained"
+        >
           Add
-        </Button>
+        </LoadingButton>
+        {/* <Button aria-label="modal-sign-btn" disabled={error !== false} auto onClick={submitProduct}>
+          Add
+        </Button> */}
       </Modal.Footer>
     </Modal>
   );

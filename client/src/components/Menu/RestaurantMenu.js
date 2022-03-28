@@ -7,6 +7,7 @@ import MenuCard from "./MenuCard.js";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import RestaurantMenuNavIcons from "./RestaurantMenuNavIcons.js";
+import { Loading } from "@nextui-org/react";
 
 
 export default function RestaurantMenu() {
@@ -14,7 +15,9 @@ export default function RestaurantMenu() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const currentRestaurant = useSelector(state => state.restaurant);
-  const user = useSelector(state => state.auth)
+  const user = useSelector(state => state.auth);
+
+  console.log(currentRestaurant);
 
   useEffect(() => {
     (async function fetchData() {
@@ -62,8 +65,8 @@ export default function RestaurantMenu() {
       <div className="container">
         <RestaurantMenuNavIcons />
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-          {currentRestaurant && currentRestaurant.products.map(product => 
-          <MenuCard key={product._id} product={product} />)}
+          {currentRestaurant ? currentRestaurant.products.map(product =>
+            <MenuCard key={product._id} product={product} />) : <Loading />}
         </Grid>
       </div>
     </>
