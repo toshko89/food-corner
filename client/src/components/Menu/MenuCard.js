@@ -12,18 +12,17 @@ import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 
 
 export default function MenuCard({ product }) {
-  console.log(product);
   return (
     <Grid item xs={2} sm={4} md={4} >
       <Card sx={{ maxWidth: 350 }}>
         <CardHeader
           action={
-            <IconButton aria-label="settings">
+            <IconButton color='success' aria-label="settings">
               <ShoppingCartIcon fontSize="large" />
             </IconButton>
           }
-          title="Shrimp and Chorizo Paella"
-          subheader="September 14, 2016"
+          title={product.name}
+          subheader={`${product.price} $`}
         />
         <CardMedia
           component="img"
@@ -32,10 +31,11 @@ export default function MenuCard({ product }) {
           alt="Paella dish"
         />
         <CardContent>
+          <Typography fontSize='1.3rem' variant="body1" color="text.secondary">
+            {product.ingredients.join(', ')}
+          </Typography>
           <Typography variant="body2" color="text.secondary">
-            This impressive paella is a perfect party dish and a fun meal to cook
-            together with your guests. Add 1 cup of frozen peas along with the mussels,
-            if you like.
+            {`(${product.weight}g)`}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>

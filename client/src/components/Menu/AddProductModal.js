@@ -1,4 +1,4 @@
-import { Modal, Button, Text, Input } from "@nextui-org/react";
+import { Modal, Text, Input } from "@nextui-org/react";
 import { LoadingButton } from '@mui/lab';
 import { useState } from "react";
 import { useDispatch } from 'react-redux';
@@ -66,6 +66,7 @@ export default function AddProductModal({ setVisible, visible }) {
       setLoading(false);
       setVisible(false);
     } catch (error) {
+      setLoading(false);
       setError(error)
     }
   }
@@ -146,7 +147,7 @@ export default function AddProductModal({ setVisible, visible }) {
           size="lg"
           placeholder="Recipe picture"
         />
-        {error && <Text color="red" size={14}>{error}</Text>}
+        {error && <Text color="red" size={20}>{error}</Text>}
       </Modal.Body>
       <Modal.Footer aria-label="modal-footer">
         <LoadingButton
@@ -159,9 +160,6 @@ export default function AddProductModal({ setVisible, visible }) {
         >
           Add
         </LoadingButton>
-        {/* <Button aria-label="modal-sign-btn" disabled={error !== false} auto onClick={submitProduct}>
-          Add
-        </Button> */}
       </Modal.Footer>
     </Modal>
   );

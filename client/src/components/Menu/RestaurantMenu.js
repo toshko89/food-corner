@@ -5,7 +5,6 @@ import { clearRestaurantState, setRestaurantState } from "../../app/restaurant.j
 import { getRestaurantById } from "../../services/restaurantService.js";
 import MenuCard from "./MenuCard.js";
 import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
 import RestaurantMenuNavIcons from "./RestaurantMenuNavIcons.js";
 import { Loading } from "@nextui-org/react";
 
@@ -16,8 +15,6 @@ export default function RestaurantMenu() {
   const dispatch = useDispatch();
   const currentRestaurant = useSelector(state => state.restaurant);
   const user = useSelector(state => state.auth);
-
-  console.log(currentRestaurant);
 
   useEffect(() => {
     (async function fetchData() {
@@ -33,17 +30,17 @@ export default function RestaurantMenu() {
     }
   }, [id, dispatch])
 
-  console.log(currentRestaurant);
+  console.log(currentRestaurant.products);
 
   return (
     <>
       <div className="offer-section py-4">
         <div className="container position-relative">
-          <img alt="restaurant img" src={currentRestaurant.img.secure_url} className="restaurant-pic" />
+          <img alt="restaurant img" src={currentRestaurant.img.secure_url || null} className="restaurant-pic" />
           <div className="pt-3 text-white">
-            <h2 className="font-weight-bold">{currentRestaurant.name}</h2>
-            <p className="text-white m-0">{currentRestaurant.city}</p>
-            <p className="text-white m-0">{currentRestaurant.address}</p>
+            <h2 className="font-weight-bold">{currentRestaurant.name || null}</h2>
+            <p className="text-white m-0">{currentRestaurant.city || null}</p>
+            <p className="text-white m-0">{currentRestaurant.address || null}</p>
             <div className="rating-wrap d-flex align-items-center mt-2">
               <p className="label-rating text-white ml-2 small"> (245 Reviews)</p>
             </div>
@@ -62,11 +59,12 @@ export default function RestaurantMenu() {
           </div>
         </div>
       </div>
+
       <div className="container">
         <RestaurantMenuNavIcons />
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-          {currentRestaurant ? currentRestaurant.products.map(product =>
-            <MenuCard key={product._id} product={product} />) : <Loading />}
+          {currentRestaurant.products.length > 0 ? currentRestaurant.products.map(product =>
+            <MenuCard key={product._id} product={product} />) : <Loading type="points" />}
         </Grid>
       </div>
     </>

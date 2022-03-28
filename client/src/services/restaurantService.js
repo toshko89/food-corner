@@ -1,36 +1,52 @@
 const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL;
 
 async function createNewRestaurant(formData) {
-  const restaurant = await fetch(REACT_APP_BASE_URL + '/restaurants/create', {
-    method: 'POST',
-    credentials: 'include',
-    body: formData
-  });
-  return restaurant.json();
+  try {
+    const restaurant = await fetch(REACT_APP_BASE_URL + '/restaurants/create', {
+      method: 'POST',
+      credentials: 'include',
+      body: formData
+    });
+    return restaurant.json();
+  } catch (error) {
+    throw new Error(error)
+  }
 }
 
 async function getOwnRestaurants() {
-  const restaurants = await fetch(REACT_APP_BASE_URL + '/restaurants/by-owner', {
-    method: 'GET',
-    credentials: 'include'
-  });
-  return restaurants.json();
+  try {
+    const restaurants = await fetch(REACT_APP_BASE_URL + '/restaurants/by-owner', {
+      method: 'GET',
+      credentials: 'include'
+    });
+    return restaurants.json();
+  } catch (error) {
+    throw new Error(error)
+  }
 }
 
 async function getAllRestaurants() {
-  const restaurants = await fetch(REACT_APP_BASE_URL + '/restaurants', {
-    method: 'GET',
-    credentials: 'include'
-  });
-  return restaurants.json();
+  try {
+    const restaurants = await fetch(REACT_APP_BASE_URL + '/restaurants', {
+      method: 'GET',
+      credentials: 'include'
+    });
+    return restaurants.json();
+  } catch (error) {
+    throw new Error(error)
+  }
 }
 
 async function getRestaurantById(id) {
-  const restaurants = await fetch(REACT_APP_BASE_URL + `/restaurants/${id}`, {
-    method: 'GET',
-    credentials: 'include'
-  });
-  return restaurants.json();
+  try {
+    const restaurants = await fetch(REACT_APP_BASE_URL + `/restaurants/${id}`, {
+      method: 'GET',
+      credentials: 'include'
+    });
+    return restaurants.json();
+  } catch (error) {
+    throw new Error(error)
+  }
 }
 
 export { createNewRestaurant, getOwnRestaurants, getAllRestaurants, getRestaurantById }
