@@ -75,5 +75,16 @@ productsController.put('/:restaurantId/edit-product/:productId', authentication,
   }
 })
 
+productsController.delete('/:restaurantId/delete-product/:productId', authentication, isOwnder, (req, res) => {
+  const { restaurantId, productId } = req.params;
+  const restaurant = getRestaurantByID(restaurantId);
+    
+  try {
+    res.status(200)
+  } catch (error) {
+
+  }
+})
+
 
 module.exports = productsController;

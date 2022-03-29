@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from "react-router-dom";
 import { clearRestaurantState, setRestaurantState } from "../../app/restaurant.js";
 import { getRestaurantById } from "../../services/restaurantService.js";
@@ -7,6 +7,7 @@ import MenuCard from "./MenuCard.js";
 import Grid from '@mui/material/Grid';
 import RestaurantMenuNavIcons from "./RestaurantMenuNavIcons.js";
 import { Loading } from "@nextui-org/react";
+import { deleteProduct } from "../../services/productService.js";
 
 
 export default function RestaurantMenu() {
@@ -15,6 +16,7 @@ export default function RestaurantMenu() {
   const dispatch = useDispatch();
   const currentRestaurant = useSelector(state => state.restaurant);
   const user = useSelector(state => state.auth);
+  const isOwner = currentRestaurant.owner === user._id;
 
   useEffect(() => {
     (async function fetchData() {
@@ -22,6 +24,7 @@ export default function RestaurantMenu() {
         const res = await getRestaurantById(id);
         dispatch(setRestaurantState(res))
       } catch (error) {
+        console.log(error);
         throw new Error(error)
       }
     })();
@@ -30,7 +33,12 @@ export default function RestaurantMenu() {
     }
   }, [id, dispatch])
 
-  console.log(currentRestaurant.products);
+  async function deleteProductHandler(productId) {
+    console.log(id);
+    console.log(productId);
+    const res = await deleteProduct(id, productId);
+    console.log(res);
+  }
 
   return (
     <>
@@ -61,10 +69,14 @@ export default function RestaurantMenu() {
       </div>
 
       <div className="container">
-        <RestaurantMenuNavIcons />
+        <RestaurantMenuNavIcons isOwner={isOwner} />
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-          {currentRestaurant.products.length > 0 ? currentRestaurant.products.map(product =>
-            <MenuCard key={product._id} product={product} />) : <Loading type="points" />}
+          {currentRestaurant.products.length > 0
+            ? currentRestaurant.products.map(product =>
+              <MenuCard key={product._id}
+                deleteProductHandler={deleteProductHandler}
+                product={product} />)
+            : <Loading type="points" />}
         </Grid>
       </div>
     </>

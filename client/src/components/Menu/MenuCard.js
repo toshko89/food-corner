@@ -11,7 +11,8 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 
 
-export default function MenuCard({ product }) {
+export default function MenuCard({ product, deleteProductHandler }) {
+  console.log(deleteProductHandler)
   return (
     <Grid item xs={2} sm={4} md={4} >
       <Card sx={{ maxWidth: 350 }}>
@@ -42,7 +43,7 @@ export default function MenuCard({ product }) {
           <IconButton aria-label="add to favorites">
             <ConstructionRoundedIcon fontSize="large" />
           </IconButton>
-          <IconButton aria-label="share">
+          <IconButton onClick={() => deleteProductHandler(product._id)} aria-label="share">
             <DeleteForeverRoundedIcon fontSize="large" />
           </IconButton>
         </CardActions>
