@@ -63,6 +63,11 @@ export default function AddProductModal({ setVisible, visible }) {
     try {
       setLoading(true);
       const res = await addProduct(id, data);
+      if (res.message) {
+        setError(res.message);
+        setLoading(false);
+        return;
+      }
       dispatch(setRestaurantState(res));
       setLoading(false);
       setVisible(false);

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { clearRestaurantState, setRestaurantState } from "../../app/restaurant.js";
 import { getRestaurantById } from "../../services/restaurantService.js";
 import MenuCard from "./MenuCard.js";
@@ -17,13 +17,13 @@ export default function RestaurantMenu() {
   const currentRestaurant = useSelector(state => state.restaurant);
   const user = useSelector(state => state.auth);
   const isOwner = currentRestaurant.owner === user._id;
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async function fetchData() {
       try {
         const res = await getRestaurantById(id);
         if (res.error) {
-          console.log(res);
           return;
         }
         dispatch(setRestaurantState(res));
@@ -40,14 +40,17 @@ export default function RestaurantMenu() {
   async function deleteProductHandler(productId) {
     try {
       const res = await deleteProduct(id, productId);
-      console.log(res);
-      if (res.error) {
-        console.log(res);
+      if (res.message) {
+        if (res.message === 'Please log in') {
+          localStorage.clear('userState');
+          navigate('/login');
+        } else if (res.message === 'Not authorized to edit this restaurant') {
+          navigate('/');
+        }
         return;
       }
       dispatch(setRestaurantState(res));
     } catch (error) {
-      console.log(error);
       throw new Error(error)
     }
   }

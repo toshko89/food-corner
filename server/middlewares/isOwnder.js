@@ -10,7 +10,7 @@ async function isOwnder(req, res, next) {
     next()
   } catch (error) {
     console.log(error);
-    res.status(401).send({ error: error.message });
+    res.status(401).send({ message: error.message });
   }
 }
 
