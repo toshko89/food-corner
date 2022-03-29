@@ -19,6 +19,7 @@ export default function AddProductModal({ setVisible, visible }) {
     setFile([]);
     setError(false);
   };
+
   const { id } = useParams();
   const dispatch = useDispatch();
   const [recipe, setRecipe] = useState({

@@ -10,9 +10,7 @@ import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 
-
 export default function MenuCard({ product, deleteProductHandler }) {
-  console.log(deleteProductHandler)
   return (
     <Grid item xs={2} sm={4} md={4} >
       <Card sx={{ maxWidth: 350 }}>

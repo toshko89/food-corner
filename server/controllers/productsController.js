@@ -2,9 +2,9 @@ const productsController = require('express').Router();
 const formidable = require('formidable');
 const { authentication } = require('../middlewares/authMiddleware.js');
 const isOwnder = require('../middlewares/isOwnder.js');
-const { createProduct, getProductById } = require('../services/productService.js');
+const { createProduct, getProductById, deleteProductById } = require('../services/productService.js');
 const { getRestaurantByID } = require('../services/restaurantService.js');
-const { cloudinaryUpload } = require('../utils/cloudinary.js');
+const { cloudinaryUpload, cloudinaryDelete } = require('../utils/cloudinary.js');
 const formParse = require('../utils/formParse.js');
 
 productsController.post('/:restaurantId/add-product', authentication, isOwnder, async (req, res) => {
@@ -75,14 +75,19 @@ productsController.put('/:restaurantId/edit-product/:productId', authentication,
   }
 })
 
-productsController.delete('/:restaurantId/delete-product/:productId', authentication, isOwnder, (req, res) => {
+productsController.delete('/:restaurantId/delete-product/:productId', authentication, isOwnder, async (req, res) => {
   const { restaurantId, productId } = req.params;
-  const restaurant = getRestaurantByID(restaurantId);
-    
+  // const product = await getProductById(productId);
   try {
-    res.status(200)
+    const restaurant = await getRestaurantByID(restaurantId);
+    const product = restaurant.products.find(x => x._id.toString() === productId);
+    await cloudinaryDelete(product.img.public_id);
+    restaurant.products = restaurant.products.filter(p => p._id.toString() !== productId);
+    await deleteProductById(productId);
+    await restaurant.save();
+    res.status(200).send(restaurant);
   } catch (error) {
-
+    res.status(400).send({ message: error.message });
   }
 })
 

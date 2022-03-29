@@ -9,11 +9,11 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import AddProductModal from './AddProductModal.js';
 import { useState } from 'react';
 
-export default function RestaurantMenuNavIcons({isOwner}) {
+export default function RestaurantMenuNavIcons({ isOwner }) {
 
   const [visible, setVisible] = useState(false);
   const handler = () => setVisible(true);
- 
+  
   return (
     <>
       {isOwner && <AddProductModal setVisible={setVisible} visible={visible} />}
