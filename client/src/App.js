@@ -10,9 +10,29 @@ import AllRestaurants from './components/Restaurants/AllRestaurants.js';
 import CreateRestaurant from './components/Restaurants/CreateRestaurant.js';
 import MyRestaurants from './components/Restaurants/MyRestaurants.js';
 import RestaurantMenu from './components/Menu/RestaurantMenu.js'
+import { useEffect } from 'react';
+import { verify } from './services/authService.js';
+import { useDispatch } from 'react-redux';
+import { loginStateChange } from './app/auth.js';
+
 
 
 function App() {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async function fetchData() {
+      try {
+        const res = await verify();
+        console.log(res);
+        // dispatch(loginStateChange(res))
+      } catch (error) {
+        throw new Error(error)
+      }
+    })();
+  },[])
+
   return (
     <>
       <Header />
@@ -23,11 +43,11 @@ function App() {
         <Route path="/logout" element={<Logout />}></Route>
         <Route path="/restaurants" element={<AllRestaurants />}></Route>
         <Route path="/restaurants/:id" element={<RestaurantMenu />}></Route>
-        
+
         <Route path="/my-account/:id" element={<Profile />}></Route>
         <Route path="/my-account/:id/create-restaurant" element={<CreateRestaurant />}></Route>
         <Route path='/my-account/:id/my-restaurants' element={<MyRestaurants />}></Route>
-        <Route path='*' element={<Navigate to="/" replace/>}></Route>
+        <Route path='*' element={<Navigate to="/" replace />}></Route>
       </Routes>
       <Footer />
     </>

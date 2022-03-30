@@ -40,6 +40,19 @@ async function logout() {
   }
 }
 
+async function verify() {
+  try {
+    const response = await fetch(REACT_APP_BASE_URL + '/users/verify', {
+      method: 'GET',
+      credentials: 'include',
+    });
+    return response.json();
+  }
+  catch (error) {
+    throw new Error(error)
+  }
+}
+
 async function changeUserData(userId, userData) {
   try {
     const response = await fetch(REACT_APP_BASE_URL + `/users/${userId}`, {
@@ -54,4 +67,4 @@ async function changeUserData(userId, userData) {
   }
 }
 
-export { register, login, logout, changeUserData }
+export { register, login, logout, changeUserData, verify }

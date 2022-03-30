@@ -1,5 +1,6 @@
 const config = require('../config/config.js');
 const { authentication } = require('../middlewares/authMiddleware.js');
+const checkUser = require('../middlewares/checkUser.js');
 const User = require('../models/User.js');
 const { updateUser } = require('../services/authService.js');
 const authService = require('../services/authService.js');
@@ -83,6 +84,13 @@ userController.put('/:id', authentication, async (req, res) => {
   } catch (error) {
     res.status(400).send({ message: error.message })
   }
+})
+
+userController.get('/verify', checkUser, async (req, res) => {
+  if (req.user) {
+    console.log(req.user);
+  }
+  res.status(200)
 })
 
 userController.get('/logout', (req, res) => {
