@@ -1,17 +1,20 @@
 const jwt = require('jsonwebtoken');
+const config = require('../config/config.js');
+const { createToken, getUserById } = require('../services/authService.js');
 
-const { COOKIE_NAME, SECRET } = require('../config');
-const { createToken } = require('../utils/jwt');
-
-module.exports = () => (req, res, next) => {
-    const token = req.cookies[COOKIE_NAME];
+async function checkUser(req, res, next) {
+    const reqToken = req.cookies[config.COOKIE_NAME];
     try {
-        const decoded = jwt.verify(token, SECRET);
-        res.cookie(COOKIE_NAME, createToken({ id: decoded.id }), { httpOnly: true });
-        req.decoded = decoded;
+        const decoded = jwt.verify(reqToken, config.SECRET);
+        const user = await getUserById(decoded._id);
+        const { token } = createToken(user);
+        res.cookie(config.COOKIE_NAME, token, { httpOnly: true });
+        req.user = user;
         next();
     } catch (error) {
-        req.decoded = undefined;
+        req.user = undefined;
         next();
     }
 }
+
+module.exports = checkUser;

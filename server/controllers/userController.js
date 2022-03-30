@@ -87,10 +87,16 @@ userController.put('/:id', authentication, async (req, res) => {
 })
 
 userController.get('/verify', checkUser, async (req, res) => {
-  if (req.user) {
-    console.log(req.user);
+  try {
+    let userData = {}
+    if (req.user) {
+      userData = passwordRemover(req.user);
+    }
+    res.status(200).send(userData)
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({ message: error.message });
   }
-  res.status(200)
 })
 
 userController.get('/logout', (req, res) => {

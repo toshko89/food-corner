@@ -8,6 +8,8 @@ const addUser = (email, password) => {
   return user.save();
 };
 
+const getUserById = (userId) => User.findById(userId);
+
 const updateUser = (userId, userData) =>
   User.findByIdAndUpdate(userId, userData, { returnDocument: 'after', runValidators: true })
 
@@ -45,7 +47,8 @@ const authService = {
   login,
   updateUser,
   createToken,
-  verifyToken
+  verifyToken,
+  getUserById
 }
 
 module.exports = authService;

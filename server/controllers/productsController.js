@@ -16,9 +16,32 @@ productsController.post('/:restaurantId/add-product', authentication, isOwnder, 
       throw new Error('Please login first');
     }
     const [data, files] = await formParse(req, form);
+
+    const ingredients = data.ingredients.split(',').map(x => x.trim())
+
+    if (data.name.length < 5) {
+      throw new Error('Name must be at least 5 characters');
+    }
+    if (ingredients.length < 3) {
+      throw new Error('Product ingredients must be at last 3!');
+    }
+    if (!data.price) {
+      throw new Error('Please add price!');
+    }
+    if (!data.weight) {
+      throw new Error('Please add weight!');
+    }
+    if (!data.category) {
+      throw new Error('Category is required!');
+    }
+
     for (const file of Object.values(files)) {
       const cloudinaryLink = await cloudinaryUpload(file.filepath);
       imgURL.push({ secure_url: cloudinaryLink.secure_url, public_id: cloudinaryLink.public_id });
+    }
+
+    if (imgURL.length === 0) {
+      throw new Error('At least one image is required!');
     }
 
     const productData = {
@@ -27,26 +50,7 @@ productsController.post('/:restaurantId/add-product', authentication, isOwnder, 
       weight: data.weight,
       img: imgURL[0],
       category: data.category,
-      ingredients: data.ingredients.split(',').map(x => x.trim())
-    }
-
-    if (productData.name.length < 5) {
-      throw new Error('Name must be at least 5 characters');
-    }
-    if (productData.ingredients.length < 3) {
-      throw new Error('Product ingredients must be at last 3!');
-    }
-    if (!productData.price) {
-      throw new Error('Please add price!');
-    }
-    if (!productData.weight) {
-      throw new Error('Please add weight!');
-    }
-    if (!productData.img) {
-      throw new Error('At least one image is required!')
-    }
-    if (!productData.category) {
-      throw new Error('Category is required!');
+      ingredients
     }
 
     const restaurant = await getRestaurantByID(restaurantId);

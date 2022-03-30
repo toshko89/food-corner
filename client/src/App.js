@@ -24,14 +24,13 @@ function App() {
   useEffect(() => {
     (async function fetchData() {
       try {
-        const res = await verify();
-        console.log(res);
-        // dispatch(loginStateChange(res))
+        const user = await verify();
+        dispatch(loginStateChange(user))
       } catch (error) {
         throw new Error(error)
       }
     })();
-  },[])
+  }, [dispatch])
 
   return (
     <>
