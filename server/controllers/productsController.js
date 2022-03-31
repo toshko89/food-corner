@@ -66,7 +66,7 @@ productsController.post('/:restaurantId/add-product', authentication, isOwnder, 
   }
 })
 
-productsController.put('/:restaurantId/edit-product/:productId', authentication, isOwnder, (req, res) => {
+productsController.put('/:restaurantId/edit-product/:productId', authentication, isOwnder, async (req, res) => {
   const { restaurantId, productId } = req.params;
   const form = formidable({ multiples: true });
   const imgURL = [];
@@ -115,12 +115,9 @@ productsController.put('/:restaurantId/edit-product/:productId', authentication,
       ingredients
     }
 
-    await updateProduct(productId,productData)
-
+    await updateProduct(productId, productData)
     const restaurant = await getRestaurantByID(restaurantId);
-
-    console.log(restaurant);
-
+    res.status(200).send(restaurant)
   } catch (error) {
     console.log(error);
     res.status(400).send({ message: error.message });

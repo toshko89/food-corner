@@ -77,8 +77,6 @@ export default function AddProductModal({ setVisible, visible, product }) {
       setLoading(true);
       if (product) {
         res = await editProduct(id, product._id, data);
-
-        console.log(res);
       } else {
         res = await addProduct(id, data);
       }
