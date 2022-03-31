@@ -15,8 +15,6 @@ import { verify } from './services/authService.js';
 import { useDispatch } from 'react-redux';
 import { loginStateChange } from './app/auth.js';
 
-
-
 function App() {
 
   const dispatch = useDispatch();
@@ -30,7 +28,7 @@ function App() {
         throw new Error(error)
       }
     })();
-  }, [dispatch])
+  }, [dispatch]);
 
   return (
     <>

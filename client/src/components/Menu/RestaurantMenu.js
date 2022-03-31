@@ -45,10 +45,11 @@ export default function RestaurantMenu() {
           localStorage.clear('userState');
           navigate('/login');
         } else if (res.message === 'Not authorized to edit this restaurant') {
-          navigate('/');
+          navigate('/login');
         }
         return;
       }
+      dispatch(clearRestaurantState());
       dispatch(setRestaurantState(res));
     } catch (error) {
       throw new Error(error)
@@ -89,6 +90,7 @@ export default function RestaurantMenu() {
           {currentRestaurant.products?.length > 0
             ? currentRestaurant.products.map(product =>
               <MenuCard key={product._id}
+                isOwner={isOwner}
                 deleteProductHandler={deleteProductHandler}
                 product={product} />)
             : <Loading type="points" />}

@@ -1,14 +1,14 @@
 import { Modal, Text, Input } from "@nextui-org/react";
 import { LoadingButton } from '@mui/lab';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux';
 import { useParams } from "react-router-dom";
 import { setRestaurantState } from "../../app/restaurant.js";
-import { addProduct } from "../../services/productService.js";
+import { addProduct, editProduct } from "../../services/productService.js";
 import stringCount from "../../utils/minStringCount.js";
 import SendIcon from '@mui/icons-material/Send';
 
-export default function AddProductModal({ setVisible, visible }) {
+export default function AddProductModal({ setVisible, visible, product }) {
 
   const closeHandler = () => {
     setVisible(false);
@@ -35,19 +35,29 @@ export default function AddProductModal({ setVisible, visible }) {
     setFile(file);
   }
 
+  useEffect(() => {
+    if (product) {
+      setRecipe({
+        name: product.name.toString(),
+        ingredients: product.ingredients.join(','),
+        weight: product.weight.toString(),
+        price: product.price.toString(),
+        category: product.category.toString()
+      })
+    }
+  }, [product])
+
   async function submitProduct() {
     if (recipe.name.trim() === '' || recipe.ingredients.trim() === '' || recipe.weight.trim() === ''
       || recipe.price.trim() === '' || recipe.category.trim() === '') {
       setError('All fields are required');
       return;
     }
-
     if (!stringCount(recipe.ingredients)) {
       setError('At least 3 ingredients');
       return;
     }
-
-    if (!file) {
+    if (file.length === 0) {
       setError('Please add product photo');
       return;
     }
@@ -60,9 +70,18 @@ export default function AddProductModal({ setVisible, visible }) {
     data.append('price', recipe.price);
     data.append('category', recipe.category)
 
+
+    let res;
+
     try {
       setLoading(true);
-      const res = await addProduct(id, data);
+      if (product) {
+        res = await editProduct(id, product._id, data);
+
+        console.log(res);
+      } else {
+        res = await addProduct(id, data);
+      }
       if (res.message) {
         setError(res.message);
         setLoading(false);
@@ -81,7 +100,7 @@ export default function AddProductModal({ setVisible, visible }) {
     <Modal aria-label="modal-title" open={visible} onClose={closeHandler}>
       <Modal.Header aria-label="modal-header">
         <Text b id="modal-title" size={20}>
-          Add recipe
+          {product ? 'Edit recipe' : 'Add recipe'}
         </Text>
       </Modal.Header>
       <Modal.Body aria-label="modal-body">
@@ -164,7 +183,7 @@ export default function AddProductModal({ setVisible, visible }) {
           loadingPosition="end"
           variant="contained"
         >
-          Add
+          {product ? 'Edit' : 'Add'}
         </LoadingButton>
       </Modal.Footer>
     </Modal>

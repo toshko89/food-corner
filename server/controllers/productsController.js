@@ -2,7 +2,7 @@ const productsController = require('express').Router();
 const formidable = require('formidable');
 const { authentication } = require('../middlewares/authMiddleware.js');
 const isOwnder = require('../middlewares/isOwnder.js');
-const { createProduct, getProductById, deleteProductById } = require('../services/productService.js');
+const { createProduct, getProductById, deleteProductById, updateProduct } = require('../services/productService.js');
 const { getRestaurantByID } = require('../services/restaurantService.js');
 const { cloudinaryUpload, cloudinaryDelete } = require('../utils/cloudinary.js');
 const formParse = require('../utils/formParse.js');
@@ -70,8 +70,56 @@ productsController.put('/:restaurantId/edit-product/:productId', authentication,
   const { restaurantId, productId } = req.params;
   const form = formidable({ multiples: true });
   const imgURL = [];
-  const product = getProductById(productId);
   try {
+    if (!req.user) {
+      throw new Error('Please login first');
+    }
+    const [data, files] = await formParse(req, form);
+    const product = await getProductById(productId);
+
+    const ingredients = data.ingredients.split(',').map(x => x.trim())
+
+    if (data.name.length < 5) {
+      throw new Error('Name must be at least 5 characters');
+    }
+    if (ingredients.length < 3) {
+      throw new Error('Product ingredients must be at last 3!');
+    }
+    if (!data.price) {
+      throw new Error('Please add price!');
+    }
+    if (!data.weight) {
+      throw new Error('Please add weight!');
+    }
+    if (!data.category) {
+      throw new Error('Category is required!');
+    }
+
+    for (const file of Object.values(files)) {
+      const cloudinaryLink = await cloudinaryUpload(file.filepath);
+      imgURL.push({ secure_url: cloudinaryLink.secure_url, public_id: cloudinaryLink.public_id });
+    }
+
+    if (imgURL.length === 0) {
+      throw new Error('At least one image is required!');
+    }
+
+    await cloudinaryDelete(product.img.public_id);
+
+    const productData = {
+      name: data.name,
+      price: data.price,
+      weight: data.weight,
+      img: imgURL[0],
+      category: data.category,
+      ingredients
+    }
+
+    await updateProduct(productId,productData)
+
+    const restaurant = await getRestaurantByID(restaurantId);
+
+    console.log(restaurant);
 
   } catch (error) {
     console.log(error);

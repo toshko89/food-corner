@@ -12,10 +12,14 @@ import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import { Modal, Button, Text } from "@nextui-org/react";
 import { LoadingButton } from '@mui/lab';
 import { useState } from 'react';
+import AddProductModal from './AddProductModal.js';
 
-export default function MenuCard({ product, deleteProductHandler }) {
+export default function MenuCard({ product, deleteProductHandler, isOwner }) {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const handlerEditModal = () => setEditModal(true);
+
   const handler = () => setVisible(true);
   const closeHandler = () => {
     setVisible(false);
@@ -50,17 +54,19 @@ export default function MenuCard({ product, deleteProductHandler }) {
               {`(${product.weight}g)`}
             </Typography>
           </CardContent>
-          <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites">
-              <ConstructionRoundedIcon fontSize="large" />
-            </IconButton>
-            <IconButton onClick={handler} aria-label="share">
-              <DeleteForeverRoundedIcon fontSize="large" />
-            </IconButton>
-          </CardActions>
+          {isOwner &&
+            <CardActions disableSpacing>
+              <IconButton onClick={handlerEditModal} aria-label="add to favorites">
+                <ConstructionRoundedIcon fontSize="large" />
+              </IconButton>
+              <IconButton onClick={handler} aria-label="share">
+                <DeleteForeverRoundedIcon fontSize="large" />
+              </IconButton>
+            </CardActions>
+          }
         </Card>
       </Grid >
-
+      {isOwner && <AddProductModal setVisible={setEditModal} visible={editModal} product={product} />}
       <Modal
         closeButton
         aria-labelledby="modal-title"
