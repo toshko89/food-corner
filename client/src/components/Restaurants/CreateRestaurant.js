@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import { createNewRestaurant } from "../../services/restaurantService.js";
 import { workTime } from "../../utils/workingTimeCheck.js";
 
@@ -14,7 +14,7 @@ export default function CreateRestaurant() {
   });
   const user = useSelector(state => state.auth._id);
   const userCredentials = useSelector(state => state.auth.name || state.auth.email);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   function handleFileChange(e) {
     const file = e.target.files[0];

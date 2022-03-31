@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Outlet } from "react-router-dom";
 import { clearRestaurantState, setRestaurantState } from "../../app/restaurant.js";
 import { getRestaurantById } from "../../services/restaurantService.js";
 import MenuCard from "./MenuCard.js";
@@ -23,7 +23,7 @@ export default function RestaurantMenu() {
     (async function fetchData() {
       try {
         const res = await getRestaurantById(id);
-        if (res.error) {
+        if (res.message) {
           return;
         }
         dispatch(setRestaurantState(res));
@@ -83,9 +83,9 @@ export default function RestaurantMenu() {
           </div>
         </div>
       </div>
-
       <div className="container">
-        <RestaurantMenuNavIcons isOwner={isOwner} />
+        <RestaurantMenuNavIcons isOwner={isOwner} restaurant={currentRestaurant} />
+        <Outlet />
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
           {currentRestaurant.products?.length > 0
             ? currentRestaurant.products.map(product =>

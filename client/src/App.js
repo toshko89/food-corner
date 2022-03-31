@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
 import Login from './components/auth/Login.js';
 import Logout from './components/auth/Logout.js';
 import Profile from './components/auth/Profile.js';
@@ -14,6 +14,7 @@ import { useEffect } from 'react';
 import { verify } from './services/authService.js';
 import { useDispatch } from 'react-redux';
 import { loginStateChange } from './app/auth.js';
+
 
 function App() {
 
@@ -39,8 +40,9 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/logout" element={<Logout />}></Route>
         <Route path="/restaurants" element={<AllRestaurants />}></Route>
-        <Route path="/restaurants/:id" element={<RestaurantMenu />}></Route>
-
+        <Route path="/restaurants/:id" element={<RestaurantMenu />}>
+          <Route path="edit" element={<CreateRestaurant />} />
+        </Route>
         <Route path="/my-account/:id" element={<Profile />}></Route>
         <Route path="/my-account/:id/create-restaurant" element={<CreateRestaurant />}></Route>
         <Route path='/my-account/:id/my-restaurants' element={<MyRestaurants />}></Route>
