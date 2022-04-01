@@ -8,9 +8,13 @@ const getOwnRestaurants = (userId) => Restaurant.find({ owner: userId }).lean();
 
 const getRestaurantByID = (restaurantId) => Restaurant.findById(restaurantId).populate('products');
 
+const updateRestaurant = (restaurantId, data) =>
+  Restaurant.findByIdAndUpdate(restaurantId, data, { returnDocument: 'after', runValidators: true });
+
 module.exports = {
   createRestaurant,
   getAllRestaurants,
   getRestaurantByID,
-  getOwnRestaurants
+  getOwnRestaurants,
+  updateRestaurant
 }

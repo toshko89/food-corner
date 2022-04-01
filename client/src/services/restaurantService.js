@@ -37,6 +37,20 @@ async function getAllRestaurants() {
   }
 }
 
+async function editRestaurnat(restaurantId, formData) {
+  console.log(restaurantId);
+  try {
+    const restaurant = await fetch(REACT_APP_BASE_URL + `/restaurants/${restaurantId}`, {
+      method: 'PUT',
+      credentials: 'include',
+      body: formData
+    });
+    return restaurant.json();
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 async function getRestaurantById(id) {
   try {
     const restaurants = await fetch(REACT_APP_BASE_URL + `/restaurants/${id}`, {
@@ -49,4 +63,4 @@ async function getRestaurantById(id) {
   }
 }
 
-export { createNewRestaurant, getOwnRestaurants, getAllRestaurants, getRestaurantById }
+export { createNewRestaurant, getOwnRestaurants, getAllRestaurants, getRestaurantById, editRestaurnat }

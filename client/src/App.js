@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate, Outlet } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/auth/Login.js';
 import Logout from './components/auth/Logout.js';
 import Profile from './components/auth/Profile.js';
@@ -41,7 +41,7 @@ function App() {
         <Route path="/logout" element={<Logout />}></Route>
         <Route path="/restaurants" element={<AllRestaurants />}></Route>
         <Route path="/restaurants/:id" element={<RestaurantMenu />}>
-          <Route path="edit" element={<CreateRestaurant />} />
+          <Route path="edit" element={<CreateRestaurant edit={true} />} />
         </Route>
         <Route path="/my-account/:id" element={<Profile />}></Route>
         <Route path="/my-account/:id/create-restaurant" element={<CreateRestaurant />}></Route>

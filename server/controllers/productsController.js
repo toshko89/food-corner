@@ -1,13 +1,13 @@
 const productsController = require('express').Router();
 const formidable = require('formidable');
 const { authentication } = require('../middlewares/authMiddleware.js');
-const isOwnder = require('../middlewares/isOwnder.js');
+const isOwner = require('../middlewares/isOwner.js');
 const { createProduct, getProductById, deleteProductById, updateProduct } = require('../services/productService.js');
 const { getRestaurantByID } = require('../services/restaurantService.js');
 const { cloudinaryUpload, cloudinaryDelete } = require('../utils/cloudinary.js');
 const formParse = require('../utils/formParse.js');
 
-productsController.post('/:restaurantId/add-product', authentication, isOwnder, async (req, res) => {
+productsController.post('/:restaurantId/add-product', authentication, isOwner, async (req, res) => {
   const { restaurantId } = req.params;
   const form = formidable({ multiples: true });
   const imgURL = [];
@@ -66,7 +66,7 @@ productsController.post('/:restaurantId/add-product', authentication, isOwnder, 
   }
 })
 
-productsController.put('/:restaurantId/edit-product/:productId', authentication, isOwnder, async (req, res) => {
+productsController.put('/:restaurantId/edit-product/:productId', authentication, isOwner, async (req, res) => {
   const { restaurantId, productId } = req.params;
   const form = formidable({ multiples: true });
   const imgURL = [];
@@ -124,7 +124,7 @@ productsController.put('/:restaurantId/edit-product/:productId', authentication,
   }
 })
 
-productsController.delete('/:restaurantId/delete-product/:productId', authentication, isOwnder, async (req, res) => {
+productsController.delete('/:restaurantId/delete-product/:productId', authentication, isOwner, async (req, res) => {
   const { restaurantId, productId } = req.params;
   // const product = await getProductById(productId);
   try {

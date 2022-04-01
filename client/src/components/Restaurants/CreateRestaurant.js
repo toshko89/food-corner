@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import { createNewRestaurant } from "../../services/restaurantService.js";
+import { LoadingButton } from '@mui/lab';
+import SendIcon from '@mui/icons-material/Send';
+import { Link, useNavigate } from "react-router-dom";
+import { createNewRestaurant, editRestaurnat } from "../../services/restaurantService.js";
 import { workTime } from "../../utils/workingTimeCheck.js";
 
-export default function CreateRestaurant() {
+export default function CreateRestaurant({ edit }) {
 
   const [error, setError] = useState(null);
   const [file, setFile] = useState([]);
@@ -12,7 +14,9 @@ export default function CreateRestaurant() {
     name: '', categorie: '', city: '',
     address: '', workingHours: ''
   });
+  const [loading, setLoading] = useState(false);
   const user = useSelector(state => state.auth._id);
+  const currentRestaurant = useSelector(state => state.restaurant);
   const userCredentials = useSelector(state => state.auth.name || state.auth.email);
   const navigate = useNavigate();
 
@@ -20,6 +24,18 @@ export default function CreateRestaurant() {
     const file = e.target.files[0];
     setFile(file);
   }
+
+  useEffect(() => {
+    if (edit) {
+      setRestaurant({
+        name: currentRestaurant.name,
+        categorie: currentRestaurant.categorie,
+        city: currentRestaurant.city,
+        address: currentRestaurant.address,
+        workingHours: currentRestaurant.working_hours
+      })
+    }
+  }, [currentRestaurant])
 
   async function createRestaurant(e) {
     e.preventDefault();
@@ -51,15 +67,26 @@ export default function CreateRestaurant() {
       data.append('city', restaurant.city);
       data.append('workingHours', restaurant.workingHours);
       data.append('OwnerID', user);
-      const newRestaurant = await createNewRestaurant(data);
+
+      let newRestaurant;
+
+      if (edit) {
+        setLoading(true);
+        newRestaurant = await editRestaurnat(currentRestaurant._id, data);
+      } else {
+        setLoading(true);
+        newRestaurant = await createNewRestaurant(data);
+      }
 
       if (newRestaurant.message) {
         if (newRestaurant.message.includes('E11000')) {
           setError('Restaurant name is taken, please choose unique one');
+          setLoading(false);
           setRestaurant({ ...restaurant, name: '' });
           setFile([]);
           return;
         }
+        setLoading(false);
         setError(newRestaurant.message);
         setFile([]);
         return;
@@ -68,6 +95,7 @@ export default function CreateRestaurant() {
       navigate(`/my-account/${user}/my-restaurants`);
 
     } catch (error) {
+      setLoading(false);
       setError(error);
     }
   }
@@ -108,7 +136,7 @@ export default function CreateRestaurant() {
         </div>
         <div className="col-md-8 mb-3">
           <div className="rounded shadow-sm p-4 bg-white">
-            <h5 className="mb-4">Create the best restaurant</h5>
+            <h5 className="mb-4">{edit ? `Edit restaurant "${currentRestaurant.name}"` : 'Create the best restaurant'}</h5>
             <div id="edit_profile">
               <div>
                 <form onSubmit={createRestaurant}>
@@ -153,7 +181,17 @@ export default function CreateRestaurant() {
                       onBlur={() => setError(null)} onChange={handleFileChange} />
                   </div>
                   <div className="text-center">
-                    <button type="submit" className="btn btn-primary btn-block">Create Restaurant</button>
+                    <LoadingButton
+                      disabled={error !== null}
+                      endIcon={<SendIcon />}
+                      onClick={createRestaurant}
+                      loading={loading}
+                      loadingPosition="end"
+                      variant="contained"
+                    >
+                      {edit ? 'Edit Restaurant' : 'Create Restaurant'}
+                    </LoadingButton>
+                    {/* <button type="submit" className="btn btn-primary btn-block">{edit ? 'Edit Restaurant' : 'Create Restaurant'}</button> */}
                   </div>
                 </form>
               </div>

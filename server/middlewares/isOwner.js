@@ -1,9 +1,11 @@
 const { getRestaurantByID } = require('../services/restaurantService.js')
 
-async function isOwnder(req, res, next) {
+async function isOwner(req, res, next) {
   const { restaurantId } = req.params;
+  console.log(restaurantId);
   try {
     const restaurant = await getRestaurantByID(restaurantId);
+    console.log(restaurant);
     if (restaurant.owner.toString() !== req.user?._id) {
       throw new Error('Not authorized to edit this restaurant')
     }
@@ -14,4 +16,4 @@ async function isOwnder(req, res, next) {
   }
 }
 
-module.exports = isOwnder;
+module.exports = isOwner;
