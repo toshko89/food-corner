@@ -25,6 +25,18 @@ async function getOwnRestaurants() {
   }
 }
 
+async function deleteRestaurantById(id) {
+  try {
+    const restaurant = await fetch(REACT_APP_BASE_URL + `/restaurants/${id}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    });
+    return restaurant.json();
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 async function getAllRestaurants() {
   try {
     const restaurants = await fetch(REACT_APP_BASE_URL + '/restaurants', {
@@ -62,4 +74,4 @@ async function getRestaurantById(id) {
   }
 }
 
-export { createNewRestaurant, getOwnRestaurants, getAllRestaurants, getRestaurantById, editRestaurnat }
+export { createNewRestaurant, getOwnRestaurants, getAllRestaurants, getRestaurantById, editRestaurnat, deleteRestaurantById }

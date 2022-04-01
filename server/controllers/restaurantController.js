@@ -2,7 +2,7 @@ const restaurantController = require('express').Router();
 const formidable = require('formidable');
 const { authentication } = require('../middlewares/authMiddleware.js');
 const isOwner = require('../middlewares/isOwner.js');
-const { createRestaurant, getRestaurantByID, getOwnRestaurants, getAllRestaurants, updateRestaurant } = require('../services/restaurantService.js');
+const { createRestaurant, getRestaurantByID, getOwnRestaurants, getAllRestaurants, updateRestaurant, deleteRestaurantById } = require('../services/restaurantService.js');
 const { cloudinaryUpload, cloudinaryDelete } = require('../utils/cloudinary.js');
 const formParse = require('../utils/formParse.js');
 
@@ -132,6 +132,20 @@ restaurantController.get('/by-owner', authentication, async (req, res) => {
     res.status(400).send({ message: error.message });
   }
 })
+
+restaurantController.delete('/:restaurantId', authentication, isOwner, async (req, res) => {
+  const { restaurantId } = req.params;
+  try {
+      const restaurant = await getRestaurantByID(restaurantId);
+      const imgId = restaurant.img.public_id;
+      await cloudinaryDelete(imgId);
+      await deleteRestaurantById(restaurantId);
+      res.status(200).send({ message: 'Success' });
+  } catch (error) {
+      console.log(error);
+      res.status(400).send({ message: error.message });
+  }
+});
 
 restaurantController.get('/:id', async (req, res) => {
   const restaurantId = req.params.id;

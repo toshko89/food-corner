@@ -8,6 +8,8 @@ const getOwnRestaurants = (userId) => Restaurant.find({ owner: userId }).lean();
 
 const getRestaurantByID = (restaurantId) => Restaurant.findById(restaurantId).populate('products');
 
+const deleteRestaurantById = (restaurantId) => Restaurant.findByIdAndDelete(restaurantId);
+
 const updateRestaurant = (restaurantId, data) =>
   Restaurant.findByIdAndUpdate(restaurantId, data, { returnDocument: 'after', runValidators: true });
 
@@ -16,5 +18,6 @@ module.exports = {
   getAllRestaurants,
   getRestaurantByID,
   getOwnRestaurants,
-  updateRestaurant
+  updateRestaurant,
+  deleteRestaurantById
 }
