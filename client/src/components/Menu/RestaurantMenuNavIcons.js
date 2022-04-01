@@ -2,7 +2,6 @@ import IconButton from '@mui/material/IconButton';
 import { Link } from "react-router-dom";
 import ModeEditOutlineTwoToneIcon from '@mui/icons-material/ModeEditOutlineTwoTone';
 import LunchDiningRoundedIcon from '@mui/icons-material/LunchDiningRounded';
-import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 import MapsUgcRoundedIcon from '@mui/icons-material/MapsUgcRounded';
@@ -25,9 +24,6 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurant }) {
           </IconButton>
             <IconButton aria-label="add-menu" size="large" onClick={handler} >
               <LunchDiningRoundedIcon fontSize="large" />
-            </IconButton>
-            <IconButton aria-label="data" size="large">
-              <ConstructionRoundedIcon fontSize="large" />
             </IconButton>
             <IconButton aria-label="delete" size="large">
               <DeleteForeverRoundedIcon fontSize="large" />

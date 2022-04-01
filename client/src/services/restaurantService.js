@@ -37,10 +37,9 @@ async function getAllRestaurants() {
   }
 }
 
-async function editRestaurnat(restaurantId, formData) {
-  console.log(restaurantId);
+async function editRestaurnat(restaurantId, userId, formData) {
   try {
-    const restaurant = await fetch(REACT_APP_BASE_URL + `/restaurants/${restaurantId}`, {
+    const restaurant = await fetch(REACT_APP_BASE_URL + `/restaurants/${restaurantId}/${userId}`, {
       method: 'PUT',
       credentials: 'include',
       body: formData

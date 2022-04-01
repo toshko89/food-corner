@@ -72,7 +72,7 @@ export default function CreateRestaurant({ edit }) {
 
       if (edit) {
         setLoading(true);
-        newRestaurant = await editRestaurnat(currentRestaurant._id, data);
+        newRestaurant = await editRestaurnat(currentRestaurant._id, user, data);
       } else {
         setLoading(true);
         newRestaurant = await createNewRestaurant(data);

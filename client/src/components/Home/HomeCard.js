@@ -1,6 +1,4 @@
 import { Card, Col, Grid, Text, Row, Button } from "@nextui-org/react"
-import IconButton from '@mui/material/IconButton';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Link } from "react-router-dom";
 
 export default function HomeCard({ data }) {
@@ -21,9 +19,6 @@ export default function HomeCard({ data }) {
               {data.name}
             </Text>
           </Col>
-          <IconButton onClick={(e) => console.log('click')} color="error" aria-label="add to shopping cart">
-            <FavoriteIcon fontSize="large" />
-          </IconButton>
         </Card.Header>
         <Card.Body>
           <Card.Image

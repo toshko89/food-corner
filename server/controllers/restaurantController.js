@@ -65,8 +65,8 @@ restaurantController.post('/create', authentication, async (req, res) => {
   }
 })
 
-restaurantController.put('/:restaurantId', authentication, isOwner, async (req, res) => {
-  const { restaurantId } = req.params;
+restaurantController.put('/:restaurantId/:userId', authentication, isOwner, async (req, res) => {
+  const { restaurantId, userId } = req.params;
   const form = formidable({ multiples: true });
   const imgURL = [];
   try {
