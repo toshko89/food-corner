@@ -87,8 +87,8 @@ export default function CreateRestaurant({ edit }) {
           return;
         }
         setLoading(false);
-        setError(newRestaurant.message);
         setFile([]);
+        setError(newRestaurant.message);
         return;
       }
 

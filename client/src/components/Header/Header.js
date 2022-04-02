@@ -35,11 +35,6 @@ export default function Header() {
                     <i className="feather-user h6 mr-2 mb-0"></i> <span>Sign in</span>
                   </div>
                 </Link>}
-                {userId && <Link to={"/logout"} className="widget-header mr-4 text-dark m-none">
-                  <div className="icon d-flex align-items-center">
-                    <i className="feather-user h6 mr-2 mb-0"></i> <span>Logout</span>
-                  </div>
-                </Link>}
                 {userId &&
                   <div className="dropdown mr-4 m-none">
                     <Link to={`/my-account/${userId}`} className="dropdown-toggle text-dark py-3 d-block" id="dropdownMenuButton"
@@ -57,6 +52,11 @@ export default function Header() {
                     <i className="feather-shopping-cart h6 mr-2 mb-0"></i> <span>Cart</span>
                   </div>
                 </Link>
+                {userId && <Link to={"/logout"} className="widget-header mr-4 text-dark m-none">
+                  <div className="icon d-flex align-items-center">
+                    <i className="feather-user h6 mr-2 mb-0"></i> <span>Logout</span>
+                  </div>
+                </Link>}
               </div>
             </div>
           </div>

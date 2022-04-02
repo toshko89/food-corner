@@ -21,41 +21,6 @@ export default function Footer() {
                 </div>
               </article>
             </aside>
-            <aside className="col-sm-3 col-md-2 text-white">
-              <h6 className="title">Error Pages</h6>
-              <ul className="list-unstyled hov_footer">
-                <li> <a href="/#" className="text-muted">Not found</a></li>
-                <li> <a href="/#" className="text-muted">Maintence</a></li>
-                <li> <a href="/#" className="text-muted">Coming Soon</a></li>
-              </ul>
-            </aside>
-            <aside className="col-sm-3 col-md-2 text-white">
-              <h6 className="title">Services</h6>
-              <ul className="list-unstyled hov_footer">
-                <li> <a href="/#" className="text-muted">Delivery Support</a></li>
-                <li> <a href="/#" className="text-muted">Contact Us</a></li>
-                <li> <a href="/#" className="text-muted">Terms of use</a></li>
-                <li> <a href="/#" className="text-muted">Privacy policy</a></li>
-              </ul>
-            </aside>
-            <aside className="col-sm-3  col-md-2 text-white">
-              <h6 className="title">For users</h6>
-              <ul className="list-unstyled hov_footer">
-                <li> <a href="/#" className="text-muted"> User Login </a></li>
-                <li> <a href="/#" className="text-muted"> User register </a></li>
-                <li> <a href="/#" className="text-muted"> Forgot Password </a></li>
-                <li> <a href="/#" className="text-muted"> Account Setting </a></li>
-              </ul>
-            </aside>
-            <aside className="col-sm-3  col-md-2 text-white">
-              <h6 className="title">More Pages</h6>
-              <ul className="list-unstyled hov_footer">
-                <li> <a href="/#" className="text-muted"> Trending </a></li>
-                <li> <a href="/#" className="text-muted"> Most popular </a></li>
-                <li> <a href="/#" className="text-muted"> Restaurant Details </a></li>
-                <li> <a href="/#" className="text-muted"> Favorites </a></li>
-              </ul>
-            </aside>
           </div>
         </section>
       </div>

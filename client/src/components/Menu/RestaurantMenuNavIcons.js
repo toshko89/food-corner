@@ -7,6 +7,7 @@ import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded
 import MapsUgcRoundedIcon from '@mui/icons-material/MapsUgcRounded';
 import { Modal, Button, Text } from "@nextui-org/react";
 import { LoadingButton } from '@mui/lab';
+import OwnerGuard from '../../guards/OwnerGuard.js';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import AddProductModal from './AddProductModal.js';
 import { useState } from 'react';
@@ -40,19 +41,22 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurant }) {
 
   return (
     <>
-      {isOwner && <AddProductModal setVisible={setVisible} visible={visible} />}
+
+
       <ButtonGroup variant="outlined" aria-label="outlined primary button group">
-        {isOwner &&
-          <><IconButton component={Link} to={`/restaurants/${restaurant._id}/edit`} variant="contained" aria-label="edit" size="large">
-            <ModeEditOutlineTwoToneIcon fontSize="large" />
-          </IconButton>
-            <IconButton aria-label="add-menu" size="large" onClick={handler} >
-              <LunchDiningRoundedIcon fontSize="large" />
+        <OwnerGuard restaurant={restaurant}>
+          {isOwner &&
+            <><IconButton component={Link} to={`/restaurants/${restaurant._id}/edit`} variant="contained" aria-label="edit" size="large">
+              <ModeEditOutlineTwoToneIcon fontSize="large" />
             </IconButton>
-            <IconButton onClick={handlerDeleteModal} aria-label="delete" size="large">
-              <DeleteForeverRoundedIcon fontSize="large" />
-            </IconButton>
-          </>}
+              <IconButton aria-label="add-menu" size="large" onClick={handler} >
+                <LunchDiningRoundedIcon fontSize="large" />
+              </IconButton>
+              <IconButton onClick={handlerDeleteModal} aria-label="delete" size="large">
+                <DeleteForeverRoundedIcon fontSize="large" />
+              </IconButton>
+            </>}
+        </OwnerGuard>
         <IconButton aria-label="favorites" color="error" size="large">
           <FavoriteBorderRoundedIcon fontSize="large" />
         </IconButton>
@@ -60,31 +64,33 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurant }) {
           <MapsUgcRoundedIcon fontSize="large" />
         </IconButton>
       </ButtonGroup>
-
-      <Modal
-        closeButton
-        aria-labelledby="modal-title"
-        open={deleteModal}
-        onClose={closeHandlerDeleteModal}
-      >
-        <Modal.Header>
-          <Text b id="modal-title" size={18}>
-            Are you sure you want to delete this restaurant ({restaurant.name})?
-          </Text>
-        </Modal.Header>
-        <Modal.Footer>
-          <Button auto flat color="error" onClick={closeHandlerDeleteModal}>
-            Close
-          </Button>
-          <LoadingButton
-            onClick={() => { deleteRestaurant(restaurant._id); handleClick(); }}
-            loading={loading}
-            variant="contained"
-          >
-            Delete
-          </LoadingButton>
-        </Modal.Footer>
-      </Modal>
+      <OwnerGuard restaurant={restaurant}>
+        {isOwner && <AddProductModal setVisible={setVisible} visible={visible} />}
+        <Modal
+          closeButton
+          aria-labelledby="modal-title"
+          open={deleteModal}
+          onClose={closeHandlerDeleteModal}
+        >
+          <Modal.Header>
+            <Text b id="modal-title" size={18}>
+              Are you sure you want to delete this restaurant ({restaurant.name})?
+            </Text>
+          </Modal.Header>
+          <Modal.Footer>
+            <Button auto flat color="error" onClick={closeHandlerDeleteModal}>
+              Close
+            </Button>
+            <LoadingButton
+              onClick={() => { deleteRestaurant(restaurant._id); handleClick(); }}
+              loading={loading}
+              variant="contained"
+            >
+              Delete
+            </LoadingButton>
+          </Modal.Footer>
+        </Modal>
+      </OwnerGuard>
     </>
   )
 }
