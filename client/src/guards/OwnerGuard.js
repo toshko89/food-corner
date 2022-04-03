@@ -2,10 +2,9 @@ import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 
 
-const OwnerGuard = ({ children, restaurant }) => {
-  console.log(restaurant);
+const OwnerGuard = ({ children }) => {
   const user = useSelector(state => state.auth);
-  console.log(user);
+  const restaurant = useSelector(state => state.restaurant);
   if (user && user._id === restaurant.owner) {
     return children;
   } else {

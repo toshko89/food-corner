@@ -32,11 +32,31 @@ export const authSlice = createSlice({
       state.name = null;
       state.city = null;
       state.address = null;
+    },
+    addToFavorites(state, action) {
+      console.log(action.payload._id);
+      state.favorites.push(action.payload._id);
+      localStorage.setItem('favorites', JSON.stringify(state.favorites));
+    },
+    removeFromFavorites(state, action) {
+      const index = state.favorites.indexOf(action.payload._id);
+      state.favorites.splice(index, 1);
+      localStorage.setItem('favorites', JSON.stringify(state.favorites));
+    },
+    autoLoadFavorites(state) {
+      const favorites = localStorage.getItem('favorites');
+      if (favorites) {
+        state.favorites = JSON.parse(favorites);
+      }
     }
   }
 
 });
 
-export const { loginStateChange, logoutStateChange } = authSlice.actions;
+export const { loginStateChange,
+  logoutStateChange,
+  addToFavorites,
+  removeFromFavorites,
+  autoLoadFavorites } = authSlice.actions;
 
 export default authSlice.reducer;

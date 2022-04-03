@@ -14,10 +14,11 @@ export default function RestaurantMenu() {
 
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const currentRestaurant = useSelector(state => state.restaurant);
   const user = useSelector(state => state.auth);
   const isOwner = currentRestaurant.owner === user._id;
-  const navigate = useNavigate();
+  const restaurantInFavorite = user.favorites.includes(currentRestaurant._id);
 
   useEffect(() => {
     (async function fetchData() {
@@ -84,7 +85,10 @@ export default function RestaurantMenu() {
         </div>
       </div>
       <div className="container">
-        <RestaurantMenuNavIcons isOwner={isOwner} restaurant={currentRestaurant} />
+        {user._id && <RestaurantMenuNavIcons
+          isOwner={isOwner}
+          restaurant={currentRestaurant}
+          restaurantInFavorite={restaurantInFavorite} />}
         <Outlet />
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
           {currentRestaurant.products?.length > 0

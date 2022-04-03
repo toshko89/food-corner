@@ -13,7 +13,8 @@ import RestaurantMenu from './components/Menu/RestaurantMenu.js'
 import { useEffect } from 'react';
 import { verify } from './services/authService.js';
 import { useDispatch } from 'react-redux';
-import { loginStateChange } from './app/auth.js';
+import { autoLoadFavorites, loginStateChange } from './app/auth.js';
+import OwnerGuard from './guards/OwnerGuard.js';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
     (async function fetchData() {
       try {
         const user = await verify();
+        dispatch(autoLoadFavorites())
         dispatch(loginStateChange(user))
       } catch (error) {
         throw new Error(error)
@@ -41,7 +43,7 @@ function App() {
         <Route path="/logout" element={<Logout />}></Route>
         <Route path="/restaurants" element={<AllRestaurants />}></Route>
         <Route path="/restaurants/:id" element={<RestaurantMenu />}>
-          <Route path="edit" element={<CreateRestaurant edit={true} />} />
+          <Route path="edit" element={<OwnerGuard><CreateRestaurant edit={true} /></OwnerGuard>} />
         </Route>
         <Route path="/my-account/:id" element={<Profile />}></Route>
         <Route path="/my-account/:id/create-restaurant" element={<CreateRestaurant />}></Route>
