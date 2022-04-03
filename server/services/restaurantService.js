@@ -13,11 +13,14 @@ const deleteRestaurantById = (restaurantId) => Restaurant.findByIdAndDelete(rest
 const updateRestaurant = (restaurantId, data) =>
   Restaurant.findByIdAndUpdate(restaurantId, data, { returnDocument: 'after', runValidators: true });
 
+const getFavoriteRestaurants = (favArr) => Restaurant.find({ _id: { $in: favArr } }).lean();
+
 module.exports = {
   createRestaurant,
   getAllRestaurants,
   getRestaurantByID,
   getOwnRestaurants,
   updateRestaurant,
-  deleteRestaurantById
+  deleteRestaurantById,
+  getFavoriteRestaurants
 }

@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
-import { getAllRestaurants } from "../../services/restaurantService.js";
 import { Grid, Loading } from '@nextui-org/react';
-import HomeCard from "./HomeCard.js";
+import HomeCard from "../Home/HomeCard.js";
+import { getFavorites } from "../../services/restaurantService.js";
+import { useSelector } from "react-redux";
+import { newQuery } from '../../utils/queryHelper.js'
 
 
-export default function Home() {
+export default function Favorites() {
 
   const [restaurants, setRestaurants] = useState([]);
+  const userFavorites = useSelector(state => state.auth.favorites);
+  const query = newQuery(userFavorites);
 
   useEffect(() => {
     (async function fetchData() {
       try {
-        const res = await getAllRestaurants();
+        const res = await getFavorites(query);
         setRestaurants(res)
       } catch (error) {
         throw new Error(error)
@@ -22,15 +26,15 @@ export default function Home() {
   return (
     <>
       <div className="container most_popular py-5">
-        <h2 className="font-weight-bold mb-3">Most popular</h2>
+        <h2 className="font-weight-bold mb-3">Favorites</h2>
         <div className="row">
           <Grid.Container gap={2} justify="center">
             {restaurants.length > 0
               ? restaurants.map(res => <HomeCard key={res._id} data={res} />)
-              : <Loading type="points" />}
+              : <h2 className="font-weight-bold mb-3">No favorites yet</h2>}
           </Grid.Container>
         </div>
       </div>
     </>
-  );
+  )
 }

@@ -1,4 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import Login from './components/auth/Login.js';
 import Logout from './components/auth/Logout.js';
 import Profile from './components/auth/Profile.js';
@@ -10,11 +12,10 @@ import AllRestaurants from './components/Restaurants/AllRestaurants.js';
 import CreateRestaurant from './components/Restaurants/CreateRestaurant.js';
 import MyRestaurants from './components/Restaurants/MyRestaurants.js';
 import RestaurantMenu from './components/Menu/RestaurantMenu.js'
-import { useEffect } from 'react';
 import { verify } from './services/authService.js';
-import { useDispatch } from 'react-redux';
-import { autoLoadFavorites, loginStateChange } from './app/auth.js';
 import OwnerGuard from './guards/OwnerGuard.js';
+import { autoLoadFavorites, loginStateChange } from './app/auth.js';
+import Favorites from './components/Restaurants/Favorites.js';
 
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
           <Route path="edit" element={<OwnerGuard><CreateRestaurant edit={true} /></OwnerGuard>} />
         </Route>
         <Route path="/my-account/:id" element={<Profile />}></Route>
+        <Route path="/my-account/:id/favorites" element={<Favorites />}></Route>
         <Route path="/my-account/:id/create-restaurant" element={<CreateRestaurant />}></Route>
         <Route path='/my-account/:id/my-restaurants' element={<MyRestaurants />}></Route>
         <Route path='*' element={<Navigate to="/" replace />}></Route>

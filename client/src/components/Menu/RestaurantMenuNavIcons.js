@@ -12,11 +12,12 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import AddProductModal from './AddProductModal.js';
 import { useState } from 'react';
 import { deleteRestaurantById } from '../../services/restaurantService.js';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToFavorites, removeFromFavorites } from '../../app/auth.js';
 
-export default function RestaurantMenuNavIcons({ isOwner, restaurant, restaurantInFavorite }) {
+export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }) {
 
+  const restaurant = useSelector(state => state.restaurant);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);

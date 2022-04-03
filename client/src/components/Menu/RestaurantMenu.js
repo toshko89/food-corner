@@ -85,10 +85,11 @@ export default function RestaurantMenu() {
         </div>
       </div>
       <div className="container">
-        {user._id && <RestaurantMenuNavIcons
-          isOwner={isOwner}
-          restaurant={currentRestaurant}
-          restaurantInFavorite={restaurantInFavorite} />}
+        {user._id &&
+          <RestaurantMenuNavIcons
+            isOwner={isOwner}
+            restaurant={currentRestaurant}
+            restaurantInFavorite={restaurantInFavorite} />}
         <Outlet />
         <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
           {currentRestaurant.products?.length > 0
@@ -97,7 +98,7 @@ export default function RestaurantMenu() {
                 isOwner={isOwner}
                 deleteProductHandler={deleteProductHandler}
                 product={product} />)
-            : <Loading type="points" />}
+            : <><Loading type="points" /><h2 className="font-weight-bold mb-3">No products yet</h2></>}
         </Grid>
       </div>
     </>

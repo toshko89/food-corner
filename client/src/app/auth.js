@@ -34,7 +34,6 @@ export const authSlice = createSlice({
       state.address = null;
     },
     addToFavorites(state, action) {
-      console.log(action.payload._id);
       state.favorites.push(action.payload._id);
       localStorage.setItem('favorites', JSON.stringify(state.favorites));
     },
@@ -46,7 +45,7 @@ export const authSlice = createSlice({
     autoLoadFavorites(state) {
       const favorites = localStorage.getItem('favorites');
       if (favorites) {
-        state.favorites = JSON.parse(favorites);
+        state.favorites = [JSON.parse(favorites)];
       }
     }
   }
