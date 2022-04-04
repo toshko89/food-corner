@@ -45,7 +45,7 @@ export const authSlice = createSlice({
     autoLoadFavorites(state) {
       const favorites = localStorage.getItem('favorites');
       if (favorites) {
-        state.favorites = [JSON.parse(favorites)];
+        state.favorites = JSON.parse(favorites);
       }
     }
   }

@@ -10,7 +10,8 @@ export default function Logout() {
   logout()
     .then((res) => {
       if (res.status === 200) {
-        dispatch(logoutStateChange())
+        dispatch(logoutStateChange());
+        
       }
     })
     .catch((err) => {

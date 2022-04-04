@@ -5,9 +5,11 @@ import { clearRestaurantState, setRestaurantState } from "../../app/restaurant.j
 import { getRestaurantById } from "../../services/restaurantService.js";
 import MenuCard from "./MenuCard.js";
 import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 import RestaurantMenuNavIcons from "./RestaurantMenuNavIcons.js";
 import { Loading } from "@nextui-org/react";
 import { deleteProduct } from "../../services/productService.js";
+import Categories from "../Menu/Categories.js";
 
 
 export default function RestaurantMenu() {
@@ -18,6 +20,8 @@ export default function RestaurantMenu() {
   const currentRestaurant = useSelector(state => state.restaurant);
   const user = useSelector(state => state.auth);
   const isOwner = currentRestaurant.owner === user._id;
+  const products = currentRestaurant.products;
+  const categories = currentRestaurant.products.map(product => product.category);
   const restaurantInFavorite = user.favorites.includes(currentRestaurant._id);
 
   useEffect(() => {
@@ -91,15 +95,41 @@ export default function RestaurantMenu() {
             restaurant={currentRestaurant}
             restaurantInFavorite={restaurantInFavorite} />}
         <Outlet />
-        <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-          {currentRestaurant.products?.length > 0
-            ? currentRestaurant.products.map(product =>
-              <MenuCard key={product._id}
-                isOwner={isOwner}
-                deleteProductHandler={deleteProductHandler}
-                product={product} />)
-            : <><Loading type="points" /><h2 className="font-weight-bold mb-3">No products yet</h2></>}
-        </Grid>
+        <Categories
+          currentRestaurant={currentRestaurant}
+          categories={categories}
+          products={products}
+          deleteProductHandler={deleteProductHandler}
+          isOwner={isOwner}>
+        </Categories>
+        {/* <div class="row m-0">
+          <h6 class="p-3 m-0 bg-light w-100">Quick Bites <small class="text-black-50">3 ITEMS</small></h6>
+          <div class="col-md-12 px-0 border-top"></div>
+          <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+            {currentRestaurant.products?.length > 0
+              && currentRestaurant.products.map(product =>
+                  <MenuCard key={product._id}
+                    isOwner={isOwner}
+                    deleteProductHandler={deleteProductHandler}
+                    product={product} />)}
+          </Grid>
+          {currentRestaurant.products?.length === 0 &&
+            <><Loading type="points" /><h2 className="font-weight-bold mb-3">No products yet</h2></>}
+        </div>
+        <div class="row m-0">
+          <h6 class="p-3 m-0 bg-light w-100">Quick Bites <small class="text-black-50">3 ITEMS</small></h6>
+          <div class="col-md-12 px-0 border-top"></div>
+          <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+            {currentRestaurant.products?.length > 0
+              && currentRestaurant.products.map(product =>
+                <MenuCard key={product._id}
+                  isOwner={isOwner}
+                  deleteProductHandler={deleteProductHandler}
+                  product={product} />)}
+          </Grid>
+          {currentRestaurant.products?.length === 0 &&
+            <><Loading type="points" /><h2 className="font-weight-bold mb-3">No products yet</h2></>}
+        </div> */}
       </div>
     </>
   )
