@@ -29,9 +29,13 @@ const Categories = memo(({ currentRestaurant, categories, products, deleteProduc
                 </div>
               </div>)
           } else {
-            return (<h2 className="font-weight-bold mb-3">No products yet</h2>)
+            return (
+              <div className="row m-0">
+                <h3 className="p-3 m-0 bg-light w-100">No products yet!</h3>
+                <div className="col-md-12 px-0 border-top"></div>
+              </div>
+            )
           }
-
         })
       }
     </>
