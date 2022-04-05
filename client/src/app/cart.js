@@ -27,22 +27,14 @@ const cartSlice = createSlice({
         }
         localStorage.setItem('cart', JSON.stringify(state));
       }
+    },
+    clearCart(state) {
+      state.orders = [];
+      localStorage.setItem('cart', JSON.stringify(state));
     }
-    // // autoLoadCart(state) {
-    // //   const cart = localStorage.getItem('cart');
-    // //   if (cart) {
-    // //     state.restaurants = JSON.parse(cart).restaurants;
-    // //   }
-    // // },
-    // clearCartOrder(state, action) {
-    //   const restaurant = state.restaurants.find(x => x.restaurantId === action.payload.restaurantId);
-    //   const index = state.restaurants.indexOf(restaurant);
-    //   state.restaurants.splice(index, 1);
-    //   localStorage.setItem('cart', JSON.stringify(state));
-    // }
   }
 });
 
-export const { addToCart, removeFromCart, autoLoadCart, clearCartOrder } = cartSlice.actions;
+export const { addToCart, removeFromCart, clearCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

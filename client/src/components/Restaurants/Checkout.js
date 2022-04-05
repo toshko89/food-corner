@@ -11,7 +11,7 @@ export default function Checkout() {
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth);
   const orders = useSelector(state => state.cart.orders);
-  const orderSum = orders.reduce((acc, curr) => {
+  let orderSum = orders.reduce((acc, curr) => {
     return acc + curr.quantity * curr.product.price;
   }, 0);
 
@@ -65,10 +65,10 @@ export default function Checkout() {
             <div className="bg-white p-3 clearfix border-bottom">
               <p className="mb-1">Item Total <span className="float-right text-dark">${orderSum}</span></p>
               <p className="mb-1">Delivery Fee<span className="text-info ml-1"></span><span className="float-right text-dark">${orderSum > 20 ? 'Free' : '3.99'}</span></p>
-              <h6 className="font-weight-bold mb-0">TO PAY <span className="float-right">${orderSum > 20 ? orderSum : orderSum + 3.99}</span></h6>
+              <h6 className="font-weight-bold mb-0">TO PAY <span className="float-right">${orderSum > 20 ? orderSum : (orderSum += 3.99).toFixed(2)}</span></h6>
             </div>
             <div className="p-3">
-              <Link to={'/'} className="btn btn-success btn-block btn-lg">PAY ${orderSum}<i className="feather-arrow-right"></i></Link>
+              <Link to={`/my-account/${user._id}/cart/success`} state={user.name} className="btn btn-success btn-block btn-lg">PAY ${orderSum.toFixed(2)}<i className="feather-arrow-right"></i></Link>
             </div>
           </div>}
       </div>
