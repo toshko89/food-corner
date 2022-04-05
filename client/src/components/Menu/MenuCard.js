@@ -9,12 +9,15 @@ import Typography from '@mui/material/Typography';
 import ConstructionRoundedIcon from '@mui/icons-material/ConstructionRounded';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
+import { useDispatch } from 'react-redux';
 import { Modal, Button, Text } from "@nextui-org/react";
 import { LoadingButton } from '@mui/lab';
 import { useState } from 'react';
 import AddProductModal from './AddProductModal.js';
+import { addToCart } from '../../app/cart.js';
 
-export default function MenuCard({ product, deleteProductHandler, isOwner }) {
+export default function MenuCard({ currentRestaurant, product, deleteProductHandler, isOwner }) {
+  const dispatch = useDispatch()
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -27,13 +30,20 @@ export default function MenuCard({ product, deleteProductHandler, isOwner }) {
   function handleClick() {
     setLoading(true);
   }
+
+  function addToCartClick() {
+    console.log(currentRestaurant._id);
+    dispatch(addToCart({ restaurantId: currentRestaurant._id, product }));
+  }
+
   return (
     <>
       <Grid item xs={2} sm={4} md={4} >
         <Card sx={{ maxWidth: 350 }}>
           <CardHeader
             action={
-              <IconButton color='success' aria-label="settings">
+              <IconButton onClick={addToCartClick}
+                color='success' aria-label="settings">
                 <ShoppingCartIcon fontSize="large" />
               </IconButton>
             }

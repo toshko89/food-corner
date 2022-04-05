@@ -16,6 +16,7 @@ import { verify } from './services/authService.js';
 import OwnerGuard from './guards/OwnerGuard.js';
 import { autoLoadFavorites, loginStateChange } from './app/auth.js';
 import Favorites from './components/Restaurants/Favorites.js';
+import Checkout from './components/Restaurants/Checkout.js';
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
         </Route>
         <Route path="/my-account/:id" element={<Profile />}></Route>
         <Route path="/my-account/:id/favorites" element={<Favorites />}></Route>
+        <Route path="/my-account/:id/cart" element={<Checkout />}></Route>
         <Route path="/my-account/:id/create-restaurant" element={<CreateRestaurant />}></Route>
         <Route path='/my-account/:id/my-restaurants' element={<MyRestaurants />}></Route>
         <Route path='*' element={<Navigate to="/" replace />}></Route>

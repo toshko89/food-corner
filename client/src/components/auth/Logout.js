@@ -11,7 +11,6 @@ export default function Logout() {
     .then((res) => {
       if (res.status === 200) {
         dispatch(logoutStateChange());
-        
       }
     })
     .catch((err) => {

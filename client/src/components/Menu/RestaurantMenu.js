@@ -3,11 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams, Outlet } from "react-router-dom";
 import { clearRestaurantState, setRestaurantState } from "../../app/restaurant.js";
 import { getRestaurantById } from "../../services/restaurantService.js";
-import MenuCard from "./MenuCard.js";
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
 import RestaurantMenuNavIcons from "./RestaurantMenuNavIcons.js";
-import { Loading } from "@nextui-org/react";
 import { deleteProduct } from "../../services/productService.js";
 import Categories from "../Menu/Categories.js";
 
@@ -93,7 +89,8 @@ export default function RestaurantMenu() {
           <RestaurantMenuNavIcons
             isOwner={isOwner}
             restaurant={currentRestaurant}
-            restaurantInFavorite={restaurantInFavorite} />}
+            restaurantInFavorite={restaurantInFavorite} />
+        }
         <Outlet />
         <Categories
           currentRestaurant={currentRestaurant}
@@ -102,7 +99,13 @@ export default function RestaurantMenu() {
           deleteProductHandler={deleteProductHandler}
           isOwner={isOwner}>
         </Categories>
-        {/* <div class="row m-0">
+      </div>
+    </>
+  )
+
+}
+
+/* <div class="row m-0">
           <h6 class="p-3 m-0 bg-light w-100">Quick Bites <small class="text-black-50">3 ITEMS</small></h6>
           <div class="col-md-12 px-0 border-top"></div>
           <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
@@ -129,9 +132,4 @@ export default function RestaurantMenu() {
           </Grid>
           {currentRestaurant.products?.length === 0 &&
             <><Loading type="points" /><h2 className="font-weight-bold mb-3">No products yet</h2></>}
-        </div> */}
-      </div>
-    </>
-  )
-
-}
+        </div> */

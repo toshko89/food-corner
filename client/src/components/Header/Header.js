@@ -1,11 +1,15 @@
 import { Link } from "react-router-dom";
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
+import Badge from '@mui/material/Badge';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 
 export default function Header() {
 
   const userCredentials = useSelector(state => state.auth.name || state.auth.email);
   const userId = useSelector(state => state.auth._id);
+  const orders = useSelector(state => state.cart.orders);
+  const itemsInCart = orders.reduce((acc, curr) => acc + curr.quantity, 0);
 
   return (
     <header className="section-header">
@@ -20,11 +24,6 @@ export default function Header() {
             <div className="col-3 d-flex align-items-center m-none"></div>
             <div className="col-8">
               <div className="d-flex align-items-center justify-content-end pr-5">
-                <Link to={"/search"} className="widget-header mr-4 text-dark">
-                  <div className="icon d-flex align-items-center">
-                    <i className="feather-search h6 mr-2 mb-0"></i> <span>Search</span>
-                  </div>
-                </Link>
                 <Link to={"/"} className="widget-header mr-4 text-white btn bg-primary m-none">
                   <div className="icon d-flex align-items-center">
                     <i className="feather-disc h6 mr-2 mb-0"></i> <span>Restaurants</span>
@@ -47,10 +46,10 @@ export default function Header() {
                       <Link to={`/my-account/${userId}/favorites`} className="dropdown-item" >Favorites</Link>
                     </div>
                   </div>}
-                <Link to={"/card"} className="widget-header mr-4 text-dark">
-                  <div className="icon d-flex align-items-center">
-                    <i className="feather-shopping-cart h6 mr-2 mb-0"></i> <span>Cart</span>
-                  </div>
+                <Link to={`/my-account/${userId}/cart`} className="widget-header mr-4 text-dark">
+                  <Badge badgeContent={itemsInCart} color="primary">
+                    <ShoppingCartIcon />
+                  </Badge>
                 </Link>
                 {userId && <Link to={"/logout"} className="widget-header mr-4 text-dark m-none">
                   <div className="icon d-flex align-items-center">
