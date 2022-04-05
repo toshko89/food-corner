@@ -17,7 +17,7 @@ import AddProductModal from './AddProductModal.js';
 import { addToCart } from '../../app/cart.js';
 
 export default function MenuCard({ currentRestaurant, product, deleteProductHandler, isOwner }) {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -32,7 +32,6 @@ export default function MenuCard({ currentRestaurant, product, deleteProductHand
   }
 
   function addToCartClick() {
-    console.log(currentRestaurant._id);
     dispatch(addToCart({ restaurantId: currentRestaurant._id, product }));
   }
 

@@ -18,15 +18,15 @@ const cartSlice = createSlice({
       localStorage.setItem('cart', JSON.stringify(state));
     },
     removeFromCart(state, action) {
-      //   const restaurant = state.restaurants.find(x => x.restaurantId === action.payload.restaurantId);
-      //   const recipeToRemove = restaurant?.recipes.find(x => x.recipe._id === action.payload.recipe._id);
-      //   if (recipeToRemove?.quantity === 1) {
-      //     const index = restaurant?.recipes.indexOf(recipeToRemove);
-      //     restaurant?.recipes.splice(index, 1);
-      //   } else {
-      //     recipeToRemove.quantity--;
-      //   }
-      //   localStorage.setItem('cart', JSON.stringify(state));
+      const product = state?.orders.find(order => order.product._id === action.payload.product._id);
+      if (product) {
+        if (product.quantity === 1) {
+          state.orders = state.orders.filter(order => order.product._id !== action.payload.product._id);
+        } else {
+          product.quantity -= 1;
+        }
+        localStorage.setItem('cart', JSON.stringify(state));
+      }
     }
     // // autoLoadCart(state) {
     // //   const cart = localStorage.getItem('cart');
