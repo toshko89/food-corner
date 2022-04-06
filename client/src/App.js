@@ -1,26 +1,25 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { lazy, Suspense, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { Loading } from '@nextui-org/react';
 import Login from './components/auth/Login.js';
 import Logout from './components/auth/Logout.js';
-// import Profile from './components/auth/Profile.js';
-import Register from './components/auth/Register.js';
 import Footer from './components/Footer/Footer.js';
 import Header from './components/Header/Header.js';
 import Home from './components/Home/Home.js';
-import CreateRestaurant from './components/Restaurants/CreateRestaurant.js';
-import MyRestaurants from './components/Restaurants/MyRestaurants.js';
-import RestaurantMenu from './components/Menu/RestaurantMenu.js'
-import { verify } from './services/authService.js';
 import OwnerGuard from './guards/OwnerGuard.js';
-import { autoLoadFavorites, loginStateChange } from './app/auth.js';
-import { Successful } from './components/Orders/Successful.js';
 import IsLoggedIn from './guards/IsLoggedIn.js';
-import { Loading } from '@nextui-org/react';
+import RestaurantMenu from './components/Menu/RestaurantMenu.js';
+import { verify } from './services/authService.js';
+import { autoLoadFavorites, loginStateChange } from './app/auth.js';
 
+const CreateRestaurant = lazy(() => import('./components/Restaurants/CreateRestaurant.js'));
+const MyRestaurants = lazy(() => import('./components/Restaurants/MyRestaurants.js'));
+const Register = lazy(() => import('./components/auth/Register.js'));
 const Checkout = lazy(() => import('./components/Restaurants/Checkout.js'));
 const Favorites = lazy(() => import('./components/Restaurants/Favorites.js'));
 const Profile = lazy(() => import('./components/auth/Profile.js'));
+const Successful = lazy(() => import('./components/Orders/Successful.js'));
 
 function App() {
 
@@ -43,36 +42,63 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" exact element={<Home />}></Route>
-        <Route path="/register" element={<Register />}></Route>
+        <Route path="/register" element={
+          <Suspense fallback={<Loading type="points" />}>
+            <Register />
+          </Suspense>}>
+        </Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/logout" element={<Logout />}></Route>
         <Route path="/restaurants/:id" element={<RestaurantMenu />}>
-          <Route path="edit" element={<OwnerGuard><CreateRestaurant edit={true} /></OwnerGuard>} />
+          <Route path="edit" element={
+            <Suspense fallback={<Loading type="points" />}>
+              <OwnerGuard>
+                <CreateRestaurant edit={true} />
+              </OwnerGuard>
+            </Suspense>} />
         </Route>
         <Route path="/my-account/:id" element={
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<Loading type="points" />}>
             <IsLoggedIn>
               <Profile />
             </IsLoggedIn>
           </Suspense>}>
         </Route>
         <Route path="/my-account/:id/favorites" element={
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<Loading type="points" />}>
             <IsLoggedIn>
               <Favorites />
             </IsLoggedIn>
           </Suspense>}>
         </Route>
         <Route path="/my-account/:id/cart" element={
-          <Suspense fallback={<Loading />}>
+          <Suspense fallback={<Loading type="points" />}>
             <IsLoggedIn>
               <Checkout />
             </IsLoggedIn>
           </Suspense>}>
         </Route>
-        <Route path="/my-account/:id/cart/success" element={<IsLoggedIn><Successful /></IsLoggedIn>}></Route>
-        <Route path="/my-account/:id/create-restaurant" element={<IsLoggedIn><CreateRestaurant /></IsLoggedIn>}></Route>
-        <Route path='/my-account/:id/my-restaurants' element={<IsLoggedIn><MyRestaurants /></IsLoggedIn>}></Route>
+        <Route path="/my-account/:id/cart/success" element={
+          <Suspense fallback={<Loading type="points" />}>
+            <IsLoggedIn>
+              <Successful />
+            </IsLoggedIn>
+          </Suspense>}>
+        </Route>
+        <Route path="/my-account/:id/create-restaurant" element={
+          <Suspense fallback={<Loading type="points" />}>
+            <IsLoggedIn>
+              <CreateRestaurant />
+            </IsLoggedIn>
+          </Suspense>}>
+        </Route>
+        <Route path='/my-account/:id/my-restaurants' element={
+          <Suspense fallback={<Loading type="points" />}>
+            <IsLoggedIn>
+              <MyRestaurants />
+            </IsLoggedIn>
+          </Suspense>}>
+        </Route>
         <Route path='*' element={<Navigate to="/" replace />}></Route>
       </Routes>
       <Footer />
