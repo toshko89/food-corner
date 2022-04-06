@@ -58,7 +58,7 @@ productsController.post('/:restaurantId/add-product', authentication, isOwner, a
     restaurant.products.push(newProduct);
     await restaurant.save();
     await newProduct.save();
-    res.status(200).send(restaurant);
+    res.status(201).send(restaurant);
 
   } catch (error) {
     console.log(error);
@@ -117,7 +117,7 @@ productsController.put('/:restaurantId/edit-product/:productId', authentication,
 
     await updateProduct(productId, productData)
     const restaurant = await getRestaurantByID(restaurantId);
-    res.status(200).send(restaurant);
+    res.status(201).send(restaurant);
   } catch (error) {
     console.log(error);
     res.status(400).send({ message: error.message });
@@ -134,7 +134,7 @@ productsController.delete('/:restaurantId/delete-product/:productId', authentica
     restaurant.products = restaurant.products.filter(p => p._id.toString() !== productId);
     await deleteProductById(productId);
     await restaurant.save();
-    res.status(200).send(restaurant);
+    res.status(204).send(restaurant);
   } catch (error) {
     res.status(400).send({ message: error.message });
   }

@@ -5,24 +5,6 @@ const orderSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-  name: {
-    type: String
-  },
-  phone: {
-    type: Number,
-    minlength: [10, 'Your phone should be at least 10 characters'],
-    validate: {
-      validator: function (v) {
-        return /(\+\d{1,3}\s?)?((\(\d{3}\)\s?)|(\d{3})(\s|-?))(\d{3}(\s|-?))(\d{4})(\s?(([E|e]xt[:|.|]?)|x|X)(\s?\d+))?/i.test(v);
-      }
-    }
-  },
-  city: {
-    type: String,
-  },
-  address: {
-    type: String,
-  },
   restaurant: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Restaurant'

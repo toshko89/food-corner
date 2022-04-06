@@ -1,7 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 
-
-export function Successful() {
+export default function Successful() {
 
   const location = useLocation();
 

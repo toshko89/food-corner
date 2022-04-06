@@ -1,19 +1,23 @@
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import CartCard from "./CartCard.js";
 import { v4 as uuidv4 } from 'uuid';
-import { addToCart, removeFromCart } from '../../app/cart.js';
+import { addToCart, clearCart, removeFromCart } from '../../app/cart.js';
 import { useDispatch } from 'react-redux';
-
+import { sendOrder } from "../../services/orderService.js";
+import { useState } from "react";
 
 export default function Checkout() {
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [error, setError] = useState(null);
   const user = useSelector(state => state.auth);
   const orders = useSelector(state => state.cart.orders);
   let orderSum = orders.reduce((acc, curr) => {
     return acc + curr.quantity * curr.product.price;
   }, 0);
+
 
   function addToCartClick(item) {
     dispatch(addToCart({ restaurantId: item.restaurantId, product: item.product }));
@@ -23,6 +27,20 @@ export default function Checkout() {
     dispatch(removeFromCart({ restaurantId: item.restaurantId, product: item.product }))
   }
 
+  async function placeOrder(e) {
+    e.preventDefault();
+    const order = { user, orders };
+    const res = await sendOrder(order);
+    if (res.status === 401) {
+      navigate('/login', { replace: true });
+      return;
+    } else if (res.message) {
+      setError(res.message);
+      return;
+    }
+    dispatch(clearCart());
+    navigate(`/my-account/${user._id}/cart/success`, { state: user.name });
+  }
 
   return (
     <div className="container position-relative">
@@ -50,6 +68,7 @@ export default function Checkout() {
           </div>
         </div>
       </div>
+      {error && <div className="error-container" role="alert"><p>{error}</p></div>}
       <div className="col-md-4">
         {orders.length === 0 &&
           <>
@@ -68,10 +87,12 @@ export default function Checkout() {
               <h6 className="font-weight-bold mb-0">TO PAY <span className="float-right">${orderSum > 20 ? orderSum : (orderSum += 3.99).toFixed(2)}</span></h6>
             </div>
             <div className="p-3">
-              <Link to={`/my-account/${user._id}/cart/success`} state={user.name} className="btn btn-success btn-block btn-lg">PAY ${orderSum.toFixed(2)}<i className="feather-arrow-right"></i></Link>
+              <button onClick={placeOrder} className="btn btn-success btn-block btn-lg">PAY ${orderSum.toFixed(2)}<i className="feather-arrow-right"></i></button>
             </div>
           </div>}
       </div>
     </div>
   )
 }
+
+// to={`/my-account/${user._id}/cart/success`} state={user.name}

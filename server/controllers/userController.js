@@ -1,3 +1,4 @@
+const userController = require('express').Router();
 const config = require('../config/config.js');
 const { authentication } = require('../middlewares/authMiddleware.js');
 const checkUser = require('../middlewares/checkUser.js');
@@ -7,7 +8,6 @@ const authService = require('../services/authService.js');
 const emailChecker = require('../utils/emailChecker.js');
 const passwordRemover = require('../utils/passwordRemover.js');
 
-const userController = require('express').Router();
 
 userController.post('/register', async (req, res) => {
   try {
@@ -34,8 +34,7 @@ userController.post('/register', async (req, res) => {
     const { token, user } = authService.createToken(newUser);
     const userData = passwordRemover(user);
     res.cookie(config.COOKIE_NAME, token, { httpOnly: true });
-    res.status(200).send(userData);
-
+    res.status(201).send(userData);
   } catch (error) {
     res.status(400).send({ message: error.message })
   }
@@ -79,7 +78,7 @@ userController.put('/:id', authentication, async (req, res) => {
 
     const newUserData = await updateUser(userId, userData);
     const userDataWithoutPass = passwordRemover(newUserData);
-    res.status(200).send(userDataWithoutPass);
+    res.status(201).send(userDataWithoutPass);
 
   } catch (error) {
     res.status(400).send({ message: error.message })

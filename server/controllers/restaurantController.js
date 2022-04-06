@@ -57,7 +57,7 @@ restaurantController.post('/create', authentication, async (req, res) => {
     }
 
     const newResstaurant = await createRestaurant(restaurantData);
-    res.status(200).send(newResstaurant);
+    res.status(201).send(newResstaurant);
 
   } catch (error) {
     console.log(error);
@@ -114,7 +114,7 @@ restaurantController.put('/:restaurantId/:userId', authentication, isOwner, asyn
     }
 
     const updatedRestaurant = await updateRestaurant(restaurantId, restaurantData);
-    res.status(200).send(updatedRestaurant);
+    res.status(201).send(updatedRestaurant);
   } catch (error) {
     console.log(error);
     res.status(400).send({ message: error.message });
@@ -140,7 +140,7 @@ restaurantController.delete('/:restaurantId', authentication, isOwner, async (re
     const imgId = restaurant.img.public_id;
     await cloudinaryDelete(imgId);
     await deleteRestaurantById(restaurantId);
-    res.status(200).send({ message: 'Success' });
+    res.status(204).send({ message: 'Success' });
   } catch (error) {
     console.log(error);
     res.status(400).send({ message: error.message });
