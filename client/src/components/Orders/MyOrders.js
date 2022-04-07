@@ -10,6 +10,8 @@ export default function MyOrders() {
   const userId = useSelector(state => state.auth._id);
   const [error, setError] = useState(null);
 
+  console.log(orders);
+
   useEffect(() => {
     getAllOrdersByUserId(userId)
       .then(res => {

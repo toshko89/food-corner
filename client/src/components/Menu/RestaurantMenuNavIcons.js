@@ -18,6 +18,7 @@ import { addToFavorites, removeFromFavorites } from '../../app/auth.js';
 export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }) {
 
   const restaurant = useSelector(state => state.restaurant);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
@@ -35,11 +36,16 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }
   async function deleteRestaurant(restaurantId) {
     try {
       const res = await deleteRestaurantById(restaurantId);
-      if (res.status === 200) {
+      if (res.message === 'Success') {
         navigate('/');
+      } else {
+        setError(res.message);
+        setLoading(false);
+        return;
       }
     } catch (error) {
       setLoading(false);
+      setError(error);
       throw new Error(error);
     }
   }
@@ -55,6 +61,7 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }
   return (
     <>
       <ButtonGroup variant="outlined" aria-label="outlined primary button group">
+        {error && <div className="error-container" role="alert"><p>{error}</p></div>}
         {isOwner &&
           <>
             <IconButton component={Link} to={`/restaurants/${restaurant._id}/edit`} variant="contained" aria-label="edit" size="large">

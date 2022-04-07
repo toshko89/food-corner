@@ -21,7 +21,7 @@ orderController.post('/create', authentication, async (req, res) => {
 
       })
     });
-    res.status(201).send(order);
+    res.status(200).send(order);
   } catch (error) {
     res.status(400).send({ message: error.message });
   }

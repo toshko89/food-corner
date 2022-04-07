@@ -34,7 +34,7 @@ userController.post('/register', async (req, res) => {
     const { token, user } = authService.createToken(newUser);
     const userData = passwordRemover(user);
     res.cookie(config.COOKIE_NAME, token, { httpOnly: true });
-    res.status(201).send(userData);
+    res.status(200).send(userData);
   } catch (error) {
     res.status(400).send({ message: error.message })
   }
@@ -78,7 +78,7 @@ userController.put('/:id', authentication, async (req, res) => {
 
     const newUserData = await updateUser(userId, userData);
     const userDataWithoutPass = passwordRemover(newUserData);
-    res.status(201).send(userDataWithoutPass);
+    res.status(200).send(userDataWithoutPass);
 
   } catch (error) {
     res.status(400).send({ message: error.message })

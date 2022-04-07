@@ -58,7 +58,7 @@ productsController.post('/:restaurantId/add-product', authentication, isOwner, a
     restaurant.products.push(newProduct);
     await restaurant.save();
     await newProduct.save();
-    res.status(201).send(restaurant);
+    res.status(200).send(restaurant);
 
   } catch (error) {
     console.log(error);
@@ -117,7 +117,7 @@ productsController.put('/:restaurantId/edit-product/:productId', authentication,
 
     await updateProduct(productId, productData)
     const restaurant = await getRestaurantByID(restaurantId);
-    res.status(201).send(restaurant);
+    res.status(200).send(restaurant);
   } catch (error) {
     console.log(error);
     res.status(400).send({ message: error.message });

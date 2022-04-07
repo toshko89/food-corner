@@ -13,6 +13,7 @@ import IsLoggedIn from './guards/IsLoggedIn.js';
 import { verify } from './services/authService.js';
 import { autoLoadFavorites, loginStateChange } from './app/auth.js';
 import Profile from './components/auth/Profile.js';
+import AllComments from './components/Comments/AllComments.js';
 
 const Register = lazy(() => import('./components/auth/Register.js'));
 const MyOrders = lazy(() => import('./components/Orders/MyOrders.js'));
@@ -58,6 +59,7 @@ function App() {
               </OwnerGuard>
             </Suspense>} />
         </Route>
+        <Route path="/restaurants/:id/comments" element={<AllComments />}></Route>
         <Route path="/my-account/:id" element={<IsLoggedIn><Profile /></IsLoggedIn>}>
           <Route path="orders" element={
             <Suspense fallback={<Loading type="points" />}>
