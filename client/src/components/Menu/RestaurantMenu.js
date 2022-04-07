@@ -36,7 +36,7 @@ export default function RestaurantMenu() {
     return () => {
       dispatch(clearRestaurantState())
     }
-  }, [id, dispatch])
+  }, [id])
 
   async function deleteProductHandler(productId) {
     try {

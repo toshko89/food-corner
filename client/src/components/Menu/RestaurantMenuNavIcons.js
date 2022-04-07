@@ -14,6 +14,7 @@ import { useState } from 'react';
 import { deleteRestaurantById } from '../../services/restaurantService.js';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToFavorites, removeFromFavorites } from '../../app/auth.js';
+import AddCommentModal from '../Comments/AddCommentModal.js'
 
 export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }) {
 
@@ -32,6 +33,11 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }
   function handleClick() {
     setLoading(true);
   }
+  const [visibleCommentModal, setVisibleCommentModal] = useState(false);
+  const handlerCommentModal = () => setVisibleCommentModal(true);
+  const closeHandlerCommentModal = () => {
+    setVisibleCommentModal(false);
+  };
 
   async function deleteRestaurant(restaurantId) {
     try {
@@ -83,10 +89,11 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }
           <IconButton aria-label="favorites" onClick={removeFromFav} color="error" size="large">
             <FavoriteIcon fontSize="large" />
           </IconButton>}
-        <IconButton aria-label="comments" color="primary" size="large">
+        <IconButton aria-label="comments" onClick={handlerCommentModal} color="primary" size="large">
           <MapsUgcRoundedIcon fontSize="large" />
         </IconButton>
       </ButtonGroup>
+      <AddCommentModal visibleCommentModal={visibleCommentModal} closeHandlerCommentModal={closeHandlerCommentModal}/>
       {isOwner &&
         <>
           <AddProductModal setVisible={setVisible} visible={visible} />
