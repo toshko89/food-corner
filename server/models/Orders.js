@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const orderSchema = mongoose.Schema({
+const orderSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -9,8 +9,8 @@ const orderSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Restaurant'
   },
-  products: [{
-    product: {
+  items: [{
+    item: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Products'
     },

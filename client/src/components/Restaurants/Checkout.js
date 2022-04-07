@@ -39,7 +39,7 @@ export default function Checkout() {
       return;
     }
     dispatch(clearCart());
-    navigate(`/my-account/${user._id}/cart/success`, { state: user.name });
+    navigate(`/my-account/${user._id}/cart/success`, { state: { name: user.name, id: user._id } });
   }
 
   return (

@@ -8,18 +8,19 @@ import Footer from './components/Footer/Footer.js';
 import Header from './components/Header/Header.js';
 import Home from './components/Home/Home.js';
 import OwnerGuard from './guards/OwnerGuard.js';
-import IsLoggedIn from './guards/IsLoggedIn.js';
 import RestaurantMenu from './components/Menu/RestaurantMenu.js';
+import IsLoggedIn from './guards/IsLoggedIn.js';
 import { verify } from './services/authService.js';
 import { autoLoadFavorites, loginStateChange } from './app/auth.js';
+import Profile from './components/auth/Profile.js';
 
-const CreateRestaurant = lazy(() => import('./components/Restaurants/CreateRestaurant.js'));
-const MyRestaurants = lazy(() => import('./components/Restaurants/MyRestaurants.js'));
 const Register = lazy(() => import('./components/auth/Register.js'));
+const MyOrders = lazy(() => import('./components/Orders/MyOrders.js'));
+const Successful = lazy(() => import('./components/Orders/Successful.js'));
 const Checkout = lazy(() => import('./components/Restaurants/Checkout.js'));
 const Favorites = lazy(() => import('./components/Restaurants/Favorites.js'));
-const Profile = lazy(() => import('./components/auth/Profile.js'));
-const Successful = lazy(() => import('./components/Orders/Successful.js'));
+const MyRestaurants = lazy(() => import('./components/Restaurants/MyRestaurants.js'));
+const CreateRestaurant = lazy(() => import('./components/Restaurants/CreateRestaurant.js'));
 
 function App() {
 
@@ -57,12 +58,14 @@ function App() {
               </OwnerGuard>
             </Suspense>} />
         </Route>
-        <Route path="/my-account/:id" element={
-          <Suspense fallback={<Loading type="points" />}>
-            <IsLoggedIn>
-              <Profile />
-            </IsLoggedIn>
-          </Suspense>}>
+        <Route path="/my-account/:id" element={<IsLoggedIn><Profile /></IsLoggedIn>}>
+          <Route path="orders" element={
+            <Suspense fallback={<Loading type="points" />}>
+              <IsLoggedIn>
+                <MyOrders />
+              </IsLoggedIn>
+            </Suspense>}>
+          </Route>
         </Route>
         <Route path="/my-account/:id/favorites" element={
           <Suspense fallback={<Loading type="points" />}>
