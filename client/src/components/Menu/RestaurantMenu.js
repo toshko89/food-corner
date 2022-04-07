@@ -53,6 +53,7 @@ export default function RestaurantMenu() {
       dispatch(clearRestaurantState());
       dispatch(setRestaurantState(res));
     } catch (error) {
+      console.log(error);
       throw new Error(error)
     }
   }

@@ -134,7 +134,7 @@ productsController.delete('/:restaurantId/delete-product/:productId', authentica
     restaurant.products = restaurant.products.filter(p => p._id.toString() !== productId);
     await deleteProductById(productId);
     await restaurant.save();
-    res.status(204).send(restaurant);
+    res.status(200).send(restaurant);
   } catch (error) {
     res.status(400).send({ message: error.message });
   }

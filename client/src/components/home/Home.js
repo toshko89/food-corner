@@ -3,10 +3,10 @@ import { getAllRestaurants } from "../../services/restaurantService.js";
 import { Grid, Loading } from '@nextui-org/react';
 import HomeCard from "./HomeCard.js";
 
-
 export default function Home() {
 
   const [restaurants, setRestaurants] = useState([]);
+
 
   useEffect(() => {
     (async function fetchData() {

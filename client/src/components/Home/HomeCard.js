@@ -1,5 +1,8 @@
 import { Card, Col, Grid, Text, Row, Button } from "@nextui-org/react"
 import { Link } from "react-router-dom";
+import Box from '@mui/material/Box';
+import Rating from '@mui/material/Rating';
+import Typography from '@mui/material/Typography';
 
 export default function HomeCard({ data }) {
   return (
@@ -40,7 +43,9 @@ export default function HomeCard({ data }) {
         >
           <Row>
             <Col>
-              <Text color="#fff" size={15}>{data.rating}</Text>
+              <Link to={`/restaurants/${data._id}/comments`}>
+                <Rating name="read-only" value={3} readOnly />
+              </Link>
               <Text color="#fff" size={12}>{data.working_hours}</Text>
             </Col>
             <Col>
