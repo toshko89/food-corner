@@ -1,4 +1,5 @@
 import formatDate from "../../utils/dateFormat.js";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function OrderCard({ order }) {
   let totalPayment = order.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
@@ -21,7 +22,7 @@ export default function OrderCard({ order }) {
         </div>
         <div className="d-flex pt-3">
           <div className="large">
-            {order.items.map(item => <p className="text- font-weight-bold mb-0">{item.item.name} x {item.quantity}</p>)}
+            {order.items.map(item => <p key={uuidv4()} className="text- font-weight-bold mb-0">{item.item.name} x {item.quantity}</p>)}
           </div>
           <div className="text-muted m-0 ml-auto mr-3 small">Total Payments
             <span className="text-dark font-weight-bold"> {totalPayment > 20 ? totalPayment : (totalPayment += 3.99).toFixed(2)}$</span>

@@ -46,7 +46,6 @@ export default function Register() {
       navigate('/');
     } catch (error) {
       e.target.reset();
-      console.log(error);
       setError(error)
     }
   }

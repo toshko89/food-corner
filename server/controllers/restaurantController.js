@@ -152,7 +152,6 @@ restaurantController.get('/favorites', authentication, async (req, res) => {
   try {
     const ids = Object.values(query) || [];
     const restaurants = await getFavoriteRestaurants(ids);
-    console.log(restaurants);
     res.status(200).send(restaurants);
   }
   catch (error) {

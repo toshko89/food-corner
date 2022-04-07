@@ -44,6 +44,7 @@ export default function Header() {
                       <Link to={`/my-account/${userId}/my-restaurants`} className="dropdown-item" >My restaurants</Link>
                       <Link to={`/my-account/${userId}/create-restaurant`} className="dropdown-item" >Create Restaurant</Link>
                       <Link to={`/my-account/${userId}/favorites`} className="dropdown-item" >Favorites</Link>
+                      <Link to={`/my-account/${userId}/orders`} className="dropdown-item" >My Orders</Link>
                     </div>
                   </div>}
                 <Link to={`/my-account/${userId}/cart`} className="widget-header mr-4 text-dark">

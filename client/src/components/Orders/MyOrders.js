@@ -8,6 +8,7 @@ export default function MyOrders() {
 
   const [orders, setOrders] = useState([]);
   const userId = useSelector(state => state.auth._id);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     getAllOrdersByUserId(userId)
@@ -15,12 +16,13 @@ export default function MyOrders() {
         setOrders(res);
       })
       .catch(err => {
-        console.log(err);
+        setError(err);
       })
   }, [userId]);
 
   return (
     <div className="container">
+      {error && <div className="error-container" role="alert"><p>{error}</p></div>}
       <div className="tab-content col-md-9" id="myTabContent">
         <div id="progress" role="tabpanel" aria-labelledby="progress-tab">
           <div className="order-body">
