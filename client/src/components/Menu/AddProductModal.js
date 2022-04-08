@@ -45,7 +45,7 @@ export default function AddProductModal({ setVisible, visible, product }) {
         category: product.category.toString()
       })
     }
-  }, [product])
+  }, [])
 
   async function submitProduct() {
     if (recipe.name.trim() === '' || recipe.ingredients.trim() === '' || recipe.weight.trim() === ''

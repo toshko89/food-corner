@@ -91,7 +91,7 @@ export default function RestaurantMenuNavIcons({ isOwner, restaurantInFavorite }
           </IconButton>}
         <IconButton aria-label="comments" onClick={handlerCommentModal} color="primary" size="large">
           <MapsUgcRoundedIcon fontSize="large" />
-        </IconButton>
+        </IconButton> 
       </ButtonGroup>
       <AddCommentModal visibleCommentModal={visibleCommentModal} closeHandlerCommentModal={closeHandlerCommentModal}/>
       {isOwner &&

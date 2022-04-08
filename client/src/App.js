@@ -52,12 +52,7 @@ function App() {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/logout" element={<Logout />}></Route>
         <Route path="/restaurants/:id" element={<RestaurantMenu />}>
-          <Route path="edit" element={
-            <Suspense fallback={<Loading type="points" />}>
-              <OwnerGuard>
-                <CreateRestaurant edit={true} />
-              </OwnerGuard>
-            </Suspense>} />
+          <Route path="edit" element={<OwnerGuard><CreateRestaurant edit={true} /></OwnerGuard>} />
         </Route>
         <Route path="/restaurants/:id/comments" element={<AllComments />}></Route>
         <Route path="/my-account/:id" element={<IsLoggedIn><Profile /></IsLoggedIn>}>

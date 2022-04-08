@@ -19,7 +19,7 @@ export default function RestaurantMenu() {
   const products = currentRestaurant.products;
   const categories = currentRestaurant.products.map(product => product.category);
   const restaurantInFavorite = user.favorites.includes(currentRestaurant._id);
-
+ 
   useEffect(() => {
     (async function fetchData() {
       try {
@@ -67,9 +67,6 @@ export default function RestaurantMenu() {
             <h2 className="font-weight-bold">{currentRestaurant?.name}</h2>
             <p className="text-white m-0">{currentRestaurant?.city}</p>
             <p className="text-white m-0">{currentRestaurant?.address}</p>
-            <div className="rating-wrap d-flex align-items-center mt-2">
-              <p className="label-rating text-white ml-2 small"> (245 Reviews)</p>
-            </div>
           </div>
           <div className="pb-4">
             <div className="row">

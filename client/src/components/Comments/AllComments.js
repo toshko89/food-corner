@@ -7,9 +7,8 @@ import CommentCard from "./CommentCard.js";
 export default function AllComments() {
 
   const [comments, setComments] = useState([]);
-  const { state } = useLocation()
+  const { state } = useLocation();
   const { id } = useParams();
-  console.log(state);
   useEffect(() => {
     getRestaurantComments(id)
       .then(res => {
