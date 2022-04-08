@@ -2,6 +2,8 @@ const restaurantController = require('express').Router();
 const formidable = require('formidable');
 const { authentication } = require('../middlewares/authMiddleware.js');
 const isOwner = require('../middlewares/isOwner.js');
+const Comments = require('../models/Comments.js');
+const { createComment, getAllRatingsByRestaurantId } = require('../services/commentService.js');
 const { createRestaurant, getRestaurantByID, getOwnRestaurants, getAllRestaurants, updateRestaurant, deleteRestaurantById, getFavoriteRestaurants } = require('../services/restaurantService.js');
 const { cloudinaryUpload, cloudinaryDelete } = require('../utils/cloudinary.js');
 const formParse = require('../utils/formParse.js');
@@ -165,6 +167,44 @@ restaurantController.get('/:id', async (req, res) => {
     const restaurant = await getRestaurantByID(restaurantId);
     res.status(200).send(restaurant);
   } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+})
+
+restaurantController.post('/:id/comments', authentication, async (req, res) => {
+  const restaurantId = req.params.id;
+  const { name, comments, rating } = req.body;
+  try {
+    if (name.length < 5) {
+      throw new Error('Name must be at least 5 characters long!')
+    }
+    if (comments.length < 10) {
+      throw new Error('Comment must be at least 10 characters long!')
+    }
+    if (!rating) {
+      throw new Error('Rating is required!')
+    }
+    const date = Date.now();
+    await Comments.create({
+      name,
+      comment: comments,
+      rating,
+      restaurant: req.params.id,
+      date
+    })
+    const restaurant = await getRestaurantByID(restaurantId);
+    const restaurantrRating = await getAllRatingsByRestaurantId(restaurantId);
+
+    let currentRestaurantRating = 0;
+    if (restaurantrRating.length > 0) {
+      currentRestaurantRating = (restaurantrRating.reduce((acc, cur) => acc + cur.rating, 0) / restaurantrRating.length).toFixed(1);
+    }
+    const ratingsCount = restaurantrRating.length;
+    Object.assign(restaurant, { rating: currentRestaurantRating, ratingsCount });
+    await restaurant.save();
+    res.status(200).send({ comments, restaurant });
+  } catch (error) {
+    console.log(error);
     res.status(400).send({ message: error.message });
   }
 })

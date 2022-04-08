@@ -18,7 +18,6 @@ orderController.post('/create', authentication, async (req, res) => {
           quantity: item.quantity,
           price: item.product.price * item.quantity
         })
-
       })
     });
     res.status(200).send(order);

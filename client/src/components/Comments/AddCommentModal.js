@@ -1,10 +1,12 @@
-
 import { Modal, Button, Text, Input, Row, Checkbox } from "@nextui-org/react";
 import Rating from '@mui/material/Rating';
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { newComment } from "../../services/commentService.js";
 
 export default function AddCommentModal({ visibleCommentModal, closeHandlerCommentModal }) {
 
+  const { id } = useParams();
   const [value, setValue] = useState(null);
   const [error, setError] = useState(false);
   const [comment, setComment] = useState({ name: '', comments: '' });
@@ -14,6 +16,22 @@ export default function AddCommentModal({ visibleCommentModal, closeHandlerComme
       setError('All fields are required');
       return;
     }
+
+    const myComment = {
+      name: comment.name,
+      comments: comment.comments,
+      rating: value
+    }
+
+    try {
+      let res = await newComment(id, myComment);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+      setError(error)
+      return;
+    }
+
   }
 
   return (
