@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import Rating from '@mui/material/Rating';
 
 export default function HomeCard({ data }) {
-  console.log(data);
   return (
     <Grid xs={10} sm={4}>
       <Card hoverable cover css={{ w: '100%' }}>
@@ -42,7 +41,7 @@ export default function HomeCard({ data }) {
         >
           <Row>
             <Col>
-              <Link to={`/restaurants/${data._id}/comments`}>
+              <Link to={`/restaurants/${data._id}/comments`} state={data.name}>
                 <Rating name="read-only" value={data.rating} readOnly />
               </Link>
               <Text color="#fff" size={12}>{data.working_hours}</Text>

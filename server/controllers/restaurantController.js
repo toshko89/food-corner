@@ -209,4 +209,15 @@ restaurantController.post('/:id/comments', authentication, async (req, res) => {
   }
 })
 
+restaurantController.get('/:id/comments', async (req, res) => {
+  const restaurantId = req.params.id;
+  try {
+    const restaurantrRating = await getAllRatingsByRestaurantId(restaurantId);
+    res.status(200).send(restaurantrRating);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+})
+
+
 module.exports = restaurantController;

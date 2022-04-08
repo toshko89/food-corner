@@ -14,4 +14,17 @@ async function newComment(id, comment) {
   }
 }
 
-export { newComment }
+async function getRestaurantComments(id) {
+  try {
+    const res = await fetch(REACT_APP_BASE_URL + `/restaurants/${id}/comments`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    return res.json();
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+export { newComment, getRestaurantComments }

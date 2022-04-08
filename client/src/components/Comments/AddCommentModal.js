@@ -1,4 +1,4 @@
-import { Modal, Button, Text, Input, Row, Checkbox } from "@nextui-org/react";
+import { Modal, Button, Text, Input, Row } from "@nextui-org/react";
 import Rating from '@mui/material/Rating';
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -24,8 +24,14 @@ export default function AddCommentModal({ visibleCommentModal, closeHandlerComme
     }
 
     try {
-      let res = await newComment(id, myComment);
-      console.log(res);
+      const res = await newComment(id, myComment);
+      if (res.message) {
+        setError(res.message)
+        return;
+      }
+      closeHandlerCommentModal();
+      setComment({ name: '', comments: '' });
+      setValue(null);
     } catch (error) {
       console.log(error);
       setError(error)
