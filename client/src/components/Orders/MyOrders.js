@@ -25,6 +25,7 @@ export default function MyOrders() {
       {error && <div className="error-container" role="alert"><p>{error}</p></div>}
       <div className="tab-content col-md-9" id="myTabContent">
         <div id="progress" role="tabpanel" aria-labelledby="progress-tab">
+          {orders.length > 0 && <h3>My Orders</h3>}
           <div className="order-body">
             {orders.length > 0
               ? orders.map(order => <OrderCard key={order._id} order={order} />)

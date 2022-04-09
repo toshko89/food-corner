@@ -20,7 +20,7 @@ export default function Home() {
   return (
     <>
       <div className="container most_popular py-5">
-        <h2 className="font-weight-bold mb-3">Most popular</h2>
+        <h2 className="font-weight-bold mb-3">Restaurants nearby</h2>
         <div className="row">
           <Grid.Container gap={2} justify="center">
             {restaurants.length > 0
