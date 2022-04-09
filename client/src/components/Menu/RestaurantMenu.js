@@ -72,7 +72,7 @@ export default function RestaurantMenu() {
             <div className="row">
               <div className="col-6 col-md-2">
                 <p className="text-white-50 font-weight-bold m-0 small">Delivery</p>
-                <p className="text-white m-0">Free</p>
+                <p className="text-white m-0">$3.99 (free delivery for orders above $20)</p>
               </div>
               <div className="col-6 col-md-2">
                 <p className="text-white-50 font-weight-bold m-0 small">Open time</p>

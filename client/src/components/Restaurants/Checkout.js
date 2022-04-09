@@ -82,9 +82,9 @@ export default function Checkout() {
                 addToCartClick={addToCartClick} removeFromCartClick={removeFromCartClick} />)}
             </div>
             <div className="bg-white p-3 clearfix border-bottom">
-              <p className="mb-1">Item Total <span className="float-right text-dark">${orderSum}</span></p>
+              <p className="mb-1">Item Total <span className="float-right text-dark">${orderSum.toFixed(2)}</span></p>
               <p className="mb-1">Delivery Fee<span className="text-info ml-1"></span><span className="float-right text-dark">${orderSum > 20 ? 'Free' : '3.99'}</span></p>
-              <h6 className="font-weight-bold mb-0">TO PAY <span className="float-right">${orderSum > 20 ? orderSum : (orderSum += 3.99).toFixed(2)}</span></h6>
+              <h6 className="font-weight-bold mb-0">TO PAY <span className="float-right">${orderSum > 20 ? orderSum.toFixed(2) : (orderSum += 3.99).toFixed(2)}</span></h6>
             </div>
             <div className="p-3">
               <button onClick={placeOrder} className="btn btn-success btn-block btn-lg">PAY ${orderSum.toFixed(2)}<i className="feather-arrow-right"></i></button>
