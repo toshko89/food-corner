@@ -246,9 +246,7 @@ restaurantController.put('/:id/comments/:commentId', authentication, async (req,
     }
 
     const newComment = { name, comment: comments, rating };
-
     const editedComment = await editCommentById(commentId, newComment);
-    console.log(editedComment);
     const allComments = await getAllRatingsByRestaurantId(id);
     res.status(200).send(allComments);
   } catch (error) {

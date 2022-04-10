@@ -11,6 +11,6 @@ const getAllRatingsByRestaurantId = (restaurantId) => {
 
 const deleteCommentById = (commentId) => Comments.findByIdAndDelete(commentId);
 
-const editCommentById = (commentId, data) => Comments.findByIdAndUpdate(commentId, data,{ returnDocument: 'after', runValidators: true });
+const editCommentById = (commentId, data) => Comments.findByIdAndUpdate(commentId, data, { returnDocument: 'after', runValidators: true });
 
 module.exports = { createComment, getAllRatingsByRestaurantId, deleteCommentById, editCommentById };

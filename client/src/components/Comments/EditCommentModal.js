@@ -23,10 +23,9 @@ export default function EditCommentModal({ visibleEditModal, closeHandlerEditMod
       comments: comment.comments,
       rating: value
     }
-    console.log(commentId);
+
     try {
       const res = await editCommentById(id, myComment, commentId);
-      console.log(res);
       if (res.message) {
         setError(res.message)
         return;
