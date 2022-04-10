@@ -233,7 +233,6 @@ restaurantController.delete('/:id/comments', authentication, async (req, res) =>
 restaurantController.put('/:id/comments/:commentId', authentication, async (req, res) => {
   const { id, commentId } = req.params;
   const { name, comments, rating } = req.body;
-  console.log(req.body);
   try {
     if (name.length < 5) {
       throw new Error('Name must be at least 5 characters long!')
