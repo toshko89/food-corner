@@ -3,7 +3,7 @@ const formidable = require('formidable');
 const { authentication } = require('../middlewares/authMiddleware.js');
 const isOwner = require('../middlewares/isOwner.js');
 const Comments = require('../models/Comments.js');
-const { createComment, getAllRatingsByRestaurantId } = require('../services/commentService.js');
+const { createComment, getAllRatingsByRestaurantId, deleteCommentById, editCommentById } = require('../services/commentService.js');
 const { createRestaurant, getRestaurantByID, getOwnRestaurants, getAllRestaurants, updateRestaurant, deleteRestaurantById, getFavoriteRestaurants } = require('../services/restaurantService.js');
 const { cloudinaryUpload, cloudinaryDelete } = require('../utils/cloudinary.js');
 const formParse = require('../utils/formParse.js');
@@ -190,7 +190,8 @@ restaurantController.post('/:id/comments', authentication, async (req, res) => {
       comment: comments,
       rating,
       restaurant: req.params.id,
-      date
+      date,
+      owner: req.user._id
     })
     const restaurant = await getRestaurantByID(restaurantId);
     const restaurantrRating = await getAllRatingsByRestaurantId(restaurantId);
@@ -214,6 +215,42 @@ restaurantController.get('/:id/comments', async (req, res) => {
   try {
     const restaurantrRating = await getAllRatingsByRestaurantId(restaurantId);
     res.status(200).send(restaurantrRating);
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+})
+
+restaurantController.delete('/:id/comments', authentication, async (req, res) => {
+  const { id } = req.params;
+  try {
+    await deleteCommentById(id);
+    res.status(200).send('Success');
+  } catch (error) {
+    res.status(400).send({ message: error.message });
+  }
+})
+
+restaurantController.put('/:id/comments/:commentId', authentication, async (req, res) => {
+  const { id, commentId } = req.params;
+  const { name, comments, rating } = req.body;
+  console.log(req.body);
+  try {
+    if (name.length < 5) {
+      throw new Error('Name must be at least 5 characters long!')
+    }
+    if (comments.length < 10) {
+      throw new Error('Comment must be at least 10 characters long!')
+    }
+    if (!rating) {
+      throw new Error('Rating is required!')
+    }
+
+    const newComment = { name, comment: comments, rating };
+
+    const editedComment = await editCommentById(commentId, newComment);
+    console.log(editedComment);
+    const allComments = await getAllRatingsByRestaurantId(id);
+    res.status(200).send(allComments);
   } catch (error) {
     res.status(400).send({ message: error.message });
   }

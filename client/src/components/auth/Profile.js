@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, Outlet } from "react-router-dom";
 import { changeUserData } from "../../services/authService.js";
 import { loginStateChange } from "../../app/auth.js";

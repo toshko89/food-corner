@@ -1,35 +1,38 @@
 import { Modal, Button, Text, Input, Row } from "@nextui-org/react";
 import Rating from '@mui/material/Rating';
-import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { newComment } from "../../services/commentService.js";
+import { editCommentById } from "../../services/commentService.js";
+import { useState } from "react";
 
-export default function AddCommentModal({ visibleCommentModal, closeHandlerCommentModal }) {
+export default function EditCommentModal({ visibleEditModal, closeHandlerEditModal, setComments }) {
 
   const { id } = useParams();
   const [value, setValue] = useState(null);
   const [error, setError] = useState(false);
   const [comment, setComment] = useState({ name: '', comments: '' });
 
-  async function sendComment() {
+  async function editCommet() {
     if (comment.name.trim() === '' || comment.comments.trim() === '' || !value) {
       setError('All fields are required');
       return;
     }
 
+    const commentId = visibleEditModal.comment;
     const myComment = {
       name: comment.name,
       comments: comment.comments,
       rating: value
     }
-
+    console.log(commentId);
     try {
-      const res = await newComment(id, myComment);
+      const res = await editCommentById(id, myComment, commentId);
+      console.log(res);
       if (res.message) {
         setError(res.message)
         return;
       }
-      closeHandlerCommentModal();
+      closeHandlerEditModal();
+      setComments(oldState => [...res]);
       setComment({ name: '', comments: '' });
       setValue(null);
     } catch (error) {
@@ -42,12 +45,12 @@ export default function AddCommentModal({ visibleCommentModal, closeHandlerComme
   return (
     <Modal
       aria-labelledby="modal-title"
-      open={visibleCommentModal}
-      onClose={closeHandlerCommentModal}
+      open={visibleEditModal.visible}
+      onClose={closeHandlerEditModal}
     >
       <Modal.Header aria-label="modal-header">
         <Text id="modal-title" size={18}>
-          New Comment
+          Edit Comment
         </Text>
       </Modal.Header>
       <Modal.Body aria-label="modal-body">
@@ -87,11 +90,11 @@ export default function AddCommentModal({ visibleCommentModal, closeHandlerComme
         {error && <Text color="red" size={20}>{error}</Text>}
       </Modal.Body>
       <Modal.Footer>
-        <Button auto flat color="error" onClick={closeHandlerCommentModal}>
+        <Button auto flat color="error" onClick={closeHandlerEditModal}>
           Close
         </Button>
-        <Button auto disabled={error !== false} onClick={sendComment}>
-          Comment
+        <Button auto disabled={error !== false} onClick={editCommet}>
+          Edit
         </Button>
       </Modal.Footer>
     </Modal>
