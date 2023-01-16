@@ -3,7 +3,7 @@ const config = require('./config.js');
 
 module.exports = () => {
   return new Promise((resolve, reject) => {
-    mongoose.connect(config.DB_CONNECTION_STRING, {
+    mongoose.connect("mongodb+srv://TodorPetkov:gooddevil89@cluster0.j7i3cmi.mongodb.net/?retryWrites=true&w=majority", {
       useNewUrlParser: true,
       useUnifiedTopology: true
     })

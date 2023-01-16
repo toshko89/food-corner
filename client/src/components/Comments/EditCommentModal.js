@@ -1,3 +1,4 @@
+import React from 'react';
 import { Modal, Button, Text, Input, Row } from "@nextui-org/react";
 import Rating from '@mui/material/Rating';
 import { useParams } from "react-router-dom";

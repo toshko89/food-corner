@@ -1,3 +1,4 @@
+import React from 'react';
 import { Card, Col, Grid, Text, Row, Button } from "@nextui-org/react"
 import { Link } from "react-router-dom";
 import Rating from '@mui/material/Rating';

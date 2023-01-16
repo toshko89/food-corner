@@ -1,3 +1,4 @@
+import React from 'react';
 import { useEffect, useState } from "react";
 import { getAllRestaurants } from "../../services/restaurantService.js";
 import { Grid, Loading } from '@nextui-org/react';

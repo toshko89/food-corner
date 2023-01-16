@@ -1,4 +1,4 @@
-
+import React from 'react';
 
 export default function CartCard({ item, addToCartClick,removeFromCartClick }) {
   return (
