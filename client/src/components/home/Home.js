@@ -7,16 +7,16 @@ import HomeCard from "./HomeCard.js";
 export default function Home() {
 
   const [restaurants, setRestaurants] = useState([]);
-  useEffect(() => {
-    (async function fetchData() {
-      try {
-        const res = await getAllRestaurants();
-        setRestaurants(res)
-      } catch (error) {
-        throw new Error(error)
-      }
-    })();
-  }, [])
+  // useEffect(() => {
+  //   (async function fetchData() {
+  //     try {
+  //       const res = await getAllRestaurants();
+  //       setRestaurants(res)
+  //     } catch (error) {
+  //       throw new Error(error)
+  //     }
+  //   })();
+  // }, [])
 
   return (
     <>

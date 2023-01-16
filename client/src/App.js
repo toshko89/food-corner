@@ -25,26 +25,26 @@ import CreateRestaurant from './components/Restaurants/CreateRestaurant.js'
 
 function App() {
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    (async function fetchData() {
-      try {
-        const user = await verify();
-        dispatch(autoLoadFavorites());
-        dispatch(loginStateChange(user))
-      } catch (error) {
-        throw new Error(error)
-      }
-    })();
-  }, [dispatch]);
+  // useEffect(() => {
+  //   (async function fetchData() {
+  //     try {
+  //       const user = await verify();
+  //       dispatch(autoLoadFavorites());
+  //       dispatch(loginStateChange(user))
+  //     } catch (error) {
+  //       throw new Error(error)
+  //     }
+  //   })();
+  // }, [dispatch]);
 
   return (
     <>
       <Header />
       <Routes>
         <Route path="/" exact element={<Home />}></Route>
-        <Route path="/register" element={<Register />}></Route>
+        {/* <Route path="/register" element={<Register />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/logout" element={<Logout />}></Route>
         <Route path="/restaurants/:id" element={<RestaurantMenu />}>
@@ -58,7 +58,7 @@ function App() {
         <Route path="/my-account/:id/cart" element={<IsLoggedIn><Checkout /></IsLoggedIn>}></Route>
         <Route path="/my-account/:id/cart/success" element={<IsLoggedIn><Successful /></IsLoggedIn>}></Route>
         <Route path="/my-account/:id/create-restaurant" element={<IsLoggedIn><CreateRestaurant /></IsLoggedIn>}></Route>
-        <Route path='/my-account/:id/my-restaurants' element={<IsLoggedIn><MyRestaurants /></IsLoggedIn>}></Route>
+        <Route path='/my-account/:id/my-restaurants' element={<IsLoggedIn><MyRestaurants /></IsLoggedIn>}></Route> */}
         <Route path='*' element={<Navigate to="/" replace />}></Route>
       </Routes>
       <Footer />

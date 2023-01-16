@@ -6,11 +6,11 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 
 export default function Header() {
-
-  const userCredentials = useSelector(state => state.auth.name || state.auth.email);
-  const userId = useSelector(state => state.auth._id);
-  const orders = useSelector(state => state.cart.orders);
-  const itemsInCart = orders.reduce((acc, curr) => acc + curr.quantity, 0);
+  const userId = 4;
+  // const userCredentials = useSelector(state => state.auth.name || state.auth.email);
+  // const userId = useSelector(state => state.auth._id);
+  // const orders = useSelector(state => state.cart.orders);
+  // const itemsInCart = orders.reduce((acc, curr) => acc + curr.quantity, 0);
 
   return (
     <header className="section-header">
@@ -37,9 +37,9 @@ export default function Header() {
                 </Link>}
                 {userId &&
                   <div className="dropdown mr-4 m-none">
-                    <Link to={`/my-account/${userId}`} className="dropdown-toggle text-dark py-3 d-block" id="dropdownMenuButton"
+                    {/* <Link to={`/my-account/${userId}`} className="dropdown-toggle text-dark py-3 d-block" id="dropdownMenuButton"
                       data-toggle="dropdown" aria-expanded="false"> Hi {userCredentials || 'Guest'}
-                    </Link>
+                    </Link> */}
                     <div className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                       <Link to={`/my-account/${userId}`} className="dropdown-item" >My account</Link>
                       <Link to={`/my-account/${userId}/my-restaurants`} className="dropdown-item" >My restaurants</Link>
@@ -49,9 +49,9 @@ export default function Header() {
                     </div>
                   </div>}
                 <Link to={`/my-account/${userId}/cart`} className="widget-header mr-4 text-dark">
-                  <Badge badgeContent={itemsInCart} color="primary">
+                  {/* <Badge badgeContent={itemsInCart} color="primary">
                     <ShoppingCartIcon />
-                  </Badge>
+                  </Badge> */}
                 </Link>
                 {userId && <Link to={"/logout"} className="widget-header mr-4 text-dark m-none">
                   <div className="icon d-flex align-items-center">
